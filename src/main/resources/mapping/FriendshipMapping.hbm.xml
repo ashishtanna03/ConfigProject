@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.FriendshipMapping" table="friendship_mapping" catalog="book">
+        <composite-id>
+            <key-many-to-one name="userInfoByUser1" class="com.pojo.hibernate.UserInfo" column="user_1"/>
+            <key-many-to-one name="userInfoByUser2" class="com.pojo.hibernate.UserInfo" column="user_2"/>
+        </composite-id>
+        <property name="status" column="status"/>
+        <!--<many-to-one name="userInfoByUser1" class="com.pojo.hibernate.UserInfo">
+            <column name="user_1" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUser2" class="com.pojo.hibernate.UserInfo">
+            <column name="user_2" not-null="true"/>
+        </many-to-one>-->
+    </class>
+</hibernate-mapping>

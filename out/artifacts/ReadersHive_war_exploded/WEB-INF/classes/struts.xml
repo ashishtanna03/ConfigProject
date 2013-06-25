@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+        "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+    <bean type="com.opensymphony.xwork2.ObjectFactory" class="org.apache.struts2.spring.StrutsSpringObjectFactory"/>
+
+    <package name="login" extends="json-default" namespace="/">
+        <action name="LogIn" class="logIn" method="logIn">
+            <result type="json">
+            </result>
+        </action>
+
+        <action name="BadLogIn" class="logIn" method="badLogIn">
+            <result type="json">
+                <param name="excludeNullProperties">
+                    true
+                </param>
+            </result>
+        </action>
+
+        <action name="IsLoggedIn" class="logIn" method="isLoggedIn">
+            <result type="json" />
+        </action>
+
+        <action name="LoggedIn" class="logIn" method="loggedIn">
+            <result type="json" />
+        </action>
+    </package>
+
+    <package name="register" namespace="/register" extends="json-default">
+        <action name="Register" class="register" method="register">
+            <result type="json"/>
+        </action>
+        <action name="ActivateAccount" class="register" method="activateAccount">
+            <result type="json"/>
+        </action>
+    </package>
+
+    <package name="user" extends="json-default" namespace="/user">
+        <action name="UserProfile" class="userProfile" method="viewProfile">
+            <result name="LoggedIn">/user-profile.jsp</result>
+            <result name="NotLoggedIn">/profile.jsp</result>
+        </action>
+        <action name="EditUserProfile" class="userProfile" method="viewEditProfile">
+            <result name="success">/edit-profile.jsp</result>
+        </action>
+
+        <action name="FriendRequest" class="userProfile" method="addAsFriend">
+            <result type="json"/>
+        </action>
+        <action name="UnfriendRequest" class="userProfile" method="unfriend">
+            <result type="json"/>
+        </action>
+        <action name="ChangePassword" class="userProfile" method="changePassword">
+            <result type="json" />
+        </action>
+    </package>
+    
+    <package name="editProfilePackage" extends="json-default" namespace="/editprofile">
+        <action name="SaveProfileChanges" class="saveChanges" method="saveProfileChanges">
+            <!--<result name="input"/>-->
+            <result name="success" type="json" />
+        </action>
+    </package> 
+    
+    <package name="book" extends="json-default" namespace="/book">
+        <action name="GetBookInfo" class="bookInfoAction">
+            <result name="success">/product.jsp</result>
+        </action>
+        <action name="RateBook" class="bookInfoAction" method="rateBook">
+            <result type="json"/>
+        </action>
+    </package>
+    <package name="bookReview" extends="struts-default" namespace="/book/review">
+        <action name="SaveBookReview" class="bookInfoAction" method="saveBookReview">
+            <result name="success">/product.jsp</result>
+        </action>
+    </package>
+
+    <package name="author" extends="json-default" namespace="/author">
+        <action name="GetAuthorInfo" class="authorInfoAction">
+            <result name="success">/author.jsp</result>
+        </action>
+
+        <action name="Follow" class="authorInfoAction" method="follow">
+            <result type="json"/>
+        </action>
+
+        <action name="Unfollow" class="authorInfoAction" method="unfollow">
+            <result type="json"/>
+        </action>
+    </package>
+    <package name="authorReview" extends="struts-default" namespace="/author/review">
+        <action name="SaveAuthorReview" class="authorInfoAction" method="saveAuthorReview">
+            <result name="success">/author.jsp</result>
+        </action>
+    </package>
+
+    <package name="list" extends="json-default" namespace="/list">
+        <action name="GenerateList" class="suggestionList" method="generateList">
+            <result type="json" />
+        </action>
+    </package>
+
+    <package name="search" extends="struts-default" namespace="/search">
+        <action name="LoadSearchResults" class="searchAction" method="loadSearchResults">
+            <result name="success">/search.jsp</result>
+        </action>
+    </package>
+    
+    <package name="share" extends="json-default" namespace="/share">
+        <action name="ShareBook" class="shareBookAction" method="shareBook">
+            <result type="json"/>
+        </action>
+    </package>
+
+    <package name="cart" extends="json-default" namespace="/cart">
+        <action name="ViewCart" class="cartAction" method="viewCart">
+            <result name="success">/cart.jsp</result>
+        </action>
+        <action name="AddToCart" class="cartAction" method="addToCart">
+            <result type="json"/>
+        </action>
+        <action name="Checkout" class="cartAction" method="checkout">
+            <result name="success">/checkout-success.jsp</result>
+            <result name="error">/checkout-failure.jsp</result>
+        </action>
+        <action name="DeleteItem" class="cartAction" method="deleteItem">
+            <result name="success" type="redirect">/cart.jsp</result>
+        </action>
+    </package>
+
+    <package name="shelf" extends="json-default" namespace="/shelf">
+        <action name="AddToWishList" class="wishListAction" method="addToWishList">
+            <result type="json" />
+        </action>
+    </package>
+
+</struts>

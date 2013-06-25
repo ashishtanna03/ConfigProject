@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.AuthorInfo" table="author_info" catalog="book">
+        <id name="authorId" column="author_id"/>
+        <property name="authorName" column="author_name"/>
+        <property name="authorPenName" column="author_pen_name"/>
+        <property name="authorGender" column="author_gender"/>
+        <property name="authorDescription" column="author_description"/>
+        <property name="authorBlogLink" column="author_blog_link"/>
+        <property name="authorImg" column="author_img"/>
+        <property name="authorLives" column="author_lives"/>
+        <property name="authorBorn" column="author_born"/>
+        <property name="authorDied" column="author_died"/>
+        <property name="authorNotableWorks" column="author_notable_works"/>
+        <set name="authorFollowsByAuthorId" inverse="true">
+            <key>
+                <column name="author_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorFollow"/>
+        </set>
+        <set name="authorGenresesByAuthorId" inverse="true">
+            <key>
+                <column name="author_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorGenres"/>
+        </set>
+        <set name="authorReviewsByAuthorId" inverse="true">
+            <key>
+                <column name="author_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorReview"/>
+        </set>
+        <set name="bookAuthorsesByAuthorId" inverse="true">
+            <key>
+                <column name="author_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookAuthors"/>
+        </set>
+    </class>
+</hibernate-mapping>

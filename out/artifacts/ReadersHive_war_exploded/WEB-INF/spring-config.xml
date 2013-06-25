@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Data Source-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3307/book" />
+        <property name="username" value="root" />
+        <property name="password" value="root" />
+    </bean>
+    <!--/Data Source-->
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" >
+        <property name="dataSource" ref="dataSource"/>
+
+        <property name="mappingResources">
+            <list>
+                <value>mapping/AdminInfo.hbm.xml</value>
+                <value>mapping/AuthorFollow.hbm.xml</value>
+                <value>mapping/AuthorGenres.hbm.xml</value>
+                <value>mapping/AuthorInfo.hbm.xml</value>
+                <value>mapping/AuthorReview.hbm.xml</value>
+                <value>mapping/BookAuthors.hbm.xml</value>
+                <value>mapping/BookGenres.hbm.xml</value>
+                <value>mapping/BookInfo.hbm.xml</value>
+                <value>mapping/BookRating.hbm.xml</value>
+                <value>mapping/BookRequest.hbm.xml</value>
+                <value>mapping/BookReview.hbm.xml</value>
+                <value>mapping/BookReviewLike.hbm.xml</value>
+                <value>mapping/BorrowBook.hbm.xml</value>
+                <value>mapping/FriendshipMapping.hbm.xml</value>
+                <value>mapping/Genres.hbm.xml</value>
+                <value>mapping/Lend.hbm.xml</value>
+                <value>mapping/LoginInfo.hbm.xml</value>
+                <value>mapping/Notification.hbm.xml</value>
+                <value>mapping/PublisherInfo.hbm.xml</value>
+                <value>mapping/Shelf.hbm.xml</value>
+                <value>mapping/ShelfBooks.hbm.xml</value>
+                <value>mapping/UserFavGenres.hbm.xml</value>
+                <value>mapping/UserInfo.hbm.xml</value>
+                <value>mapping/UserCart.hbm.xml</value>
+
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="connection.url">jdbc:mysql://localhost:3307/book</prop>
+                <prop key="connection.driver_class">com.mysql.jdbc.Driver</prop>
+                <prop key="connection.username">root</prop>
+                <prop key="connection.password">root</prop>
+                <prop key="connection.autocommit">true</prop>
+                <prop key="transaction.auto_close_session">false</prop>
+                <prop key="connection.release_mode">after_transaction</prop>
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+            </props>
+        </property>
+
+    </bean>
+
+    <bean id="genericDao" class="com.dao.GenericDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!---Login-->
+
+    <bean id="userLoginDao" class="com.dao.login.UserLoginDaoImpl">
+    </bean>
+
+    <bean id="userLoginService" class="com.service.login.UserLoginService">
+        <property name="userLoginDao" ref="userLoginDao" />
+    </bean>
+
+    <bean id="logIn" class="com.action.login.LoginAction" scope="prototype">
+        <property name="userService" ref="userService"/>
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+    <!--/Login-->
+
+    <!--Register-->
+    <bean id="register" class="com.action.register.RegisterAction" scope="prototype">
+        <property name="userLoginService" ref="userLoginService"/>
+        <property name="userService" ref="userService"/>
+        <property name="emailService" ref="emailService"/>
+    </bean>
+    <!--/Register-->
+
+    <!--User-->
+
+    <bean id="userDao" class="com.dao.UserDaoImpl">
+    </bean>
+
+    <bean id="userService" class="com.service.UserService">
+        <property name="userDao" ref="userDao"/>
+        <property name="lendService" ref="lendService"/>
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+    <bean id="userProfile" class="com.action.user.UserProfile" scope="prototype">
+        <property name="userService" ref="userService"/>
+        <property name="userLoginService" ref="userLoginService"/>
+    </bean>
+
+    <!--.User-->
+
+    <!-- editprof -->
+
+     <bean id="saveChanges" class="com.action.user.SaveChangesAction" scope="prototype">
+         <property name="userService" ref="userService"/>
+     </bean>
+
+    <!--/ editprof -->
+
+    <!--books-->
+    <bean id="bookDao" class="com.dao.BookDaoImpl">
+    </bean>
+    <bean id="bookService" class="com.service.BookService">
+        <property name="bookDao" ref="bookDao"/>
+    </bean>
+    <bean id="bookInfoAction" class="com.action.book.BookInfoAction" scope="prototype">
+        <property name="bookService" ref="bookService"/>
+        <property name="bookReviewService" ref="bookReviewService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="bookReviewDao" class="com.dao.BookReviewDaoImpl">
+    </bean>
+    <bean id="bookReviewService" class="com.service.BookReviewService">
+        <property name="bookReviewDao" ref="bookReviewDao"/>
+    </bean>
+    <!--books-->
+
+    <!--Author-->
+
+    <bean id="authorDao" class="com.dao.AuthorDaoImpl">
+    </bean>
+
+    <bean id="authorService" class="com.service.AuthorService">
+        <property name="userService" ref="userService"/>
+        <property name="authorDao" ref="authorDao"/>
+    </bean>
+
+    <bean id="authorInfoAction" class="com.action.author.AuthorInfoAction" scope="prototype">
+        <property name="authorService" ref="authorService" />
+        <property name="userService" ref="userService"/>
+        <property name="authorReviewService" ref="authorReviewService" />
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+    <bean id="authorReviewDao" class="com.dao.AuthorReviewDaoImpl">
+    </bean>
+    <bean id="authorReviewService" class="com.service.AuthorReviewService">
+        <property name="authorReviewDao" ref="authorReviewDao"/>
+    </bean>
+    <!--/Author-->
+
+    <!--List-->
+    <bean id="suggestionList" class="com.action.SuggestionList">
+        <property name="bookService" ref="bookService"/>
+        <property name="authorService" ref="authorService"/>
+    </bean>
+    <!--/List-->
+
+    <!--Search-->
+    <bean id="searchAction" class="com.action.search.SearchAction" scope="prototype">
+        <property name="bookService" ref="bookService"/>
+    </bean>
+    <!--/Search-->
+    <!--share-->
+
+    <bean id="shareBookAction" class="com.action.share.ShareBookAction" scope="prototype">
+           <property name="lendService" ref="lendService"/>
+           <property name="bookService" ref="bookService"/>
+           <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="lendService" class="com.service.LendService">
+        <property name="lendDao" ref="lendDao"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="lendDao" class="com.dao.LendDaoImpl">
+    </bean>
+    <!--/share-->
+
+    <!--Cart-->
+    <bean id="cartAction" class="com.action.cart.ShoppingCartAction">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <!--/Cart-->
+
+    <!--Shelf-->
+    <bean id="wishListAction" class="com.action.shelf.WishListAction">
+        <property name="userService" ref="userService" />
+    </bean>
+    <!--/Shelf-->
+
+    <!--Extras-->
+    <bean id="emailService" class="com.EmailService">
+    </bean>
+
+    <bean id="encryptWithMd5" class="com.EncryptWithMd5">
+    </bean>
+    <!--/Extras-->
+
+</beans>

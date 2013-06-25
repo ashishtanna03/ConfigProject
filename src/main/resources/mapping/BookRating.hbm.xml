@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BookRating" table="book_rating" catalog="book">
+        <composite-id>
+            <key-many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo" column="user_id"/>
+            <key-many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo" column="book_id"/>
+        </composite-id>
+        <property name="rating" column="rating"/>
+        <!--<many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>-->
+    </class>
+</hibernate-mapping>

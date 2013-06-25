@@ -1,0 +1,33 @@
+/*
+html, body {border: 0; margin: 0; padding: 0;}
+*/
+body {
+  	font: 85%/0.9 arial, helvetica, sans-serif;
+
+  	line-height: 130%;
+  	width: 100%;
+  	min-width: 970px;
+  	color: black;
+}
+/*
+a {
+	color: #0099CC;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #00CCFF;
+}
+
+*/
+h1 {
+	font-size: 1.6em;
+	height: 20px;
+	padding-top: 0;
+}
+
+h2{
+	font-size: 1.2em;
+	height: 20px;
+	padding-top: 0;
+}

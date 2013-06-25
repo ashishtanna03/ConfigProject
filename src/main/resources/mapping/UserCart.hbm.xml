@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.UserCart" table="user_cart" catalog="book">
+        <composite-id>
+            <key-many-to-one name="lendByLendId" class="com.pojo.hibernate.Lend" column="lend_id"/>
+            <key-many-to-one name="userInfoByOwnerId" class="com.pojo.hibernate.UserInfo" column="owner_id"/>
+        </composite-id>
+    </class>
+</hibernate-mapping>

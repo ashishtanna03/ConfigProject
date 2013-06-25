@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BookReview" table="book_review" catalog="book">
+        <id name="bookReviewId" column="book_review_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="reviewTitle" column="review_title"/>
+        <property name="review" column="review"/>
+        <property name="timeOfReview" column="time_of_review"/>
+        <many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="bookInfoBySuggestedBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="suggested_book_id" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+        <set name="bookReviewLikesByBookReviewId" inverse="true">
+            <key>
+                <column name="book_review_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookReviewLike"/>
+        </set>
+    </class>
+</hibernate-mapping>

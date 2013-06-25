@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.Shelf" table="shelf" catalog="book">
+        <id name="shelfId" column="shelf_id">
+            <generator class="identity" />
+        </id>
+        <property name="shelfName" column="shelf_name"/>
+        <property name="isDefault" column="is_default"/>
+        <!--<many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id"/>
+        </many-to-one>-->
+        <many-to-one name="userInfoByOwnerId" class="com.pojo.hibernate.UserInfo">
+            <column name="owner_id"/>
+        </many-to-one>
+
+        <set name="shelfBooksessByShelfId" inverse="true">
+            <key>
+                <column name="shelf_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.ShelfBooks"/>
+        </set>
+
+    </class>
+</hibernate-mapping>

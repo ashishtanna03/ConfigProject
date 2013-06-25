@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BorrowBook" table="borrow_book" catalog="book">
+        <id name="borrowId" column="borrow_id">
+            <generator class="identity"/>
+        </id>
+        <property name="borrowDate" column="borrow_date"/>
+        <property name="deliverDate" column="deliver_date"/>
+        <property name="borrowStatus" column="borrow_status"/>
+        <many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="lendByLendId" class="com.pojo.hibernate.Lend">
+            <column name="lend_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="lendByNewLendId" class="com.pojo.hibernate.Lend">
+            <column name="new_lend_id"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

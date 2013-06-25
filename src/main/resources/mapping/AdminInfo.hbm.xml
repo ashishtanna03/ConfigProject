@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.AdminInfo" table="admin_info" catalog="book">
+        <id name="adminId" column="admin_id"/>
+        <property name="adminName" column="admin_name" type="java.lang.String"/>
+        <property name="adminInfo" column="admin_info" type="java.lang.String"/>
+        <many-to-one name="loginInfoByEmailId" class="com.pojo.hibernate.LoginInfo">
+            <column name="email_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

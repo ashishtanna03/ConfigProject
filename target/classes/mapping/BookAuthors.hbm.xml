@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BookAuthors" table="book_authors" catalog="book">
+        <composite-id mapped="true" class="com.pojo.hibernate.BookAuthorsPK">
+            <key-property name="bookId" column="book_id"/>
+            <key-property name="authorId" column="author_id"/>
+        </composite-id>
+        <many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="authorInfoByAuthorId" class="com.pojo.hibernate.AuthorInfo">
+            <column name="author_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

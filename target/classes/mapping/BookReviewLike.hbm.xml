@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BookReviewLike" table="book_review_like" catalog="book">
+        <composite-id mapped="true" class="com.pojo.hibernate.BookReviewLikePK">
+            <key-property name="bookReviewId" column="book_review_id"/>
+            <key-property name="userId" column="user_id"/>
+        </composite-id>
+        <property name="likedReview" column="liked_review"/>
+        <many-to-one name="bookReviewByBookReviewId" class="com.pojo.hibernate.BookReview">
+            <column name="book_review_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.UserInfo" table="user_info" catalog="book">
+        <id name="userId" column="user_id">
+            <generator class="identity"/>
+        </id>
+        <property name="firstName" column="first_name" type="java.lang.String"/>
+        <property name="lastName" column="last_name" type="java.lang.String"/>
+        <property name="userGender" column="user_gender" type="java.lang.String"/>
+        <property name="userImg" column="user_img" type="java.lang.String"/>
+        <property name="userBirthdate" column="user_birthdate" type="java.util.Date"/>
+        <property name="userOccupation" column="user_occupation" type="java.lang.String"/>
+        <property name="userQualification" column="user_qualification" type="java.lang.String"/>
+        <property name="userPostalCode" column="user_postal_code" type="java.lang.Integer"/>
+        <property name="userAddress" column="user_address" type="java.lang.String"/>
+        <property name="userCity" column="user_city" type="java.lang.String"/>
+        <property name="userContact" column="user_contact" type="java.lang.String"/>
+        <property name="userBalance" column="user_balance" type="java.lang.Integer"/>
+        <property name="userWebsite" column="user_website" type="java.lang.String"/>
+        <property name="emailVerified" column="email_verified" type="java.lang.Boolean"/>
+        <many-to-one name="loginInfoByEmailId" class="com.pojo.hibernate.LoginInfo">
+            <column name="email_id" not-null="true"/>
+        </many-to-one>
+        <set name="authorFollowsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorFollow"/>
+        </set>
+        <set name="authorReviewsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorReview"/>
+        </set>
+        <set name="bookRatingsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRating"/>
+        </set>
+        <set name="bookRequestsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRequest"/>
+        </set>
+        <set name="bookReviewsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookReview"/>
+        </set>
+        <set name="bookReviewLikesByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookReviewLike"/>
+        </set>
+        <set name="borrowBooksByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BorrowBook"/>
+        </set>
+        <set name="friendshipMappingsByUserId" inverse="true">
+            <key>
+                <column name="user_1" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.FriendshipMapping"/>
+        </set>
+        <set name="friendshipMappingsByUserId_0" inverse="true">
+            <key>
+                <column name="user_2" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.FriendshipMapping"/>
+        </set>
+        <set name="lendsByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.Lend"/>
+        </set>
+        <set name="notificationsByUserId_0" inverse="true">
+            <key>
+                <column name="receiver_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.Notification"/>
+        </set>
+        <set name="notificationsByUserId" inverse="true">
+            <key>
+                <column name="sender_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.Notification"/>
+        </set>
+        <set name="shelfsByUserId" inverse="true">
+            <key>
+                <column name="owner_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.Shelf"/>
+        </set>
+        <set name="userFavGenresesByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.UserFavGenres"/>
+        </set>
+        <set name="userCartsByUserId" inverse="true">
+            <key>
+                <column name="owner_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.UserCart"/>
+        </set>
+    </class>
+</hibernate-mapping>

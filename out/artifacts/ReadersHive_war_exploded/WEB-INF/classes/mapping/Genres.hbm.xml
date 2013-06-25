@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.Genres" table="genres" catalog="book">
+        <id name="genreId" column="genre_id"/>
+        <property name="genreName" column="genre_name"/>
+        <set name="authorGenresesByGenreId" inverse="true">
+            <key>
+                <column name="genre_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.AuthorGenres"/>
+        </set>
+        <set name="bookGenresesByGenreId" inverse="true">
+            <key>
+                <column name="genre_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookGenres"/>
+        </set>
+        <set name="userFavGenresesByGenreId" inverse="true">
+            <key>
+                <column name="genre_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.UserFavGenres"/>
+        </set>
+    </class>
+</hibernate-mapping>

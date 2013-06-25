@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.Lend" table="lend" catalog="book">
+        <id name="lendId" column="lend_id">
+            <generator class="identity"/>
+        </id>
+
+        <property name="sharingPrice" column="sharing_price"/>
+        <property name="sharingDate" column="sharing_date"/>
+        <property name="lendStatus" column="lend_status"/>
+        <property name="conditionRating" column="condition_rating"/>
+        <property name="conditionDescription" column="condition_description"/>
+        <many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
+            <column name="book_id" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
+            <column name="user_id" not-null="true"/>
+        </many-to-one>
+        <set name="borrowBooksByLendId" inverse="true">
+            <key>
+                <column name="lend_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BorrowBook"/>
+        </set>
+        <set name="borrowBooksByLendId_0" inverse="true">
+            <key>
+                <column name="new_lend_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BorrowBook"/>
+        </set>
+        <set name="userCartsByLendId" inverse="true">
+            <key>
+                <column name="lend_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.UserCart"/>
+        </set>
+    </class>
+</hibernate-mapping>

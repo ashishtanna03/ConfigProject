@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.pojo.hibernate.BookInfo" table="book_info" catalog="book">
+        <id name="bookId" column="book_id"/>
+        <property name="isbn10" column="isbn_10"/>
+        <property name="isbn13" column="isbn_13"/>
+        <property name="bookTitle" column="book_title"/>
+        <property name="bookSubtitle" column="book_subtitle"/>
+        <property name="bookDescription" column="book_description"/>
+        <property name="noOfPages" column="no_of_pages"/>
+        <property name="bookMrp" column="book_mrp"/>
+        <property name="bookLanguage" column="book_language"/>
+        <property name="bookFormat" column="book_format"/>
+        <property name="bookImgUrl" column="book_img_url"/>
+        <property name="publishingDate" column="publishing_date"/>
+        <property name="verified" column="verified"/>
+        <many-to-one name="publisherInfoByPublisherId" class="com.pojo.hibernate.PublisherInfo">
+            <column name="publisher_id" not-null="true"/>
+        </many-to-one>
+        <set name="bookAuthorsesByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookAuthors"/>
+        </set>
+        <set name="bookGenresesByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookGenres"/>
+        </set>
+        <set name="bookRatingsByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRating"/>
+        </set>
+        <set name="bookRequestsByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRequest"/>
+        </set>
+        <set name="bookReviewsByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookReview"/>
+        </set>
+        <set name="bookReviewsByBookId_0" inverse="true">
+            <key>
+                <column name="suggested_book_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookReview"/>
+        </set>
+        <set name="borrowBooksByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.BorrowBook"/>
+        </set>
+
+        <bag name="lendsByBookId" inverse="true" order-by="sharingPrice asc">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.Lend"/>
+        </bag>
+
+        <set name="shelfBooksesByBookId" inverse="true">
+            <key>
+                <column name="book_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.ShelfBooks"/>
+        </set>
+
+    </class>
+</hibernate-mapping>
