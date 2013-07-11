@@ -141,7 +141,7 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
 
-                //Check if user has already commented on this author, if tru then return error
+                //Check if user has already commented on this author, if true then return error
                 for(AuthorReview userComment : userService.getUserById(authentication.getName()).getAuthorReviewsByUserId()) {
                     if(userComment.getAuthorInfoByAuthorId().getAuthorId().equals(authorId)) {
                         return ERROR;
