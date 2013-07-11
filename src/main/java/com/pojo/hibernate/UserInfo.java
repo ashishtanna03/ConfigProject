@@ -376,4 +376,14 @@ public class UserInfo implements Serializable{
     public void setUserCartsByUserId(Collection<UserCart> userCartsByUserId) {
         this.userCartsByUserId = userCartsByUserId;
     }
+
+    private Collection<RequestedBooks> requestedBooksesByUserId;
+
+    public Collection<RequestedBooks> getRequestedBooksesByUserId() {
+        return requestedBooksesByUserId;
+    }
+
+    public void setRequestedBooksesByUserId(Collection<RequestedBooks> requestedBooksesByUserId) {
+        this.requestedBooksesByUserId = requestedBooksesByUserId;
+    }
 }

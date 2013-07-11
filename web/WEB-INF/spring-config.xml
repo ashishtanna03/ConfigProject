@@ -36,11 +36,12 @@
                 <value>mapping/LoginInfo.hbm.xml</value>
                 <value>mapping/Notification.hbm.xml</value>
                 <value>mapping/PublisherInfo.hbm.xml</value>
+                <value>mapping/RequestedBooks.hbm.xml</value>
                 <value>mapping/Shelf.hbm.xml</value>
                 <value>mapping/ShelfBooks.hbm.xml</value>
+                <value>mapping/UserCart.hbm.xml</value>
                 <value>mapping/UserFavGenres.hbm.xml</value>
                 <value>mapping/UserInfo.hbm.xml</value>
-                <value>mapping/UserCart.hbm.xml</value>
 
             </list>
         </property>
@@ -159,7 +160,7 @@
     <!--/Author-->
 
     <!--List-->
-    <bean id="suggestionList" class="com.action.SuggestionList">
+    <bean id="suggestionList" class="com.action.SuggestionList" scope="prototype">
         <property name="bookService" ref="bookService"/>
         <property name="authorService" ref="authorService"/>
     </bean>
@@ -167,7 +168,8 @@
 
     <!--Search-->
     <bean id="searchAction" class="com.action.search.SearchAction" scope="prototype">
-        <property name="bookService" ref="bookService"/>
+        <property name="bookService" ref="bookService" />
+        <property name="userService" ref="userService" />
     </bean>
     <!--/Search-->
     <!--share-->
@@ -188,13 +190,14 @@
     <!--/share-->
 
     <!--Cart-->
-    <bean id="cartAction" class="com.action.cart.ShoppingCartAction">
+    <bean id="cartAction" class="com.action.cart.ShoppingCartAction" scope="prototype">
         <property name="userService" ref="userService"/>
+        <property name="lendService" ref="lendService"/>
     </bean>
     <!--/Cart-->
 
     <!--Shelf-->
-    <bean id="wishListAction" class="com.action.shelf.WishListAction">
+    <bean id="wishListAction" class="com.action.shelf.WishListAction" scope="prototype">
         <property name="userService" ref="userService" />
     </bean>
     <!--/Shelf-->

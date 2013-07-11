@@ -60,12 +60,12 @@ public class UserService {
         return userDao.isUserFriend(getUserById(user1EmailId),getUserById(user2EmailId));
     }
 
-    public Boolean addAsFriend(String user1EmailId, String user2EmailId) {
-        return userDao.addAsFriend(getUserById(user1EmailId),getUserById(user2EmailId));
+    public Boolean addAsFriend(String user1EmailId, Integer user2UserId) {
+        return userDao.addAsFriend(getUserById(user1EmailId),getUserById(user2UserId));
     }
 
-    public Boolean unfriend(String user1EmailId, String user2EmailId) {
-        return userDao.unfriend(getUserById(user1EmailId),getUserById(user2EmailId));
+    public Boolean unfriend(String user1EmailId, Integer user2UserId) {
+        return userDao.unfriend(getUserById(user1EmailId),getUserById(user2UserId));
     }
 
     public Boolean addToCart(String emailId, Integer lendId) {
@@ -82,5 +82,9 @@ public class UserService {
 
     public Boolean addToWishList(String emailId, Integer bookId) {
         return userDao.addToWishList(getUserById(emailId), bookService.getBookById(bookId));
+    }
+
+    public Boolean acceptRequest(String receiverEmailId, UserInfo sender) {
+        return userDao.acceptRequest(getUserById(receiverEmailId), sender);
     }
 }

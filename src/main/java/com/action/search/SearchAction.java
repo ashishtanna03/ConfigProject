@@ -4,9 +4,14 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.pojo.hibernate.BookGenres;
 import com.pojo.hibernate.BookInfo;
 import com.pojo.hibernate.Lend;
+import com.pojo.hibernate.UserInfo;
 import com.service.BookService;
+import com.service.UserService;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.*;
 
@@ -31,12 +36,16 @@ public class SearchAction extends ActionSupport {
     public Double possibleResults=0.0;
 
     private BookService bookService;
+    private UserService userService;
 
     private List<BookInfo> bookList;
     private Map<String,Integer> availGenres = new HashMap<String, Integer>(0);
     private Map<String,Integer> availLanguages = new HashMap<String, Integer>(0);
     private List<Integer> availPriceRanges = new ArrayList<Integer>(5);
     private Integer totalPages;
+    private Integer userId;
+    private String userAddress;
+    private String userContact;
 
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
@@ -71,6 +80,14 @@ public class SearchAction extends ActionSupport {
         this.excludeOutOfStock = excludeOutOfStock;
     }
 
+    public void setBookService(BookService bookService) {
+        this.bookService=bookService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     public void setTotalPages(Integer totalPages) {
         this.totalPages = totalPages;
     }
@@ -97,6 +114,18 @@ public class SearchAction extends ActionSupport {
 
     public Integer getTotalPages() {
         return totalPages;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public String getUserContact() {
+        return userContact;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
     }
 
     public String loadSearchResults(){
@@ -250,11 +279,15 @@ public class SearchAction extends ActionSupport {
             }
         }
 
-        return SUCCESS;
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+            UserInfo user = userService.getUserById(authentication.getName());
+            userId = user.getUserId();
+            userAddress = user.getUserAddress();
+            userContact = user.getUserContact();
+        }
 
-    public void setBookService(BookService bookService) {
-        this.bookService=bookService;
+        return SUCCESS;
     }
 
     //To Sort the availGenres Map

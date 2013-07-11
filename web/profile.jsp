@@ -145,10 +145,10 @@
                                                     <a href="javascript:{}" class="button2" onclick="friendRequest('notLoggedIn',null)">(+) Add as Friend</a>
                                                 </s:if>
                                                 <s:elseif test="!isFriend">
-                                                    <a href="javascript:{}" id="FriendRequest" class="button2" onclick="friendRequest('FriendRequest','<%=request.getParameter("emailId")%>')">(+) Add as Friend</a>
+                                                    <a href="javascript:{}" id="FriendRequest" class="button2" onclick="friendRequest('FriendRequest','<%=request.getParameter("userId")%>')">(+) Add as Friend</a>
                                                 </s:elseif>
                                                 <s:else>
-                                                    <a href="javascript:{}" id="UnfriendRequest" class="button2" onclick="friendRequest('UnfriendRequest','<%=request.getParameter("emailId")%>')">(-) Unfriend</a>
+                                                    <a href="javascript:{}" id="UnfriendRequest" class="button2" onclick="friendRequest('UnfriendRequest','<%=request.getParameter("userId")%>')">(-) Unfriend</a>
                                                 </s:else>
                                             </center>
 										</div>
@@ -581,7 +581,7 @@
                             <s:iterator value="user.friendshipMappingsByUserId">
                                 <s:if test="status==2">
                                     <script type="text/javascript">count++;</script>
-                                    <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUser2.loginInfoByEmailId.emailId"/>" class="suggestions">
+                                    <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUser2.userId"/>" class="suggestions">
                                         <img    alt="<s:property value="userInfoByUser2.firstName"/> <s:property value="userInfoByUser2.lastName"/>"
                                                 title="<s:property value="userInfoByUser2.firstName"/> <s:property value="userInfoByUser2.lastName"/>"
                                                 src="<s:if test="userInfoByUser2.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUser2.userImg"/></s:else>"
@@ -596,7 +596,7 @@
                             <s:iterator value="user.friendshipMappingsByUserId_0">
                                 <s:if test="status==2">
                                     <script type="text/javascript">count++;</script>
-                                    <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUser1.loginInfoByEmailId.emailId"/>" class="suggestions">
+                                    <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUser1.userId"/>" class="suggestions">
                                         <img    alt="<s:property value="userInfoByUser1.firstName"/> <s:property value="userInfoByUser1.lastName"/>"
                                                 title="<s:property value="userInfoByUser1.firstName"/> <s:property value="userInfoByUser1.lastName"/>"
                                                 src="<s:if test="userInfoByUser1.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUser1.userImg"/></s:else>"

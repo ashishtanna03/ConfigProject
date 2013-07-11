@@ -1,6 +1,7 @@
 package com.service;
 
 import com.dao.BookDaoImpl;
+import com.pojo.custom.BookDetails;
 import com.pojo.hibernate.BookInfo;
 import com.pojo.hibernate.UserInfo;
 import org.hibernate.criterion.DetachedCriteria;
@@ -61,5 +62,13 @@ public class BookService {
 
     public Float getUserRating(BookInfo book, UserInfo user) {
         return bookDao.getUserRating(book,user);
+    }
+
+    public List<BookDetails> getRelatedBooks(Integer bookId) {
+        return bookDao.getRelatedBooks(getBookById(bookId));
+    }
+
+    public Boolean requestBook(Integer bookId, UserInfo user) {
+        return bookDao.requestBook(getBookById(bookId), user);
     }
 }

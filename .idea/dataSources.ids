@@ -106,6 +106,7 @@
       <exported-key name="FK_book_review_book_info_suggested" table="book_review" schema="" catalog="book" columns="suggested_book_id" />
       <exported-key name="FK_borrow_book_book_info" table="borrow_book" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_lend_book_info" table="lend" schema="" catalog="book" columns="book_id" />
+      <exported-key name="FK_requested_books_book_info" table="requested_books" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_shelf_books_book_info" table="shelf_books" schema="" catalog="book" columns="book_id" />
     </table>
     <table name="book_rating" schema="" catalog="book" type="TABLE">
@@ -221,6 +222,13 @@
       <primary-key name="PRIMARY" columns="publisher_id" />
       <exported-key name="FK_book_info_publisher_info" table="book_info" schema="" catalog="book" columns="publisher_id" />
     </table>
+    <table name="requested_books" schema="" catalog="book" type="TABLE">
+      <column name="book_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="book_id,user_id" />
+      <foreign-key name="FK_requested_books_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
+      <foreign-key name="FK_requested_books_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
+    </table>
     <table name="shelf" schema="" catalog="book" type="TABLE">
       <column name="shelf_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
       <column name="shelf_name" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1" />
@@ -282,6 +290,7 @@
       <exported-key name="FK_lend_user_info" table="lend" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_notification_user_info_receiver" table="notification" schema="" catalog="book" columns="receiver_id" />
       <exported-key name="FK_notification_user_info_sender" table="notification" schema="" catalog="book" columns="sender_id" />
+      <exported-key name="FK_requested_books_user_info" table="requested_books" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_shelf_user_info" table="shelf" schema="" catalog="book" columns="owner_id" />
       <exported-key name="FK_user_cart_user_info" table="user_cart" schema="" catalog="book" columns="owner_id" />
       <exported-key name="user_fav_genres_user_info" table="user_fav_genres" schema="" catalog="book" columns="user_id" />

@@ -57,6 +57,10 @@
         });
     </script>
 
+    <!--Tootip-->
+    <link href="/css/tooltipster/tooltipster.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/js/tooltipster/jquery.tooltipster.min.js"></script>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".ajax_block_product").hover(function() {
@@ -196,13 +200,13 @@
 													</tr>
 												</table>
                                                 <s:if test="%{#session==null || #session.isLoggedIn==null || #session.isLoggedIn==false}">
-                                                    <a href="javascript:{}" class="button2" onclick="followRequest('notLoggedIn',null)">(+) Follow</a>
+                                                    <a href="javascript:{}" class="button2 followButton" onclick="followRequest('notLoggedIn',null)">(+) Follow</a>
                                                 </s:if>
                                                 <s:elseif test="!following">
-                                                    <a href="javascript:{}" id="Follow" class="button2" onclick="followRequest('Follow','<s:property value="author.authorId"/>')">(+) Follow</a>
+                                                    <a href="javascript:{}" id="Follow" class="button2 followButton" onclick="followRequest('Follow','<s:property value="author.authorId"/>')">(+) Follow</a>
                                                 </s:elseif>
                                                 <s:else>
-                                                    <a href="javascript:{}" id="Unfollow" class="button2" onclick="followRequest('Unfollow','<s:property value="author.authorId"/>')">(-) Unfollow</a>
+                                                    <a href="javascript:{}" id="Unfollow" class="button2 followButton" onclick="followRequest('Unfollow','<s:property value="author.authorId"/>')">(-) Unfollow</a>
                                                 </s:else>
 											</div>
 										</div>
@@ -225,7 +229,7 @@
 								</div>
 								<br/>
 							<br/>
-							<h2 id="related-header">Books by <s:property value="author.authorName"/> (<s:property value="authorBooks.size()"/>) :<h2>
+							<h2 id="related-header">Books by <s:property value="author.authorName"/> (<s:property value="authorBooks.size()"/>) :</h2>
 							<div id="related-products_block_center">
 							<div class="related-carousel-container">
 
@@ -274,7 +278,7 @@
                                 <s:iterator value="authorReviews">
 							<table class="comments_container">
 								<tr class="comment_container">
-									<td rowspan="3" class="gravatar" width="80">
+									<td rowspan="4" class="gravatar" width="80">
                                         <img alt='<s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/>'
                                              src='<s:if test='userInfoByUserId.userImg==null'>/images/no-profile-pic.png</s:if>
                                                     <s:else><s:property value="userInfoByUserId.userImg"/></s:else>'
@@ -292,7 +296,7 @@
 									<td class="comment_date"><s:date name="timeOfReview" format="E','d MMM','yyyy" /></td>
 								</tr>
 								<tr>
-									<td class="comment_title" colspan="2"><h2><s:property value="reviewTitle"/></h2></td>
+									<td class="comment_title" colspan="3"><h2><s:property value="reviewTitle"/></h2></td>
 								</tr>
 								<tr>
 									<td class="comment" colspan="3">
@@ -300,15 +304,16 @@
 									</td>
 								</tr>
 								<tr class="comment_bottom">
-									<td></td>
-									<td colspan="2"><a href="#">Report Abuse</a></td>
+									<td colspan="2"></td>
+									<td><s:if test="userId.equals(userInfoByUserId.userId)"><a href="/author/review/DeleteComment.action?authorId=<s:property value="author.authorId"/>">Delete</a></s:if></td>
 								</tr>
 							</table>
                             </s:iterator>
                             </s:if>
 
 							<!--Write Comment Table-->
-							<form name="comment" action="/author/review/SaveAuthorReview.action" method="POST">
+                            <s:if test="!userCommented && userId!=null">
+							<form name="comment" action="/author/review/SaveComment.action.action" method="POST">
                                 <input type="hidden" name="authorId" value="<s:property value="author.authorId"/>"/>
 								<table class="write-comment">
 									<tr>
@@ -339,6 +344,10 @@
 									</tr>
 								</table>
 							</form>
+                            </s:if>
+                            <s:elseif test="userId==null">
+                                <b style="float: left;margin-top: 25px;">Log In to Write a Comment.</b>
+                            </s:elseif>
 
 
 						</div>
@@ -358,7 +367,7 @@
 
                         <s:if test="author.authorFollowsByAuthorId!=null && author.authorFollowsByAuthorId.size()>0">
 						    <s:iterator value="author.authorFollowsByAuthorId">
-							    <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUserId.loginInfoByEmailId.emailId"/>" class="suggestions">
+							    <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUserId.userId"/>" class="suggestions">
 								    <img    alt="<s:property value="name"/>"
 								            title="<s:property value="name"/>"
                                             src="<s:if test="userInfoByUserId.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUserId.userImg"/></s:else>"

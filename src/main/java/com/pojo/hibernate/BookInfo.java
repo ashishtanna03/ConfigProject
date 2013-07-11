@@ -287,4 +287,14 @@ public class BookInfo implements Serializable {
     public void setShelfBooksesByBookId(Collection<ShelfBooks> shelfBooksesByBookId) {
         this.shelfBooksesByBookId = shelfBooksesByBookId;
     }
+
+    private Collection<RequestedBooks> requestedBooksesByBookId;
+
+    public Collection<RequestedBooks> getRequestedBooksesByBookId() {
+        return requestedBooksesByBookId;
+    }
+
+    public void setRequestedBooksesByBookId(Collection<RequestedBooks> requestedBooksesByBookId) {
+        this.requestedBooksesByBookId = requestedBooksesByBookId;
+    }
 }

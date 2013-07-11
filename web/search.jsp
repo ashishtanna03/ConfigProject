@@ -61,16 +61,7 @@
             .rating-div{float:left;margin-right: -9px;width: 103px!important;}
         </style>
         <script type="text/javascript" src="/js/rating/jquery.raty.min.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                $('.rating-div').raty({
-                    half: true,
-                    click: function(score, evt) {
-                        rateBook(score,$(this).attr('bookId'));
-                    }
-                });
-            });
-        </script>
+
         <!--/star-rating-->
 
         <!--Tootip-->
@@ -346,23 +337,64 @@
 
 												<div id="short_description_block">
 													<div id="short_description_content" >
-                                                        <div class="rating-div" bookId="<s:property value="bookId"/>">
+                                                        <div class="rating-div" id="rating-div<s:property value="bookId"/>" bookId="<s:property value="bookId"/>">
                                                         </div>
                                                         <script type="text/javascript">
                                                             $(document).ready(function() {
+                                                                var userRating='0';
+
                                                                 totalRating=0;totalVotes=0;
-                                                            totalVotes=<s:if test="bookRatingsByBookId.size()==0">1;</s:if><s:else><s:property value="bookRatingsByBookId.size()"/>;</s:else>
+                                                                totalVotes=<s:if test="bookRatingsByBookId.size()==0">1;</s:if><s:else><s:property value="bookRatingsByBookId.size()"/>;</s:else>
                                                             <s:iterator value="bookRatingsByBookId">
                                                                 totalRating=totalRating+<s:property value="rating"/>;
+
+                                                                //For user's rating
+                                                                <s:if test="userId!=null && userInfoByUserId.userId.equals(userId)">
+                                                                    userRating = '<s:property value="rating"/>';
+                                                                </s:if>
                                                             </s:iterator>
 
-                                                                $($('.rating-div').get(<s:property value="%{#iteratorStatus.index}"/>)).raty('set',{score:totalRating/totalVotes});
+                                                                if(userRating=='0')
+                                                                    userRating = 'N.A.';
+
+                                                                var avgRating=0;
+                                                                if(totalVotes!=0) {
+                                                                    avgRating=(totalRating/totalVotes).toFixed(1);
+                                                                }
+
+                                                                $('#rating-div'+<s:property value="bookId"/>).tooltipster({
+                                                                    animation: 'fade',
+                                                                    trigger:'hover',
+                                                                    content:'Avg. Rating : '+avgRating+'<br/>Your Rating : '+userRating
+                                                                });
+
+                                                                $('#rating-div'+<s:property value="bookId"/>).raty({
+                                                                    half: true,
+                                                                    hints : ['Bad','OK','Good','Nice','Superb'],
+                                                                    score:avgRating,
+                                                                    click: function(score, evt) {
+                                                                        rateBook(score,$(this).attr('bookId'),'#rating-div'+<s:property value="bookId"/>);
+                                                                    }
+                                                                });
+
+                                                                <%--$($('.rating-div').get(<s:property value="%{#iteratorStatus.index}"/>)).raty('set',{score:totalRating/totalVotes});--%>
                                                             });
                                                         </script>
 														<h3>&nbsp(<s:property value="bookRatingsByBookId.size()"/> votes)</h3>
 														<h2>&nbsp|&nbsp<a id="search-header" href="javascript:{}"><s:property value="bookReviewsByBookId.size()"/> Reviews</a></h2>
 														<br/>
 														<p>
+															<b>Genres : </b>
+                                                            <s:if test="bookGenresesByBookId==null || bookGenresesByBookId.size==0">N.A.</s:if>
+                                                            <s:else>
+                                                                <s:iterator value="bookGenresesByBookId" status="iteratorStatus">
+                                                                    <a href="/search/LoadSearchResults.action?newRequest=true&excludeOutOfStock=false&pageNo=0&maxResults=<%=maxResults%>&filterGenre=<s:property value="genresByGenreId.genreName"/>&filterLanguage=&filterPriceRange=5&searchQuery=">
+                                                                        <s:property value="genresByGenreId.genreName"/>
+                                                                    </a>
+                                                                    <s:if test="#iteratorStatus.last!=true">,</s:if>
+                                                                </s:iterator>
+                                                            </s:else>
+                                                            <br/>
 															<b>Publisher : </b><s:property value='publisherInfoByPublisherId.publisherName'/>(<s:date name="publishingDate" format="yyyy"/>)<br/>
 															<b>ISBN-10 : </b><s:property value='isbn10'/><br/>
 															<b>ISBN-13 : </b><s:property value='isbn13'/><br/>
@@ -375,32 +407,38 @@
 												</div>
 												<div class="product_flags">
                                                     <s:set var="breakAvailLoop" value="%{false}"/>
+                                                    <s:set var="sharedByUser" value="%{false}"/>
                                                     <s:if test="lendsByBookId !=null && lendsByBookId.size>=1">
                                                         <s:iterator value="lendsByBookId">
+                                                            <s:if test="userInfoByUserId.userId==userId && lendStatus!=1">
+                                                                <s:set var="sharedByUser" value="%{true}"/>
+                                                            </s:if>
                                                             <s:if test="%{!#breakAvailLoop && lendStatus!=1}">
-													            <span class="available">Available</span>
+													            <span class="available" style="margin-top: -13px;">Available</span>
                                                                 <s:set var="breakAvailLoop" value="%{true}"/>
                                                             </s:if>
                                                         </s:iterator>
                                                         <s:if test="%{!#breakAvailLoop}">
-                                                            <span class="not-avail">Not Available</span>
+                                                            <span class="not-avail" style="margin-top: -13px;">Not Available</span>
                                                         </s:if>
                                                     </s:if>
                                                     <s:else>
-													    <span class="not-avail">Not Available</span>
+													    <span class="not-avail" style="margin-top: -13px;">Not Available</span>
                                                     </s:else>
 												</div>
 												
 											</div>
+
+
 											<div class="right_block">
-											
+
 												<span class="lowest-price-header">Lowest Price</span>
                                                 <span class="price">
                                                 <s:set var="breakPointsLoop" value="%{false}"/>
                                                     <s:if test="lendsByBookId !=null && lendsByBookId.size>=1">
                                                         <s:iterator value="lendsByBookId">
                                                             <s:if test="%{!#breakPointsLoop && lendStatus!=1}">
-                                                                <s:property value="lendsByBookId.get(0).sharingPrice"/> points
+                                                                <s:property value="sharingPrice"/> points
                                                                 <s:set var="breakPointsLoop" value="%{true}"/>
                                                             </s:if>
                                                         </s:iterator>
@@ -411,24 +449,35 @@
                                                     <s:else>N.A.</s:else>
                                                 </span>
 												<br/><br/>
+
+
+                                            <s:if test="%{#sharedByUser}">
+                                                <p><b>You have shared this Book.</b></p>
+                                            </s:if>
+                                            <s:else>
                                                 <s:set var="breakLoop" value="%{false}"/>
                                                 <s:if test="lendsByBookId !=null && lendsByBookId.size>=1">
                                                     <s:iterator value="lendsByBookId">
                                                         <s:if test="%{!#breakLoop && lendStatus!=1}">
-												            <a id="add-to-cart-button<s:property value="%{#iteratorStatus.index}"/>" class="avail-button" href="javascript:{}" title="Add To Cart" onclick="addBookToCart(<s:property value="lendId"/>,'#add-to-cart-button<s:property value="%{#iteratorStatus.index}"/>')">Add To Cart</a>
+                                                            <a id="add-to-cart-button<s:property value="%{#iteratorStatus.index}"/>" class="avail-button" href="javascript:{}" title="Add To Cart" onclick="addBookToCart(<s:property value="lendId"/>,'#add-to-cart-button<s:property value="%{#iteratorStatus.index}"/>')">Add To Cart</a>
                                                             <s:set var="breakLoop" value="%{true}"/>
                                                         </s:if>
                                                     </s:iterator>
                                                     <s:if test="%{!#breakLoop}">
-                                                        <a class="avail-button" href="#" title="Request Book">Request Book</a>
+                                                        <a id="request-book-button<s:property value="%{#iteratorStatus.index}"/>" class="avail-button" href="javascript:{}" title="Request Book" onclick="requestBook(<s:property value="bookId"/>,'#request-book-button<s:property value="%{#iteratorStatus.index}"/>')" >Request Book</a>
                                                     </s:if>
                                                 </s:if>
                                                 <s:else>
-												    <a class="avail-button" href="#" title="Request Book">Request Book</a>
+                                                    <a id="request-book-button<s:property value="%{#iteratorStatus.index}"/>" class="avail-button" href="javascript:{}" title="Request Book" onclick="requestBook(<s:property value="bookId"/>,'#request-book-button<s:property value="%{#iteratorStatus.index}"/>')" >Request Book</a>
                                                 </s:else>
+
+
 												<a class="avail-button" href="#" title="Add to Wishlist">Add to Wishlist</a>
-												<a class="avail-button share-book"  title="Share book" href="/lightbox-pages/share-book.jsp?lightbox[width]=362&lightbox[height]=338&bookId=<s:property value="bookId"/>">Share</a>
-											</div>
+												<a class="avail-button share-book"  title="Share book" href="/lightbox-pages/share-book.jsp?lightbox[width]=362&lightbox[height]=495&bookId=<s:property value="bookId"/>&mrp=<s:property value="bookMrp"/>&address=<s:property value="userAddress"/>&contact=<s:property value="userContact"/>">Share</a>
+                                            </s:else>
+
+                                            </div>
+
 										</li>
                                         </s:iterator>
 
@@ -471,47 +520,7 @@
                                          document.getElementById('page-list').innerHTML = pageList;
                                      </script>
 
-                                     <%--<%
-                                         if(pageNo==0){
-                                     %>
-                                         <li id="pagination_previous" class="disabled">
-                                             <span>&laquo;&nbsp;Previous</span>
-                                         </li>
-                                     <%
-                                         }
-                                         else{
-                                     %>
-                                         <li id="pagination_previous">
-                                             <a href="/search/LoadSearchResults.action?pageNo=<%=pageNo-1%>&maxResults=<%=maxResults%>&totalPages=<s:property value="totalPages"/>&filterGenre=<%=filterGenre%>&filterLanguage=<%=filterLanguage%>&filterPriceRange=<%=filterPriceRange%>&searchQuery=<s:property value="searchQuery"/>">&laquo;&nbsp;Previous</a>
-                                         </li>
-                                     <% } %>
-                                     <s:iterator begin="0" end="%{#totalPages-1}" status="forLoopStatus">
-                                     <s:if test="%{#forLoopStatus==pageNo}">
-                                         <li class="current">
-                                         <span>
-                                             <%=pageNo+1%>
-                                         </span>
-                                         </li>
-                                     </s:if>
-                                     <s:else>
 
-                                     <li>
-                                         <a href="/search/LoadSearchResults.action?pageNo=<s:property value="forLoopStatus"/>&maxResults=<%=maxResults%>&totalPages=<s:property value="totalPages"/>&filterGenre=<%=filterGenre%>&filterLanguage=<%=filterLanguage%>&filterPriceRange=<%=filterPriceRange%>&searchQuery=<s:property value="searchQuery"/>">
-                                             <s:property value="%{#totalPages+1}"/>
-                                         </a>
-                                     </li>
-                                     </s:else>
-                                     </s:iterator>
-                                     <s:if test="%{#pageNo+1==totalPages}">
-                                     <li id="pagination_next" class="disabled">
-                                         <span>Next&nbsp;&raquo;</span>
-                                     </li>
-                                     </s:if>
-                                     <s:else>
-                                     <li id="pagination_next">
-                                         <a href="/search/LoadSearchResults.action?pageNo=<%=pageNo+1%>&maxResults=<%=maxResults%>&totalPages=<s:property value="totalPages"/>&filterGenre=<%=filterGenre%>&filterLanguage=<%=filterLanguage%>&filterPriceRange=<%=filterPriceRange%>&searchQuery=<s:property value="searchQuery"/>">Next&nbsp;&raquo;</a>
-                                     </li>
-                                     </s:else>--%>
                                  </ul>
                                 <form id="pagination_form"
                                       action="/search/LoadSearchResults.action"

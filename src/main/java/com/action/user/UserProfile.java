@@ -23,7 +23,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class UserProfile extends ActionSupport {
-    private String emailId;
+    private Integer userId;
     private String oldPassword;
     private String newPassword;
 
@@ -37,8 +37,8 @@ public class UserProfile extends ActionSupport {
     private Boolean isFriend;
     private String result;
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public void setOldPassword(String oldPassword) {
@@ -75,17 +75,19 @@ public class UserProfile extends ActionSupport {
 
     public String viewProfile() {
         result=NOT_LOGGED_IN;
+        if(userId!=null)
+            user = userService.getUserById(userId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
-            if(emailId == null || emailId.equals(SecurityContextHolder.getContext().getAuthentication().getName())){
-                emailId = SecurityContextHolder.getContext().getAuthentication().getName();
+            if(userId == null || user.getLoginInfoByEmailId().getEmailId().equals(SecurityContextHolder.getContext().getAuthentication().getName())){
+                if(userId==null)
+                    user = userService.getUserById(SecurityContextHolder.getContext().getAuthentication().getName());
                 result = LOGGED_IN;
             }
             else{
-                isFriend = userService.isUserFriend(authentication.getName(),emailId);
+                isFriend = userService.isUserFriend(authentication.getName(),user.getLoginInfoByEmailId().getEmailId());
             }
         }
-        user = userService.getUserById(emailId);
         if (user.getUserBirthdate()!=null)
             userAge = calculateAge(user.getUserBirthdate());
         return result;
@@ -111,33 +113,43 @@ public class UserProfile extends ActionSupport {
     }
 
     public String viewEditProfile() {
-        emailId = SecurityContextHolder.getContext().getAuthentication().getName();
-        user = userService.getUserById(emailId);
+        user = userService.getUserById(SecurityContextHolder.getContext().getAuthentication().getName());
         return SUCCESS;
     }
 
     public String addAsFriend(){
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
-            if(userService.addAsFriend(authentication.getName(),emailId)){
-                result = "success";
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+                if(userService.addAsFriend(authentication.getName(),userId)){
+                    result = "success";
+                }
             }
-        }
-        else {
+            else {
+                result = "error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             result = "error";
         }
         return SUCCESS;
     }
 
     public String unfriend(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
-            if(userService.unfriend(authentication.getName(),emailId)){
-                result = "success";
+
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+                if(userService.unfriend(authentication.getName(),userId)){
+                    result = "success";
+                }
             }
-        }
-        else {
+            else {
+                result = "error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             result = "error";
         }
         return SUCCESS;
@@ -155,6 +167,23 @@ public class UserProfile extends ActionSupport {
                 }
             } else {
                 result="wrong";
+            }
+        }
+        return SUCCESS;
+    }
+
+    public String acceptRequest(){
+        if(userId!=null)
+            user=userService.getUserById(userId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+            if(userId!=null && !user.getLoginInfoByEmailId().getEmailId().equals(authentication.getName())) {
+                if(userService.acceptRequest(authentication.getName(), user)) {
+                    isFriend = userService.isUserFriend(authentication.getName(),user.getLoginInfoByEmailId().getEmailId());
+                    return SUCCESS;
+                }
+                else
+                    return ERROR;
             }
         }
         return SUCCESS;

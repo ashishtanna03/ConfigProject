@@ -2,6 +2,19 @@
 <head>
 	<link href="/css/global.css" rel="stylesheet" type="text/css" media="all" />
 
+    <script type="text/javascript">
+        function validateNumber(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    </script>
+
 	<title>Share Book</title>
 	<style>
 		#signup-form h1{font-size:1.4em;font-weight:bold;padding-bottom:15px;margin-left:-15px;}
@@ -18,13 +31,13 @@
 			<h3>
 			Rate the Condition of your BOOK : 
 			</h3>
-			<h3 class="rating-stars">
-				<img src="/img/star.png"/>
-				<img src="/img/star.png"/>
-				<img src="/img/star.png"/>
-				<img src="/img/star.png"/>
-			</h3>
-			<br/>
+            <select id="book-condition">
+                <option value="1">As New</option>
+                <option value="2" selected="true">Good</option>
+                <option value="3">Torn, But Readable</option>
+                <option value="4">Poor</option>
+            </select>
+			<br/><br/>
 			<h3>
 			Describe The Condition of Your Book :<br/>
 			</h3>
@@ -33,8 +46,19 @@
 			<h3>
 			Set Price(Virtual Points) :
 			</h3>
-			<input type="text" name="sharingPrice" value="" class="price-txt"/><br/>
-            <input type="hidden" name="conditionRating" value="4"/>
+			<input type="text" name="sharingPrice" value="" class="price-txt" onkeypress="validateNumber(event);" /><b>&nbsp;&lt;<%=request.getParameter("mrp")%>&nbsp;(MRP)</b><br/>
+            <br/>
+
+            <h3>
+                Confirm your Address :<br/>
+            </h3>
+            <textarea rows="4" cols="35" name="userAddress" class="area_feed price-txt" ><%=request.getParameter("address")%></textarea>
+            <br/>
+            <br/>
+            <h3>Your Contact No. : </h3><b>+91&nbsp;-&nbsp;</b><input type="text" name="userContact" onkeypress="validateNumber(event);" value="<%=request.getParameter("contact")%>" />
+            <br/>
+            <br/>
+            <input type="hidden" name="bookMrp" value="<%=request.getParameter("mrp")%>"/>
             <input type="hidden" name="bookId" value="<%=request.getParameter("bookId")%>"/>
 			<a class="button2 tooltip" href="javascript:{}" id="share-submit" onclick="shareBook();" title="">SHARE</a>
 		</form>

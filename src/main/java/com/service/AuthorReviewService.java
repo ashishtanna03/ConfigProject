@@ -28,4 +28,7 @@ public class AuthorReviewService {
         return authorReviewDao.saveAuthorReview(authorReview);
     }
 
+    public Boolean deleteComment(Integer authorId, String userEmailId) {
+        return authorReviewDao.deleteComment(authorId, userEmailId);
+    }
 }

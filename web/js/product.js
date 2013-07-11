@@ -440,7 +440,7 @@ $(document).ready(function()
 	});
 	
 	$('#write-a-review').click(function(){
-		$.scrollTo( 'td.write-comment h2', 1100 );
+		$.scrollTo( '#write-comment', 1100 );
 	});
 	
 	$('div#primary_block h1 a').click(function(){

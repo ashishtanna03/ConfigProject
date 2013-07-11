@@ -125,7 +125,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
             if(notification.getNotificationType()!=6){
                 notificationDetails.setUserName(notification.getUserInfoBySenderId().getFirstName()+" "+notification.getUserInfoBySenderId().getLastName());
-                notificationDetails.setEmailId(notification.getUserInfoBySenderId().getLoginInfoByEmailId().getEmailId());
+                notificationDetails.setUserId(notification.getUserInfoBySenderId().getUserId());
             }
 
             if (notification.getNotificationType()>=2) {

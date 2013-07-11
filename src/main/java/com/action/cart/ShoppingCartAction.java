@@ -1,8 +1,11 @@
 package com.action.cart;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pojo.hibernate.BorrowBook;
+import com.pojo.hibernate.Lend;
 import com.pojo.hibernate.UserCart;
 import com.pojo.hibernate.UserInfo;
+import com.service.LendService;
 import com.service.UserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +27,7 @@ public class ShoppingCartAction extends ActionSupport {
     private String address;
 
     private UserService userService;
+    private LendService lendService;
 
     private UserInfo user;
     private String result;
@@ -43,6 +47,10 @@ public class ShoppingCartAction extends ActionSupport {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public void setLendService(LendService lendService) {
+        this.lendService = lendService;
     }
 
     public UserInfo getUser() {
@@ -65,6 +73,25 @@ public class ShoppingCartAction extends ActionSupport {
     public String addToCart(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
+
+            Lend lend = lendService.getLendById(lendId);
+            UserInfo userInfo = userService.getUserById(authentication.getName());
+
+            //Checking if user has already added this book in Cart
+            for(UserCart userCart : userInfo.getUserCartsByUserId()) {
+                if(userCart.getLendByLendId().getBookInfoByBookId().getBookId().equals(lend.getBookInfoByBookId().getBookId())) {
+                    result="inCart";
+                    return SUCCESS;
+                }
+            }
+
+            for(Lend userLend : userInfo.getLendsByUserId()) {
+               if(userLend.getBookInfoByBookId().getBookId().equals(lend.getBookInfoByBookId().getBookId())) {
+                   result="shared";
+                   return SUCCESS;
+               }
+            }
+
             if(userService.addToCart(authentication.getName(),lendId)){
                 result="success";
             } else {
@@ -82,7 +109,6 @@ public class ShoppingCartAction extends ActionSupport {
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
             UserInfo userInfo=userService.getUserById(authentication.getName());
             if(contactNo!=null){
-
                 userInfo.setUserContact(contactNo);
             }
             if(address!=null){
@@ -106,6 +132,7 @@ public class ShoppingCartAction extends ActionSupport {
     public String deleteItem(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
+            user=userService.getUserById(authentication.getName());
             userService.deleteItem(authentication.getName(),lendId);
         }
         return SUCCESS;

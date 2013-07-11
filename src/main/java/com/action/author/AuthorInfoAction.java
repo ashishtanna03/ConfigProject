@@ -31,7 +31,7 @@ import java.util.Map;
 public class AuthorInfoAction extends ActionSupport implements SessionAware{
 
     private SessionMap<String,Object> sessionMap;
-    private Integer userId;
+    private Integer userId;  //add the user to authors followers list and if user has commented, then show the option to delete his comment.
 
     private Integer authorId;
     private String reviewTitle;
@@ -46,6 +46,7 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
     private List<AuthorReview> authorReviews;
     private List<BookInfo> authorBooks;
     private Boolean following;
+    private Boolean userCommented = false; //to check if user has commented or not, if yes then remove the option to add another comment.
     private String result;
 
     public void setAuthorId(Integer authorId) {
@@ -72,8 +73,6 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
         this.authorReviewService = authorReviewService;
     }
 
-
-
     public AuthorInfo getAuthor() {
         return author;
     }
@@ -94,6 +93,14 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
         return following;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public Boolean getUserCommented() {
+        return userCommented;
+    }
+
     public String getResult() {
         return result;
     }
@@ -109,8 +116,18 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
-                userId = userService.getUserById(SecurityContextHolder.getContext().getAuthentication().getName()).getUserId();
+                UserInfo user = userService.getUserById(authentication.getName());
+                userId = user.getUserId();
                 following = authorService.isUserFollowingAuthor(userId, authorId);
+
+                //Check if user has commented on the same author
+                for(AuthorReview userComment : user.getAuthorReviewsByUserId()) {
+                    if(userComment.getAuthorInfoByAuthorId().getAuthorId().equals(authorId)) {
+                        userCommented=true;
+                        break;
+                    }
+                }
+
             }
 
         } catch (Exception e) {
@@ -119,22 +136,54 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
         return SUCCESS;
     }
 
-    public String saveAuthorReview() {
+    public String saveComment() {
         try{
-            AuthorReview authorReview = new AuthorReview();
-            authorReview.setReviewTitle(reviewTitle);
-            authorReview.setReview(review);
-            authorReview.setTimeOfReview(new Date());
-            authorReview.setAuthorInfoByAuthorId(authorService.getAuthorById(authorId));
-            authorReview.setUserInfoByUserId(userService.getUserById(SecurityContextHolder.getContext().getAuthentication().getName()));
-            authorReviewService.saveAuthorReview(authorReview);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
 
-            execute();
+                //Check if user has already commented on this author, if tru then return error
+                for(AuthorReview userComment : userService.getUserById(authentication.getName()).getAuthorReviewsByUserId()) {
+                    if(userComment.getAuthorInfoByAuthorId().getAuthorId().equals(authorId)) {
+                        return ERROR;
+                    }
+                }
 
+                AuthorReview authorReview = new AuthorReview();
+                authorReview.setReviewTitle(reviewTitle);
+                authorReview.setReview(review);
+                authorReview.setTimeOfReview(new Date());
+                authorReview.setAuthorInfoByAuthorId(authorService.getAuthorById(authorId));
+                authorReview.setUserInfoByUserId(userService.getUserById(SecurityContextHolder.getContext().getAuthentication().getName()));
+                authorReviewService.saveAuthorReview(authorReview);
+
+                execute();
+
+                return SUCCESS;
+            } else {
+                return ERROR;
+            }
         } catch (Exception e){
             e.printStackTrace();
+            return ERROR;
         }
-        return SUCCESS;
+    }
+
+    public String deleteComment() {
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+                if(authorReviewService.deleteComment(authorId, authentication.getName())) {
+                    execute();
+                    return SUCCESS;
+                }
+                else
+                    return ERROR;
+            } else
+                return ERROR;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ERROR;
+        }
     }
 
     public void setSession(Map<String, Object> stringObjectMap) {

@@ -53,6 +53,10 @@
         <action name="UnfriendRequest" class="userProfile" method="unfriend">
             <result type="json"/>
         </action>
+        <action name="AcceptRequest" class="userProfile" method="acceptRequest">
+            <result name="success">/profile.jsp</result>
+        </action>
+
         <action name="ChangePassword" class="userProfile" method="changePassword">
             <result type="json" />
         </action>
@@ -72,10 +76,19 @@
         <action name="RateBook" class="bookInfoAction" method="rateBook">
             <result type="json"/>
         </action>
+
+        <action name="RequestBook" class="bookInfoAction" method="requestBook">
+            <result type="json"/>
+        </action>
     </package>
     <package name="bookReview" extends="struts-default" namespace="/book/review">
         <action name="SaveBookReview" class="bookInfoAction" method="saveBookReview">
             <result name="success">/product.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="DeleteReview" class="bookInfoAction" method="deleteReview">
+            <result name="success">/product.jsp</result>
+            <result name="error">/error.jsp</result>
         </action>
     </package>
 
@@ -93,8 +106,13 @@
         </action>
     </package>
     <package name="authorReview" extends="struts-default" namespace="/author/review">
-        <action name="SaveAuthorReview" class="authorInfoAction" method="saveAuthorReview">
+        <action name="SaveComment" class="authorInfoAction" method="saveComment">
             <result name="success">/author.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="DeleteComment" class="authorInfoAction" method="deleteComment">
+            <result name="success">/author.jsp</result>
+            <result name="error">/error.jsp</result>
         </action>
     </package>
 
@@ -128,7 +146,7 @@
             <result name="error">/checkout-failure.jsp</result>
         </action>
         <action name="DeleteItem" class="cartAction" method="deleteItem">
-            <result name="success" type="redirect">/cart.jsp</result>
+            <result name="success">/cart.jsp</result>
         </action>
     </package>
 

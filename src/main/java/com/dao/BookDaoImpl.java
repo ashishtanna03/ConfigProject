@@ -1,13 +1,12 @@
 package com.dao;
 
-import com.pojo.hibernate.BookInfo;
-import com.pojo.hibernate.BookRating;
-import com.pojo.hibernate.UserInfo;
+import com.pojo.custom.BookDetails;
+import com.pojo.hibernate.*;
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,6 +86,62 @@ public class BookDaoImpl extends GenericDao<BookInfo> {
         } catch (Exception e) {
             e.printStackTrace();
             return new Float(0.0);
+        }
+    }
+
+    public List<BookDetails> getRelatedBooks(BookInfo book) {
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(BookInfo.class)
+                .createAlias("bookAuthorsesByBookId","authors")
+                .createAlias("authors.authorInfoByAuthorId", "author")
+                .createAlias("bookGenresesByBookId","genres")
+                .createAlias("genres.genresByGenreId", "genre");
+
+        Disjunction disjunction = Restrictions.disjunction();
+
+        for(BookAuthors bookAuthors : book.getBookAuthorsesByBookId()) {
+            disjunction.add(Restrictions.eq("author.authorId", bookAuthors.getAuthorId()));
+        }
+
+        for(BookGenres bookGenres : book.getBookGenresesByBookId()) {
+            disjunction.add(Restrictions.eq("genre.genreId", bookGenres.getGenreId()));
+        }
+
+        detachedCriteria.add(Restrictions.conjunction()
+                .add(Restrictions.eq("bookLanguage", book.getBookLanguage()))
+                .add(disjunction)
+                .add(Restrictions.ne("bookId",book.getBookId()))
+        );
+
+        detachedCriteria.setResultTransformer(DetachedCriteria.DISTINCT_ROOT_ENTITY);
+
+        List<BookDetails> relatedBooks = new ArrayList<BookDetails>(0);
+        List<BookInfo> resultList = hibernateTemplate.findByCriteria(detachedCriteria, 0, 6);
+        for(BookInfo relatedBookInfo : resultList) {
+            BookDetails relatedBookDetails = new BookDetails();
+            relatedBookDetails.setBookId(relatedBookInfo.getBookId());
+            relatedBookDetails.setBookTitle(relatedBookInfo.getBookTitle());
+            relatedBookDetails.setBookImgUrl(relatedBookInfo.getBookImgUrl());
+
+            relatedBooks.add(relatedBookDetails);
+        }
+
+        return relatedBooks;
+    }
+
+    public Boolean requestBook(BookInfo book, UserInfo user) {
+        Transaction transaction = hibernateTemplate.getSessionFactory().getCurrentSession().beginTransaction();
+        try {
+            RequestedBooks requestedBooks = new RequestedBooks();
+            requestedBooks.setBookInfoByBookId(book);
+            requestedBooks.setUserInfoByUserId(user);
+            hibernateTemplate.saveOrUpdate(requestedBooks);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            return false;
         }
     }
 }

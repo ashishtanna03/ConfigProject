@@ -153,7 +153,7 @@
             </a>
             </td>
             <td class="book-title">
-                <a href="#"><s:property value="lendByLendId.bookInfoByBookId.bookTitle"/></a>
+                <a href="/book/GetBookInfo.action?bookId=<s:property value="lendByLendId.bookInfoByBookId.bookId"/>"><s:property value="lendByLendId.bookInfoByBookId.bookTitle"/></a>
                 <s:if test="lendByLendId.bookInfoByBookId.bookAuthorsesByBookId!=null && lendByLendId.bookInfoByBookId.bookAuthorsesByBookId.size>0">
                     by&nbsp;
                     <s:iterator value="lendByLendId.bookInfoByBookId.bookAuthorsesByBookId" status="authorIteratorStatus">
@@ -166,7 +166,7 @@
                 </s:if>
             </td>
             <td>
-                <a href="/user/UserProfile.action?emailId=<s:property value="lendByLendId.userInfoByUserId.loginInfoByEmailId.emailId"/>">
+                <a href="/user/UserProfile.action?userId=<s:property value="lendByLendId.userInfoByUserId.userId"/>">
                     <s:property value="lendByLendId.userInfoByUserId.firstName"/>&nbsp;<s:property value="lendByLendId.userInfoByUserId.lastName"/>
                 </a>
             </td>

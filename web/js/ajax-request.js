@@ -16,7 +16,7 @@ req.onreadystatechange = function () {
         resJson = JSON && JSON.parse(res) || $.parseJSON(res);
         ajaxLogInRequest(resJson);
     }
-}
+};
 
 /*---------------------Login Requests----------------*/
 function sendLogInInfo(){
@@ -105,12 +105,12 @@ function ajaxLogInRequest(resJson){
                 else{authors=null;}
                 if(notificationListJson[i].objectImg==null){objectImg="/images/no-profile-pic.png";}else{objectImg=notificationListJson[i].objectImg;}
                 switch (notificationListJson[i].notificationType){
-                    case 0 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> wants to be your Friend.<br/>Accept Request? <a href='#'>Yes</a> or <a href='#'>No</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
-                    case 1 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> has accepted your Friend Request.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
-                    case 2 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> has recommended<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+" to you.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
-                    case 3 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> has requested<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+".<br/>Want to Share? <a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].bookId+"'>Yes</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
-                    case 4 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> has shared<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+".<br/>Want to Buy? <a href='#'>Yes</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
-                    case 5 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?emailId="+notificationListJson[i].emailId+"'>"+notificationListJson[i].userName+"</a> has bought the<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+" which you had shared.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 0 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> wants to be your Friend.<br/>Accept Request? <a href='/user/AcceptRequest.action?userId="+notificationListJson[i].userId+"' target='_blank'>Yes</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 1 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> has accepted your Friend Request.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 2 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> has recommended<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+" to you.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 3 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> has requested<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+".<br/>Want to Share? <a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].bookId+"'>Yes</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 4 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> has shared<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+".<br/>Want to Buy? <a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].bookId+"'>Yes</a></li><span>"+notificationListJson[i].date+"</span><hr/>";break;
+                    case 5 : notificationList.innerHTML+="<li><img src='"+objectImg+"'/><a href='/user/UserProfile.action?userId="+notificationListJson[i].userId+"'>"+notificationListJson[i].userName+"</a> has bought the<br/><a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+" which you had shared.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
                     case 6 :
                         if(notificationListJson[i].objectImg==null){objectImg="/images/no-book-cover.jpg";}else{objectImg=notificationListJson[i].objectImg;}
                         notificationList.innerHTML+="<li><img src='"+objectImg+"'/>The book <a href='/book/GetBookInfo.action?bookId="+notificationListJson[i].objectId+"'>"+notificationListJson[i].bookTitle+"</a> by "+authorList+" which you requested is now available.</li><span>"+notificationListJson[i].date+"</span><hr/>";break;
@@ -175,7 +175,7 @@ function isLoggedIn(callback){
                 callback(false);
             }
         }
-    }
+    };
     isLogReq.open('POST','/IsLoggedIn.action',true);
     isLogReq.send();
     return false;
@@ -256,7 +256,7 @@ function saveProfileChanges(){
             theButton.tooltipster('enable');
             theButton.tooltipster('show');
         }
-    }
+    };
 
     //getting selected gender value
     var genderButtons = document.getElementsByName("gender");
@@ -314,7 +314,7 @@ function changePassword(){
             theButton.tooltipster('enable');
             theButton.tooltipster('show');
         }
-    }
+    };
     var pwdUrl = "/user/ChangePassword.action?oldPassword="+document.getElementById('old_pwd').value+"&newPassword="+document.getElementById('new_pwd').value;
     pwdReq.open('POST',pwdUrl,true);
     pwdReq.send();
@@ -356,9 +356,16 @@ function followRequest(reqType,authorId){
         followReq = new ActiveXObject("Microsoft.XMLHTTP");
     }
 
+    $('.followButton').tooltipster({
+        animation: 'fade',
+        timer:2000,
+        trigger:'custom',
+        content:''
+    });
 
     if(reqType=="notLoggedIn"){
-        alert("Not Logged In");
+        $('.followButton').tooltipster('update','You must be Logged in<br/>to Follow the Author.');
+        $('.followButton').tooltipster('show');
         return;
     }
     else{
@@ -378,12 +385,16 @@ function followRequest(reqType,authorId){
                 if(reqType=="Follow"){
                     replaceWith="Unfollow";
                     replaceValueWith = "(-) Unfollow";
-                    alert("success");
+
+                    $('.followButton').tooltipster('update','You are now Following<br/>the Author.');
+                    $('.followButton').tooltipster('show');
                 }
                 else{
                     replaceWith="Follow";
                     replaceValueWith = "(+) Follow";
-                    alert("success");
+
+                    $('.followButton').tooltipster('update','Now, You won\'t get<br/>any updates of the author.');
+                    $('.followButton').tooltipster('show');
                 }
 
                 button.id=replaceWith;
@@ -391,17 +402,18 @@ function followRequest(reqType,authorId){
                 button.innerHTML = replaceValueWith;
             }
             else{
-                alert("Error..!!");
+                $('.followButton').tooltipster('update','An Error Occurred. Check<br/>if You are Logged In.');
+                $('.followButton').tooltipster('show');
             }
         }
-    }
+    };
 }
 
 /*-----------/Follow/UnFollow-----------*/
 
 /*----------Friend or Unfriend Reuest---------------*/
 
-function friendRequest(reqType,emailId){
+function friendRequest(reqType,userId){
     var friendReq, friendRes;
     var reqUrl;
     var button;
@@ -418,7 +430,7 @@ function friendRequest(reqType,emailId){
         return;
     }
     else{
-        reqUrl = "/user/"+reqType+".action?emailId="+emailId;
+        reqUrl = "/user/"+reqType+".action?userId="+userId;
     }
 
     friendReq.open('POST',reqUrl,true);
@@ -443,14 +455,14 @@ function friendRequest(reqType,emailId){
                 }
 
                 button.id=replaceWith;
-                button.onclick = function(){friendRequest(replaceWith,emailId)};
+                button.onclick = function(){friendRequest(replaceWith,userId)};
                 button.innerHTML = replaceValueWith;
             }
             else{
                 alert("Error..!!");
             }
         }
-    }
+    };
 }
 
 /*----------/Friend or Unfriend Reuest---------------*/
@@ -461,10 +473,48 @@ function shareBook(){
     var shareRes;
     var shareResJson;
     var shareReq;
+
+    var bookConditionMenu = document.getElementById('book-condition');
+    var selectedCondition = bookConditionMenu.options[bookConditionMenu.selectedIndex].value;
+
+    var bookSharingPrice = document.getElementsByName("sharingPrice")[0].value;
+    var bookMrp = document.getElementsByName("bookMrp")[0].value;
+
+    $('.tooltip').tooltipster({
+        animation: 'fade',
+        timer:2000,
+        trigger:'custom',
+        content:''/*,
+        functionAfter:function (origin){
+            $.lightbox().close();
+        } */
+    });
+
+    if(bookSharingPrice==null || bookSharingPrice==""
+        || document.getElementsByName("userAddress")[0].value==null
+        || document.getElementsByName("userAddress")[0].value==""
+        || document.getElementsByName("userContact")[0].value==null
+        || document.getElementsByName("userContact")[0].value==""
+        || document.getElementsByName("conditionDescription")[0].value==null
+        || document.getElementsByName("conditionDescription")[0].value=="") {
+
+        $('.tooltip').tooltipster('update','All fields are mandatory.');
+        $('.tooltip').tooltipster('show');
+        return;
+    }
+
+    if(parseInt(bookSharingPrice)>parseInt(bookMrp)) {
+        $('.tooltip').tooltipster('update','Points must be less than or<br/>equal to  MRP.');
+        $('.tooltip').tooltipster('show');
+        return;
+    }
+
     var shareUrl="/share/ShareBook.action?conditionDescription="+document.getElementsByName("conditionDescription")[0].value+
-        "&conditionRating="+document.getElementsByName("conditionRating")[0].value+
+        "&conditionRating="+selectedCondition+
         "&bookId="+document.getElementsByName("bookId")[0].value+
-        "&sharingPrice="+document.getElementsByName("sharingPrice")[0].value;
+        "&sharingPrice="+document.getElementsByName("sharingPrice")[0].value+
+        "&userAddress="+document.getElementsByName("userAddress")[0].value+
+        "&userContacte="+document.getElementsByName("userContact")[0].value;
 
     if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
         shareReq = new XMLHttpRequest();
@@ -475,25 +525,24 @@ function shareBook(){
 
     shareReq.onreadystatechange = function () {
         if (shareReq.readyState == 4 && shareReq.status == 200) {
+
             shareRes=shareReq.response;
             shareResJson = JSON && JSON.parse(shareRes) || $.parseJSON(shareRes);
             if(shareResJson.result=="success"){
-                $('.tooltip').tooltipster({
-                    animation: 'fade',
-                    timer:2000,
-                    trigger:'custom',
-                    content:'Book shared successfully.!',
-                    functionAfter:function (origin){
-                        $.lightbox().close();
-                    }
-                });
+                $('.tooltip').tooltipster('update','Book shared successfully.');
                 $('.tooltip').tooltipster('show');
-//                $.lightbox().close();
+            } else if(shareResJson.result=="shared") {
+                $('.tooltip').tooltipster('update','You have already shared<br/>the same book.');
+                $('.tooltip').tooltipster('show');
+            } else if(shareResJson.result=="inCart") {
+                $('.tooltip').tooltipster('update','You can\'t share the Book<br/>which is in your Cart.');
+                $('.tooltip').tooltipster('show');
             } else {
-                alert("ERROR....!!!!!!");
+                $('.tooltip').tooltipster('update','Error Occurred.<br/>Check If you are Logged In.');
+                $('.tooltip').tooltipster('show');
             }
         }
-    }
+    };
 
     shareReq.open('POST',shareUrl,true);
     shareReq.send();
@@ -503,7 +552,7 @@ function shareBook(){
 
 /*----------Rate Book--------------*/
 
-function rateBook(score,bookId) {
+function rateBook(score,bookId,buttonId) {
     var rateReq;
     var rateResJson;
     var rateRes;
@@ -520,23 +569,15 @@ function rateBook(score,bookId) {
         if (rateReq.readyState == 4 && rateReq.status == 200) {
             rateRes=rateReq.response;
             rateResJson = JSON && JSON.parse(rateRes) || $.parseJSON(rateRes);
+
             if(rateResJson.result=="success"){
-                /*$('.tooltip').tooltipster({
-                    animation: 'fade',
-                    timer:2000,
-                    trigger:'custom',
-                    content:'Book shared successfully.!',
-                    functionAfter:function (origin){
-                        $.lightbox().close();
-                    }
-                });
-                $('.tooltip').tooltipster('show');*/
-                alert("Success");
+                //Do Nothing.
             } else {
-                alert("ERROR....!!!!!!");
+                $(buttonId).tooltipster('update','An Error Occurred. Check If<br/>you are Logged In.');
+                $(buttonId).tooltipster('show');
             }
         }
-    }
+    };
 
     rateReq.open('POST',rateUrl,true);
     rateReq.send();
@@ -570,18 +611,25 @@ function addBookToCart(lendId,buttonId){
                 trigger:'custom',
                 content:''
             });
-
-            if(addToCartResJson.result=="success"){
+            if(addToCartResJson.result=="inCart"){
+                $(buttonId).tooltipster('update','Book is already in<br/>your Shopping Cart.');
+                $(buttonId).tooltipster('show');
+            }
+            else if(addToCartResJson.result=="shared"){
+                $(buttonId).tooltipster('update','You cant buy the Book,<br/>which you have shared.');
+                $(buttonId).tooltipster('show');
+            }
+            else if(addToCartResJson.result=="success"){
                 $(buttonId).tooltipster('update','Book is added to<br/>cart successfully.');
                 $(buttonId).tooltipster('show');
 //                alert("Success");
             } else {
 //                alert("ERROR....!!!!!!");
-                $(buttonId).tooltipster('update','An Error Occurred.');
+                $(buttonId).tooltipster('update','An Error Occurred. Check<br/>if You are Logged In.');
                 $(buttonId).tooltipster('show');
             }
         }
-    }
+    };
 
     addToCartReq.open('POST',addToCartUrl,true);
     addToCartReq.send();
@@ -625,10 +673,54 @@ function addBookToWishList(bookId, buttonId){
                 $(buttonId).tooltipster('show');
             }
         }
-    }
+    };
 
     addToWishListReq.open('POST',addToWishListUrl,true);
     addToWishListReq.send();
 }
 
 /*----------/Add To WishList--------------*/
+
+/*----------Add To Cart--------------*/
+
+function requestBook(bookId,buttonId){
+    var reqBookReq;
+    var reqBookResJson;
+    var reqBookRes;
+    var reqBookUrl="/book/RequestBook.action?bookId="+bookId;
+
+    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        reqBookReq = new XMLHttpRequest();
+    }
+    else {// code for IE6, IE5
+        reqBookReq = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    reqBookReq.onreadystatechange = function () {
+        if (reqBookReq.readyState == 4 && reqBookReq.status == 200) {
+            reqBookRes=reqBookReq.response;
+            reqBookResJson = JSON && JSON.parse(reqBookRes) || $.parseJSON(reqBookRes);
+            $(buttonId).tooltipster({
+                animation: 'fade',
+                timer:2000,
+                trigger:'custom',
+                content:''
+            });
+
+            if(reqBookResJson.result=="success"){
+                $(buttonId).tooltipster('update','You will be notified as soon<br/>as the book will be available');
+                $(buttonId).tooltipster('show');
+//                alert("Success");
+            } else {
+//                alert("ERROR....!!!!!!");
+                $(buttonId).tooltipster('update','An Error Occurred.');
+                $(buttonId).tooltipster('show');
+            }
+        }
+    };
+
+    reqBookReq.open('POST',reqBookUrl,true);
+    reqBookReq.send();
+}
+
+/*----------/Add To Cart--------------*/

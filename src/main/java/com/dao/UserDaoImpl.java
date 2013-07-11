@@ -145,6 +145,7 @@ public class UserDaoImpl extends GenericDao<UserInfo> {
                 } else if(friendshipMapping.getUserInfoByUser2()==user1) {
                     friendshipMapping.setStatus(4);
                 }
+                //Deleting notification if user 1 has sent friend request and user has not yet accepted
                 for(Notification notification : user2.getNotificationsByUserId_0()){
                     if(notification.getUserInfoBySenderId()==user1 && notification.getNotificationType()==0){
                         hibernateTemplate.delete(notification);
@@ -170,11 +171,11 @@ public class UserDaoImpl extends GenericDao<UserInfo> {
             if(lend.getLendStatus()==1){
                 return false;
             }
-            UserCart userCart = new UserCart();
-            userCart.setUserInfoByOwnerId(user);
-            userCart.setLendByLendId(lend);
+            UserCart newUserCart = new UserCart();
+            newUserCart.setUserInfoByOwnerId(user);
+            newUserCart.setLendByLendId(lend);
 
-            hibernateTemplate.saveOrUpdate(userCart);
+            hibernateTemplate.saveOrUpdate(newUserCart);
             transaction.commit();
             return true;
         } catch (Exception e){
@@ -197,11 +198,13 @@ public class UserDaoImpl extends GenericDao<UserInfo> {
                 borrowBook.setUserInfoByUserId(userInfo);
                 borrowBook.setBorrowStatus((short)1);
                 if(userInfo.getUserBalance()>=lend.getSharingPrice()){
-                    lend.getUserInfoByUserId().setUserBalance(lend.getUserInfoByUserId().getUserBalance()+lend.getSharingPrice());
+                    //Transferring points from buyer to sharer
+                    //lend.getUserInfoByUserId().setUserBalance(lend.getUserInfoByUserId().getUserBalance()+lend.getSharingPrice());
                     lend.setLendStatus(1);
                     updateObject(lend);
                     saveObject(borrowBook);
                     hibernateTemplate.delete(userCart);
+                    //deducting points from buyer
                     userInfo.setUserBalance(userInfo.getUserBalance() - lend.getSharingPrice());
                 }
                 else {
@@ -261,6 +264,59 @@ public class UserDaoImpl extends GenericDao<UserInfo> {
             return false;
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean acceptRequest(UserInfo receiver, UserInfo sender) {
+        Transaction transaction = hibernateTemplate.getSessionFactory().getCurrentSession().beginTransaction();
+        try {
+            DetachedCriteria detachedCriteria = DetachedCriteria.forClass(FriendshipMapping.class);
+
+            detachedCriteria.add(Restrictions.disjunction()
+                    .add(Restrictions.conjunction()
+                            .add(Restrictions.eq("userInfoByUser1", sender))
+                            .add(Restrictions.eq("userInfoByUser2", receiver))
+                    )
+                    .add(Restrictions.conjunction()
+                            .add(Restrictions.eq("userInfoByUser1", receiver))
+                            .add(Restrictions.eq("userInfoByUser2", sender))
+                    )
+            );
+            List<FriendshipMapping> friendshipMappings = hibernateTemplate.findByCriteria(detachedCriteria);
+            if(friendshipMappings.size()==1){
+                FriendshipMapping friendshipMapping = friendshipMappings.get(0);
+                if(friendshipMapping.getStatus()!=2) {
+                    friendshipMapping.setStatus(2);
+
+                    //Generating Notification for request sender
+                    Notification notification = new Notification();
+                    notification.setUserInfoBySenderId(receiver);
+                    notification.setUserInfoByReceiverId(sender);
+                    notification.setNotificationType(1); //1 = Friend Request Accepted
+                    notification.setDate(new Date());
+                    notification.setStatus(0);
+
+                    updateObject(friendshipMapping);
+                    saveObject(notification);
+
+                    //Deleting friend Request Notification of receiver
+                    for(Notification receiverNotification : receiver.getNotificationsByUserId_0()){
+                        if(receiverNotification.getUserInfoBySenderId()==sender && receiverNotification.getNotificationType()==0){
+                            hibernateTemplate.delete(receiverNotification);
+                        }
+                    }
+                }
+
+                transaction.commit();
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
             return false;
         }
     }

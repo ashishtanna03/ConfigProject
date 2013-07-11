@@ -387,7 +387,7 @@
                             <s:iterator value="user.friendshipMappingsByUserId">
                                 <s:if test="status==2">
                                     <script type="text/javascript">count++;</script>
-                                    <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUser2.loginInfoByEmailId.emailId"/>" class="suggestions">
+                                    <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUser2.userId"/>" class="suggestions">
                                         <img    alt="<s:property value="userInfoByUser2.firstName"/> <s:property value="userInfoByUser2.lastName"/>"
                                                 title="<s:property value="userInfoByUser2.firstName"/> <s:property value="userInfoByUser2.lastName"/>"
                                                 src="<s:if test="userInfoByUser2.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUser2.userImg"/></s:else>"
@@ -402,7 +402,7 @@
                             <s:iterator value="user.friendshipMappingsByUserId_0">
                                 <s:if test="status==2">
                                     <script type="text/javascript">count++;</script>
-                                    <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUser1.loginInfoByEmailId.emailId"/>" class="suggestions">
+                                    <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUser1.userId"/>" class="suggestions">
                                         <img    alt="<s:property value="userInfoByUser1.firstName"/> <s:property value="userInfoByUser1.lastName"/>"
                                                 title="<s:property value="userInfoByUser1.firstName"/> <s:property value="userInfoByUser1.lastName"/>"
                                                 src="<s:if test="userInfoByUser1.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUser1.userImg"/></s:else>"

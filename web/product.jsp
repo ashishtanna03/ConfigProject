@@ -81,21 +81,52 @@
 
     <!--star-rating-->
     <style type="text/css">
+        .bar-title {text-align: right;}
+
         .rating-div{float:left;margin-right: -9px;width: 112px!important;}
+        .user-rating-div{float:left;margin-right: -9px;width: 112px!important;}
+        .review-rating{float:left;margin-left: 3px;width: 100px!important;}
     </style>
     <script type="text/javascript" src="/js/rating/jquery.raty.min.js"></script>
     <script type="text/javascript">
         $(function(){
             $('.rating-div').raty({
                 half: true,
+                hints : ['Bad','OK','Good','Nice','Superb'],
                 click: function(score, evt) {
-                    rateBook(score,$(this).attr('bookId'));
+                    rateBook(score,$(this).attr('bookId'),'.rating-div');
+                }
+            });
+            $('.user-rating-div').raty({
+                half: true,
+                hints : ['Bad','OK','Good','Nice','Superb'],
+                score:<s:property value="userRating"/> ,
+                click: function(score, evt) {
+                    rateBook(score,$(this).attr('bookId'),'.user-rating-div');
                 }
             });
         });
     </script>
     <style type="text/css">div.carousel-rating img {width: 14px!important;height: 14px!important;float:left;}</style>
     <!--/star-rating-->
+
+    <!--Ratings-->
+    <script type="text/javascript">
+        var noOf5s=0,noOf4s=0,noOf3s=0,noOf2s=0,noOf1s=0;
+        var totalVotes=<s:property value="book.bookRatingsByBookId.size()"/>;
+        var totalRating=0;
+        <s:iterator value="book.bookRatingsByBookId">
+        totalRating+=<s:property value='rating'/>;
+        <s:if test="rating==5 || rating==4.5">noOf5s++;</s:if>
+        <s:if test="rating==4 || rating==3.5">noOf4s++;</s:if>
+        <s:if test="rating==3 || rating==2.5">noOf3s++;</s:if>
+        <s:if test="rating==2 || rating==1.5">noOf2s++;</s:if>
+        <s:if test="rating==1 || rating==0.5">noOf1s++;</s:if>
+        </s:iterator>
+
+        //$('#rating-div').attr('averageRating',totalRating/totalVotes);
+    </script>
+    <!--/Ratings-->
 
 	<script src="/js/slide.js" type="text/javascript"></script>
 	<!--for lightbox forms-->
@@ -105,6 +136,18 @@
 	<script type="text/javascript">
 		jQuery(document).ready(function(){
 			jQuery('.share-book').lightbox();
+
+            var avgRating=0;
+            if(totalVotes!=0) {
+                avgRating=(totalRating/totalVotes).toFixed(1);
+            }
+
+            jQuery('.rating-div').tooltipster({
+                animation: 'fade',
+                trigger:'hover',
+                content:'Avg. Rating : '+avgRating+'<br/>Your Rating : '+<s:if test="userRating==null || userRating==0">'N.A.'</s:if><s:else><s:property value="userRating"/></s:else>
+            });
+
 		});
   </script>
 </head>
@@ -214,7 +257,7 @@
                                                 <s:if test="book.bookGenresesByBookId==null || book.bookGenresesByBookId.size==0">N.A.</s:if>
                                                 <s:else>
                                                     <s:iterator value="book.bookGenresesByBookId" status="iteratorStatus">
-                                                        <a href="#">
+                                                        <a href="/search/LoadSearchResults.action?newRequest=true&excludeOutOfStock=false&pageNo=0&maxResults=7&filterGenre=<s:property value="genresByGenreId.genreName"/>&filterLanguage=&filterPriceRange=5&searchQuery=">
                                                             <s:property value="genresByGenreId.genreName"/>
                                                         </a>
                                                         <s:if test="#iteratorStatus.last!=true">,</s:if>
@@ -268,24 +311,10 @@
 									<!-- RATINGS STATISTICS -->
 									<div class="rating-stats">
 										<h2>Rating Stats :</h2>
-                                        <script type="text/javascript">
-                                            var noOf5s=0,noOf4s=0,noOf3s=0,noOf2s=0,noOf1s=0;
-                                            var totalVotes=<s:property value="book.bookRatingsByBookId.size()"/>;
-                                            var totalRating=0;
-                                            <s:iterator value="book.bookRatingsByBookId">
-                                            totalRating+=<s:property value='rating'/>;
-                                                <s:if test="rating==5 || rating==4.5">noOf5s++;</s:if>
-                                                <s:if test="rating==4 || rating==3.5">noOf4s++;</s:if>
-                                                <s:if test="rating==3 || rating==2.5">noOf3s++;</s:if>
-                                                <s:if test="rating==2 || rating==1.5">noOf2s++;</s:if>
-                                                <s:if test="rating==1 || rating==0.5">noOf1s++;</s:if>
-                                            </s:iterator>
 
-//                                            $('#rating-div').attr('averageRating',totalRating/totalVotes);
-                                        </script>
 										<table>
 											<tr>
-												<td>5 star</td>
+												<td class="bar-title">Superb</td>
 												<td class="bar">
 													<img src="/images/blank.png" id="bar5" />
 												</td>
@@ -293,7 +322,7 @@
 											</tr>
 
 											<tr>
-												<td>4 star</td>
+												<td class="bar-title">Nice</td>
 												<td class="bar">
 													<img src="/images/blank.png" id="bar4" />
 												</td>
@@ -301,7 +330,7 @@
 											</tr>
 
 											<tr>
-												<td>3 star</td>
+												<td class="bar-title">Good</td>
 												<td class="bar">
 													<img src="/images/blank.png" id="bar3" />
 												</td>
@@ -309,7 +338,7 @@
 											</tr>
 
 											<tr>
-												<td>2 star</td>
+												<td class="bar-title">OK</td>
 												<td class="bar">
 													<img src="/images/blank.png" id="bar2" />
 												</td>
@@ -317,7 +346,7 @@
 											</tr>
 
 											<tr>
-												<td>1 star</td>
+												<td class="bar-title">Bad</td>
 												<td class="bar">
 													<img src="/images/blank.png" id="bar1" />
 												</td>
@@ -345,7 +374,14 @@
 
 									<br/><br/>
 
+                                    <s:set var="sharedByUser" value="%{false}"/>
+                                    <s:iterator value="lendList">
+                                        <s:if test="userInfoByUserId.userId==userId">
+                                            <s:set var="sharedByUser" value="%{true}"/>
+                                        </s:if>
+                                    </s:iterator>
 
+                                    <s:if test="%{!#sharedByUser}">
                                     <s:if test="lendList !=null && lendList.size>=1">
                                         <a id="add-to-cart-button" class="button2" href="javascript:{}" style="margin-top:15px;" onclick="addBookToCart(<s:property value="lendList.get(0).lendId"/>,'#add-to-cart-button')">Add to Cart</a>
                                     </s:if>
@@ -354,12 +390,18 @@
                                     </s:else>
 
 									<a href="javascript:{}" id="add_to_wishlist" onclick="addBookToWishList(<s:property value="book.bookId"/>, '#add_to_wishlist')">Add to WishList</a>
-									<div id="share">
-										<a href="/lightbox-pages/share-book.jsp?lightbox[width]=362&lightbox[height]=338&bookId=<s:property value="book.bookId"/>" class="share-book" id="share">Share</a>
-										<div id="tooltip2">
-											<p>If you have same book, You can <b>Share</b> it for Free & can <b>Earn</b> some points to buy another Book using it.</p>
-										</div>
-									</div>
+
+                                        <s:if test="!inUsersCart">
+                                            <div id="share">
+										        <a href="/lightbox-pages/share-book.jsp?lightbox[width]=362&lightbox[height]=495&bookId=<s:property value="book.bookId"/>&mrp=<s:property value="book.bookMrp"/>&address=<s:property value="userAddress"/>&contact=<s:property value="userContact"/>" class="share-book" id="share">Share</a>
+										        <div id="tooltip2">
+											        <p>If you have same book, You can <b>Share</b> it for Free & can <b>Earn</b> some points to buy another Book using it.</p>
+										        </div>
+									        </div>
+                                        </s:if>
+                                        <s:else><br/><p style="float: left;"><b>NOTE : You can't share this book, because it's in your cart.</b></p></s:else>
+                                    </s:if>
+                                    <s:else><p style="float: left;"><b>You have Shared this Book.</b></p></s:else>
 								</div>
 							</div>
 
@@ -405,24 +447,30 @@
 												<th></th>
 											</tr>
 
-                                            <s:iterator value="lendList">
+                                            <s:iterator value="lendList" status="lendIteratorStatus">
 
 											<tr>
 												<td class="avail-prof-pic"><img src="<s:if test="userInfoByUserId.userImg==null">/images/no-profile-pic.png</s:if><s:else><s:property value="userInfoByUserId.userImg"/></s:else>"/></td>
 												<td>
-													<a class="avail-user" href="/user/UserProfile.action?emailId=<s:property value="userInfoByUserId.loginInfoByEmailId.emailId"/>"><s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/></a><br/>
-													Reputation (Votes)
+													<a class="avail-user" href="/user/UserProfile.action?userId=<s:property value="userInfoByUserId.userId"/>"><s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/></a><br/>
+													Reputation (Votes)<br/>
 													<b>Books Shared</b> : <s:property value="userInfoByUserId.lendsByUserId.size()"/>
 												</td>
 												<td class="condition">
-													<b>Condition</b> : <s:property value="conditionRating"/> stars
+													<b>Condition</b> : <s:if test="conditionRating == 1">As New</s:if><s:elseif test="conditionRating==2">Good</s:elseif><s:elseif test="conditionRating==3">Torn, But Readable</s:elseif><s:elseif test="conditionRating==4">Poor</s:elseif>
 													<p><b>Description</b> : <s:property value="conditionDescription"/></p>
 												</td>
 												<td class="avail-price">
 													<s:property value="sharingPrice"/> Points
 												</td>
-												<td id="avail-cart">
-													<a id="add_to_cart" href="#">Add to cart</a>
+												<td id="avail-cart" style="text-align: center;width: 101px;">
+                                                    <s:if test="%{!#sharedByUser}">
+													    <%--<a id="add_to_cart" href="#">Add to cart</a>--%>
+                                                        <a id="add-to-cart<s:property value="%{#lendIteratorStatus.index}"/>" class="button2" style="width: auto;" href="javascript:{}" title="Add To Cart" onclick="addBookToCart(<s:property value="lendId"/>,'#add-to-cart<s:property value="%{#lendIteratorStatus.index}"/>')">Add To Cart</a>
+                                                    </s:if>
+                                                    <s:else>
+                                                        &nbsp;-
+                                                    </s:else>
 												</td>
 											</tr>
                                             </s:iterator>
@@ -519,13 +567,13 @@
                                 <s:iterator value="bookReviews">
                                     <table class="comments_container">
                                         <tr class="comment_container">
-                                            <td rowspan="3" class="gravatar"><img
+                                            <td rowspan="3" class="gravatar" style="width: 80px;"><img
                                                     alt='<s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/>'
                                                     src='<s:if test='userInfoByUserId.userImg==null'>/images/no-profile-pic.png</s:if>
                                                         <s:else><s:property value="userInfoByUserId.userImg"/></s:else>'
                                                     class='avatar avatar-80 photo' height='80' width='80'/></td>
                                             <td>
-                                                <a href="/user/UserProfile.action?emailId=<s:property value="userInfoByUserId.loginInfoByEmailId.emailId"/>"
+                                                <a href="/user/UserProfile.action?userId=<s:property value="userInfoByUserId.userId"/>"
                                                    title="<s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/>">
                                                    <s:property value="userInfoByUserId.firstName"/> <s:property value="userInfoByUserId.lastName"/>
                                                 </a> :
@@ -534,13 +582,29 @@
                                         </tr>
                                         <tr>
                                             <td class="comment_title"><h2><s:property value="reviewTitle"/></h2></td>
-                                            <td class="comment_ratings">
-                                                Rated it :
-                                                <img src="/img/star.png"/>
-                                                <img src="/img/star.png"/>
-                                                <img src="/img/star.png"/>
-                                                <img src="/img/star.png"/>
-                                                <img src="/img/star.png"/>
+                                            <td class="comment_ratings" style="width: 180px;">
+                                                <b style="float: left;">Rated it :</b>
+                                                <div class="review-rating" id="review-rating<s:property value="bookReviewId"/>" >
+                                                </div>
+                                                <script type="text/javascript">
+                                                    var userRated=0;
+                                                    <s:iterator value="userInfoByUserId.bookRatingsByUserId">
+                                                        <s:if test="bookInfoByBookId.bookId==book.bookId">
+                                                            userRated=<s:property value="rating" />;
+                                                        </s:if>
+                                                    </s:iterator>
+                                                    if(userRated!=0) {
+                                                        $(function(){
+                                                            $('#review-rating'+<s:property value="bookReviewId"/>).raty({
+                                                                 half: true,
+                                                                readOnly : true,
+                                                                score:userRated
+                                                            });
+                                                        });
+                                                    } else {
+                                                        document.getElementById('review-rating'+<s:property value="bookReviewId" />).innerHTML = "&nbsp;Not Rated";
+                                                    }
+                                                </script>
                                             </td>
                                         </tr>
                                         <tr>
@@ -560,7 +624,7 @@
                                             <td></td>
                                             <td><%--2 of 3 users found this review helpful. <br/>Was the abover review
                                                 useful to you? <a href="#">Yes</a> / <a href="#">No</a>--%></td>
-                                            <td><%--<br/><a href="#">Report Abuse</a>--%></td>
+                                            <td><%--<br/>--%><s:if test="userId.equals(userInfoByUserId.userId)"><a href="/book/review/DeleteReview.action?bookId=<s:property value="book.bookId"/>">Delete</a></s:if></td>
                                         </tr>
                                     </table>
                                 </s:iterator>
@@ -571,7 +635,8 @@
                             </s:else>
 
 							<!--Write Comment Table-->
-							<form name="comment" action="/book/review/SaveBookReview.action" method="POST">
+                            <s:if test="!userReviewed && userId!=null">
+							<form id="write-comment" name="comment" action="/book/review/SaveBookReview.action" method="POST">
                                 <input type="hidden" name="bookId" value="<s:property value="book.bookId"/>"/>
 								<table class="write-comment">
 									<tr>
@@ -588,7 +653,7 @@
 									<tr>
 										<td class="write-comment-ratings" colspan="2">
 											<h2>Your Rating :&nbsp</h2>
-                                            <div class="rating-div" bookId="<s:property value="book.bookId"/>">
+                                            <div class="user-rating-div" bookId="<s:property value="book.bookId"/>">
                                             </div>
 											<%--<img src="/img/star.png"/>
 											<img src="/img/star.png"/>
@@ -620,40 +685,28 @@
 									</tr>
 								</table>
 							</form>
+                            </s:if>
+                            <s:elseif test="userId==null">
+                                <br/><br/><b id="write-comment" style="float: left;margin-top: 25px;">Log In to Write a Review.</b>
+                            </s:elseif>
 
 							<!-- Customizable products -->
 						</div>
 						<div class="clearblock"></div>
 					</div>
 					
-					<%--<div class="right-column">
-						<h2>Suggested Books</h2>
-						
-							<a href="#" class="suggestions">
-								<img src="/img/p/1-1-large.jpg" /><br/>
-								<p>Sed at libero lobortis donec mauris</p>
+					<div class="right-column">
+						<h2>Related Books</h2>
+						<s:if test="relatedBooks!=null && relatedBooks.size()>0">
+                            <s:iterator value="relatedBooks">
+							<a href="/book/GetBookInfo.action?bookId=<s:property value="bookId"/>" class="suggestions">
+								<img src="<s:if test='bookImgUrl==null'>/images/no-book-cover.jpg</s:if><s:else><s:property value="bookImgUrl"/></s:else>" /><br/>
+								<p><s:property value="bookTitle"/></p>
 							</a>
-						
-						
-							<a href="#" class="suggestions">
-								<img src="/img/p/3-7-home.jpg" /><br/>
-								<p>Aliquam tempor venenatis</p>
-							</a>
-						
-							<a href="#" class="suggestions">
-								<img src="/img/p/19-55-home.jpg" /><br/>
-								<p>Adipiscing tristique</p>
-							</a>
-							
-							<a href="#" class="suggestions">
-								<img src="/img/p/18-52-home.jpg" /><br/>
-								<p>Proin lacus purus</p>
-							</a>
-							<a href="#" class="suggestions">
-								<img src="/img/p/17-49-home.jpg" /><br/>
-								<p>Elementum nec risus</p>
-							</a>
-					</div>--%>
+                            </s:iterator>
+                        </s:if>
+                        <s:else><br/><center><b style="color: white;">No suggestions.</b></center><br/></s:else>
+					</div>
 					
 					<div class="right-column-ad">
 						<a href="#"><img src="/images/ad-banner.jpg" /></a>
@@ -674,6 +727,7 @@
 							<a href="#"><li>Elementum nec risus</li></a>
 						</ol>
 					</div>
+
 					
 				</div><!--/wrapper4-->
 				<!-- Footer -->

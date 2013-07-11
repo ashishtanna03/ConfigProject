@@ -11,7 +11,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class NotificationDetails {
-    private String emailId;
+    private Integer userId;
     private String userName;
     private String objectImg;
     private Integer notificationType;
@@ -20,12 +20,12 @@ public class NotificationDetails {
     private List<AuthorDetails> authors;
     private String date;
 
-    public String getEmailId() {
-        return emailId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

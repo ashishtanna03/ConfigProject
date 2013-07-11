@@ -3,6 +3,7 @@ package com.service;
 import com.dao.BookReviewDaoImpl;
 import com.pojo.hibernate.BookInfo;
 import com.pojo.hibernate.BookReview;
+import com.pojo.hibernate.UserInfo;
 
 import java.util.List;
 
@@ -33,4 +34,7 @@ public class BookReviewService {
         return bookReviewDao.getSuggestedBooks(bookId);
     }
 
+    public Boolean deleteBookReview(Integer bookId, String userEmailId) {
+        return bookReviewDao.deleteBookReview(bookId, userEmailId);
+    }
 }

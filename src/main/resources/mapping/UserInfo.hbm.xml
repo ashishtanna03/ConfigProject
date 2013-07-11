@@ -114,5 +114,11 @@
             </key>
             <one-to-many not-found="ignore" class="com.pojo.hibernate.UserCart"/>
         </set>
+        <set name="requestedBooksesByUserId" inverse="true">
+            <key>
+                <column name="user_id" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.RequestedBooks"/>
+        </set>
     </class>
 </hibernate-mapping>

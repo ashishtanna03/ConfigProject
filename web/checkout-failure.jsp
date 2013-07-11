@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="s" uri="/struts-tags" %>
+<%@taglib prefix="sx" uri="/struts-dojo-tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -35,6 +36,8 @@
 
     <script type="text/javascript" src="/js/ajax-request.js"></script>
 
+    <sx:head/>
+
     <!--Tootip-->
     <link href="/css/tooltipster/tooltipster.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="/js/tooltipster/jquery.tooltipster.min.js"></script>
@@ -69,153 +72,15 @@
 <div id="wrapper3">
 
 <!-- Panel -->
-<div id="toppanel">
-    <div id="panel">
-        <div class="content clearfix">
-            <div class="left">
-                <h1>Welcome to Reader's Hive</h1>
-                <h2>Register Or Login to Enjoy the uncomparable services.</h2><br/>
-                <p class="grey">Njoy  this new Concept of sharing Books </p>
-                <h2></h2>
-            </div>
-            <div class="left">
-                <!-- Login Form -->
-                <form class="clearfix" action="#" method="post">
-                    <h1>Member Login</h1>
-                    <label class="grey" for="log">Username:</label>
-                    <input class="field" type="text" name="log" id="log" value="" size="23" />
-                    <label class="grey" for="pwd">Password:</label>
-                    <input class="field" type="password" name="pwd" id="pwd" size="23" />
-                    <label><input name="rememberme" id="rememberme" type="checkbox" checked="checked" value="forever" /> &nbsp;Remember me</label>
-                    <div class="clear"></div>
-                    <input type="submit" name="submit" value="Login" class="bt_login" />
-                    <a class="lost-pwd" href="#">Lost your password?</a>
-                </form>
-            </div>
-            <div class="left right">
-                <!-- Register Form -->
-                <form action="#" method="post">
-                    <h1>Not a member yet? Sign Up!</h1>
-                    <label class="grey" for="signup">Username:</label>
-                    <input class="field" type="text" name="signup" id="signup" value="" size="23" />
-                    <label class="grey" for="email">Email:</label>
-                    <input class="field" type="text" name="email" id="email" size="23" />
-                    <label>A password will be e-mailed to you.</label>
-                    <input type="submit" name="submit" value="Register" class="bt_register" />
-                </form>
-            </div>
-        </div>
-    </div> <!-- /login -->
-    <!-- The tab on top -->
-    <div class="tab">
-        <ul class="login">
-            <li class="left">&nbsp;</li>
-            <li>Hello Guest!</li>
-            <li class="sep">|</li>
-            <li id="toggle">
-                <a id="open" class="open" href="#">Log In | Register</a>
-                <a id="close" style="display: none;" class="close" href="#">Close Panel</a>
-            </li>
-            <li class="right">&nbsp;</li>
-        </ul>
-    </div> <!-- / top -->
-</div> <!--panel -->
+    <s:include value="/top-panel.jsp"/>
 
 <div id="wrapper4">
 
 
 
     <!-- Header -->
-    <div id="header">
-        <a id="header_logo" href="/index.jsp" title="BOOKS STORE">
-            <img class="logo" src="/img/logo.png" alt="BOOKS STORE" />
-        </a>
-        <div id="header_right">
-            <br/>
-            <br/>
+    <jsp:include page="/header.jsp" flush="true"/>
 
-            <div class="clearblock"></div>
-            <div id="header_cart">
-                <a href="/order.htm" title="Your Shopping Cart">Cart :</a>
-                <span class="ajax_cart_quantity">1</span>
-                <span class="ajax_cart_product_txt">product</span>
-                <span class="ajax_cart_product_txt_s hidden">products</span>
-                <span class="ajax_cart_no_product hidden">(empty)</span>
-            </div>
-            <!-- /Block user information module HEADER --><!-- Block search module TOP -->
-            <div class="clearblock"></div>
-            <div id="search_block_top">
-                <form method="get" action="search.htm" id="searchbox">
-                    <input class="search_query" type="text" id="search_query_top" name="search_query" value="" />
-                    <a href="javascript:document.getElementById('searchbox').submit();"><img src="/img/search-button2.png" /></a>
-                    <input type="hidden" name="orderby" value="position" />
-                    <input type="hidden" name="orderway" value="desc" />
-                </form>
-            </div>
-            <!-- /Block search module TOP --><!-- TM Categories -->
-            <div class="clearblock"></div>
-
-            <script type="text/javascript" src="/modules/tmcategories/superfish.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $('ul.sf-menu').superfish({
-                        delay: 100,
-                        animation: {opacity:'show',height:'show'},
-                        speed: 'fast',
-                        autoArrows: false,
-                        dropShadows: false
-                    });
-                });
-            </script>
-
-            <div id="tmcategories">
-                <ul id="cat" class="sf-menu">
-                    <li class="sub">
-                        <a href="/category.htm" >Menu</a>
-                        <ul class="subcat">
-                            <li class="">
-                                <a href="/category_2.htm" >Arts &amp; Photography</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_3.htm" >Audiobooks</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_4.htm" >Audible Audiobooks</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_5.htm" >Biographies &amp; Memoirs</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_6.htm" >Business &amp; Investing</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_7.htm" >Calendars</a>
-                            </li>
-                            <li class="">
-                                <a href="/category_8.htm" >Children&#039;s Books</a>
-                            </li>
-                            <li class=" last">
-                                <a href="/category_9.htm" >Christian Books</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="">
-                        <a href="/product.jsp" >Book Page</a>
-                    </li>
-                    <li class="">
-                        <a href="/profile.jsp" >Profile Page</a>
-                    </li>
-                    <li class="">
-                        <a href="/author.jsp" >Author Page</a>
-                    </li>
-                    <li class=" last">
-                        <a href="/search.jsp" >Search Page</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /TM Categories -->
-        </div>
-    </div>
     <div id="columns" class="center_column" style="width:720px;">
 
         <!-- Center -->
