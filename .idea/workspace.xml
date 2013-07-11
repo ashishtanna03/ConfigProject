@@ -6,49 +6,15 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d56021-6916-4df7-badf-7282c08dd384" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.ids" afterPath="$PROJECT_DIR$/.idea/dataSources.ids" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/author/AuthorInfoAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/author/AuthorInfoAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dao/AuthorReviewDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/dao/AuthorReviewDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/service/AuthorReviewService.java" afterPath="$PROJECT_DIR$/src/main/java/com/service/AuthorReviewService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dao/BookDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/dao/BookDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapping/BookInfo.hbm.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapping/BookInfo.hbm.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pojo/hibernate/BookInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/pojo/hibernate/BookInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/book/BookInfoAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/book/BookInfoAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dao/BookReviewDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/dao/BookReviewDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/service/BookReviewService.java" afterPath="$PROJECT_DIR$/src/main/java/com/service/BookReviewService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/service/BookService.java" afterPath="$PROJECT_DIR$/src/main/java/com/service/BookService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/login/LoginAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/login/LoginAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pojo/custom/NotificationDetails.java" afterPath="$PROJECT_DIR$/src/main/java/com/pojo/custom/NotificationDetails.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/search/SearchAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/search/SearchAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/share/ShareBookAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/share/ShareBookAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/cart/ShoppingCartAction.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/cart/ShoppingCartAction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dao/UserDaoImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/dao/UserDaoImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/mapping/UserInfo.hbm.xml" afterPath="$PROJECT_DIR$/src/main/resources/mapping/UserInfo.hbm.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/pojo/hibernate/UserInfo.java" afterPath="$PROJECT_DIR$/src/main/java/com/pojo/hibernate/UserInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/action/user/UserProfile.java" afterPath="$PROJECT_DIR$/src/main/java/com/action/user/UserProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/service/UserService.java" afterPath="$PROJECT_DIR$/src/main/java/com/service/UserService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/ajax-request.js" afterPath="$PROJECT_DIR$/web/js/ajax-request.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/author.jsp" afterPath="$PROJECT_DIR$/web/author.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/cart.jsp" afterPath="$PROJECT_DIR$/web/cart.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/checkout-failure.jsp" afterPath="$PROJECT_DIR$/web/checkout-failure.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/checkout-success.jsp" afterPath="$PROJECT_DIR$/web/checkout-success.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/js/product.js" afterPath="$PROJECT_DIR$/web/js/product.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/product.jsp" afterPath="$PROJECT_DIR$/web/product.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/profile.jsp" afterPath="$PROJECT_DIR$/web/profile.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/search.jsp" afterPath="$PROJECT_DIR$/web/search.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/lightbox-pages/share-book.jsp" afterPath="$PROJECT_DIR$/web/lightbox-pages/share-book.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/spring-config.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/spring-config.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/struts.xml" afterPath="$PROJECT_DIR$/src/main/resources/struts.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/user-profile.jsp" afterPath="$PROJECT_DIR$/web/user-profile.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="f4d56021-6916-4df7-badf-7282c08dd384" name="Default" comment="1st commit">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/pojo/custom/BookDetails.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/pojo/hibernate/RequestedBooks.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ConfigProject.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/pom.xml" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1366925398453" ignored="false" />
-    <file path="/Dummy.txt" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1373537654843" ignored="false" />
+    <file path="/Dummy.txt" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1373539090500" ignored="false" />
     <file path="/dummy.xml" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1360408737640" ignored="false" />
     <file path="/web.xml" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1363455631671" ignored="false" />
     <file path="/index.jsp" changelist="f4d56021-6916-4df7-badf-7282c08dd384" time="1370713424234" ignored="false" />
@@ -326,7 +292,7 @@
       <file leaf-file-name="profile.jsp" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/profile.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="381" column="158" selection-start="25084" selection-end="25084" vertical-scroll-proportion="0.3317647">
+            <state line="381" column="158" selection-start="25084" selection-end="25084" vertical-scroll-proportion="0.33491686">
               <folding>
                 <marker date="1372847862140" expanded="false" signature="5161:5256" placeholder="..." />
               </folding>
@@ -1433,6 +1399,11 @@
       <created>1360405852843</created>
       <updated>1360405852843</updated>
     </task>
+    <task id="LOCAL-00001" summary="1st commit">
+      <created>1373538268421</created>
+      <updated>1373538268421</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1470,15 +1441,15 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.52895755" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13384813" sideWeight="0.67310345" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32599726" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32965517" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32599726" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14929216" sideWeight="0.6441379" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32965517" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15830116" sideWeight="0.67400277" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15830116" sideWeight="0.6703448" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35586208" sideWeight="0.48713" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25032175" sideWeight="0.21793103" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1707,7 +1678,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/profile.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="381" column="158" selection-start="25084" selection-end="25084" vertical-scroll-proportion="0.3317647">
+        <state line="381" column="158" selection-start="25084" selection-end="25084" vertical-scroll-proportion="0.33491686">
           <folding>
             <marker date="1372847862140" expanded="false" signature="5161:5256" placeholder="..." />
           </folding>
