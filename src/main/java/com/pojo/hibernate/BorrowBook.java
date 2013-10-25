@@ -1,6 +1,7 @@
 package com.pojo.hibernate;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -114,4 +115,15 @@ public class BorrowBook implements Serializable {
     public void setUserInfoByUserId(UserInfo userInfoByUserId) {
         this.userInfoByUserId = userInfoByUserId;
     }
+
+    private OrderInfo orderInfoByOrderId;
+
+    public OrderInfo getOrderInfoByOrderId() {
+        return orderInfoByOrderId;
+    }
+
+    public void setOrderInfoByOrderId(OrderInfo orderInfoByOrderId) {
+        this.orderInfoByOrderId = orderInfoByOrderId;
+    }
+
 }

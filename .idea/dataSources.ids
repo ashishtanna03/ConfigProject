@@ -55,6 +55,7 @@
       <exported-key name="author_genres_author_info" table="author_genres" schema="" catalog="book" columns="author_id" />
       <exported-key name="FK_author_review_author_info" table="author_review" schema="" catalog="book" columns="author_id" />
       <exported-key name="book_authors_author_info" table="book_authors" schema="" catalog="book" columns="author_id" />
+      <exported-key name="FK_top_ten_authors_author_info" table="top_ten_authors" schema="" catalog="book" columns="author_id" />
     </table>
     <table name="author_review" schema="" catalog="book" type="TABLE">
       <column name="author_review_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
@@ -101,13 +102,14 @@
       <exported-key name="book_authors_book_info" table="book_authors" schema="" catalog="book" columns="book_id" />
       <exported-key name="book_genres_book_info" table="book_genres" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_book_rating_book_info" table="book_rating" schema="" catalog="book" columns="book_id" />
-      <exported-key name="FK_book_request_book_info" table="book_request" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_book_review_book_info" table="book_review" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_book_review_book_info_suggested" table="book_review" schema="" catalog="book" columns="suggested_book_id" />
+      <exported-key name="FK_books_in_demand" table="books_in_demand" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_borrow_book_book_info" table="borrow_book" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_lend_book_info" table="lend" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_requested_books_book_info" table="requested_books" schema="" catalog="book" columns="book_id" />
       <exported-key name="FK_shelf_books_book_info" table="shelf_books" schema="" catalog="book" columns="book_id" />
+      <exported-key name="FK_top_ten_books_book_info" table="top_ten_books" schema="" catalog="book" columns="book_id" />
     </table>
     <table name="book_rating" schema="" catalog="book" type="TABLE">
       <column name="user_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
@@ -116,15 +118,6 @@
       <primary-key name="PRIMARY" columns="user_id,book_id" />
       <foreign-key name="FK_book_rating_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_book_rating_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
-    </table>
-    <table name="book_request" schema="" catalog="book" type="TABLE">
-      <column name="user_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
-      <column name="book_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
-      <column name="request_date_time" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
-      <column name="request_status" sqlType="SMALLINT" length="5" precision="0" nullable="false" jdbcType="5" def="MQ==" remarks="bGl2ZT0xLGRlYWQ9MA==" />
-      <primary-key name="PRIMARY" columns="user_id,book_id" />
-      <foreign-key name="FK_book_request_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
-      <foreign-key name="FK_book_request_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
     </table>
     <table name="book_review" schema="" catalog="book" type="TABLE">
       <column name="book_review_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
@@ -148,6 +141,12 @@
       <foreign-key name="FK_book_review_like_book_review" columns="book_review_id" ref-table="book_review" ref-schema="" ref-catalog="book" ref-columns="book_review_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_book_review_like_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
     </table>
+    <table name="books_in_demand" schema="" catalog="book" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="book_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FK_books_in_demand" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
+    </table>
     <table name="borrow_book" schema="" catalog="book" type="TABLE">
       <column name="borrow_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
       <column name="user_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
@@ -156,11 +155,13 @@
       <column name="borrow_date" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
       <column name="deliver_date" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93" />
       <column name="new_lend_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
-      <column name="borrow_status" sqlType="SMALLINT" length="5" precision="0" nullable="true" jdbcType="5" def="MA==" remarks="c29sZD0wLGF2YWlsYWJsZT0x" />
+      <column name="borrow_status" sqlType="SMALLINT" length="5" precision="0" nullable="true" jdbcType="5" def="MA==" remarks="MD1ib29rIG5vdCBhdmFpbCwgMT10byBiZSBwaWNrZWQgdXAsMj1pbiBwcm9jZXMgb2YgcGlja3VwLDM9Ym9vayBpcyBwaWNrZWQgdXAsND1pbiBwcm9jZXNzIG9mIGRlbGl2ZXJ5LDU9Ym9vayBkZWxpdmVyZWQsOT1zb2xkIHRvIHNvbWVvbmUgZWxzZSBieSBidXllcg==" />
+      <column name="order_id" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
       <primary-key name="PRIMARY" columns="borrow_id" />
       <foreign-key name="FK_borrow_book_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_borrow_book_lend" columns="lend_id" ref-table="lend" ref-schema="" ref-catalog="book" ref-columns="lend_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_borrow_book_lend_new" columns="new_lend_id" ref-table="lend" ref-schema="" ref-catalog="book" ref-columns="lend_id" update-rule="0" delete-rule="0" deferrability="2" />
+      <foreign-key name="FK_borrow_book_order_info" columns="order_id" ref-table="order_info" ref-schema="" ref-catalog="book" ref-columns="order_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_borrow_book_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
     </table>
     <table name="friendship_mapping" schema="" catalog="book" type="TABLE">
@@ -186,8 +187,9 @@
       <column name="sharing_price" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
       <column name="sharing_date" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93" />
       <column name="lend_status" sqlType="SMALLINT" length="5" precision="0" nullable="false" jdbcType="5" def="MA==" remarks="c2hhcmVkPTAsIGJvdWdodD0x" />
-      <column name="condition_rating" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" />
+      <column name="condition_rating" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" remarks="QXMgTmV3ID0gMSwgR29vZCA9MiwgVG9ybiA9MywgUG9vcj00" />
       <column name="condition_description" sqlType="TEXT" length="65535" precision="0" nullable="true" jdbcType="-1" />
+      <column name="reputation" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4" remarks="cmF0aW5nIGJ5IHRoZSBidXllcg==" />
       <primary-key name="PRIMARY" columns="lend_id" />
       <foreign-key name="FK_lend_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_lend_user_info" columns="user_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
@@ -215,6 +217,16 @@
       <primary-key name="PRIMARY" columns="notification_id" />
       <foreign-key name="FK_notification_user_info_receiver" columns="receiver_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_notification_user_info_sender" columns="sender_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="0" deferrability="2" />
+    </table>
+    <table name="order_info" schema="" catalog="book" type="TABLE">
+      <column name="order_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="print_date" sqlType="DATE" length="10" precision="0" nullable="true" jdbcType="91" remarks="ZGF0ZSBvb24gd2hpY2ggdGhlIGJpbGwgaXMgcHJpbnRlZA==" />
+      <column name="buyer_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <column name="shipping_address" sqlType="TEXT" length="65535" precision="0" nullable="false" jdbcType="-1" />
+      <column name="pincode" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="order_id" />
+      <foreign-key name="FK_order_info_user_info" columns="buyer_id" ref-table="user_info" ref-schema="" ref-catalog="book" ref-columns="user_id" update-rule="0" delete-rule="3" deferrability="2" />
+      <exported-key name="FK_borrow_book_order_info" table="borrow_book" schema="" catalog="book" columns="order_id" />
     </table>
     <table name="publisher_info" schema="" catalog="book" type="TABLE">
       <column name="publisher_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
@@ -244,6 +256,18 @@
       <primary-key name="PRIMARY" columns="shelf_id,book_id" />
       <foreign-key name="FK_shelf_books_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
       <foreign-key name="FK_shelf_books_shelf" columns="shelf_id" ref-table="shelf" ref-schema="" ref-catalog="book" ref-columns="shelf_id" update-rule="0" delete-rule="0" deferrability="2" />
+    </table>
+    <table name="top_ten_authors" schema="" catalog="book" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="author_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FK_top_ten_authors_author_info" columns="author_id" ref-table="author_info" ref-schema="" ref-catalog="book" ref-columns="author_id" update-rule="0" delete-rule="0" deferrability="2" />
+    </table>
+    <table name="top_ten_books" schema="" catalog="book" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true" />
+      <column name="book_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
+      <primary-key name="PRIMARY" columns="id" />
+      <foreign-key name="FK_top_ten_books_book_info" columns="book_id" ref-table="book_info" ref-schema="" ref-catalog="book" ref-columns="book_id" update-rule="0" delete-rule="0" deferrability="2" />
     </table>
     <table name="user_cart" schema="" catalog="book" type="TABLE">
       <column name="lend_id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" />
@@ -281,7 +305,6 @@
       <exported-key name="FK_author_follow_user_info" table="author_follow" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_author_review_user_info" table="author_review" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_book_rating_user_info" table="book_rating" schema="" catalog="book" columns="user_id" />
-      <exported-key name="FK_book_request_user_info" table="book_request" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_book_review_user_info" table="book_review" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_book_review_like_user_info" table="book_review_like" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_borrow_book_user_info" table="borrow_book" schema="" catalog="book" columns="user_id" />
@@ -290,6 +313,7 @@
       <exported-key name="FK_lend_user_info" table="lend" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_notification_user_info_receiver" table="notification" schema="" catalog="book" columns="receiver_id" />
       <exported-key name="FK_notification_user_info_sender" table="notification" schema="" catalog="book" columns="sender_id" />
+      <exported-key name="FK_order_info_user_info" table="order_info" schema="" catalog="book" columns="buyer_id" />
       <exported-key name="FK_requested_books_user_info" table="requested_books" schema="" catalog="book" columns="user_id" />
       <exported-key name="FK_shelf_user_info" table="shelf" schema="" catalog="book" columns="owner_id" />
       <exported-key name="FK_user_cart_user_info" table="user_cart" schema="" catalog="book" columns="owner_id" />

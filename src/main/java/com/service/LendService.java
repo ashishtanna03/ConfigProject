@@ -42,4 +42,17 @@ public class LendService {
     public Lend getLendById(Integer lendId) {
         return lendDao.getLendById(lendId);
     }
+
+    public Boolean unshareBook(Integer lendId) {
+        Lend lend = getLendById(lendId);
+        List<UserInfo> friends = new ArrayList<UserInfo>(0);
+        for (FriendshipMapping friendshipMapping : lend.getUserInfoByUserId().getFriendshipMappingsByUserId()) {
+            friends.add(friendshipMapping.getUserInfoByUser2());
+        }
+        for (FriendshipMapping friendshipMapping : lend.getUserInfoByUserId().getFriendshipMappingsByUserId_0()) {
+            friends.add(friendshipMapping.getUserInfoByUser1());
+        }
+        return lendDao.unshareBook(lend, friends);
+    }
+
 }

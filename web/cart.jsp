@@ -6,7 +6,7 @@
 <head>
     <title>Your Cart - Reader's Hive</title>
 
-    <meta name="description" content="<s:property value="book.bookDescription"/>" />
+    <meta name="description" content="" />
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
     <meta name="generator" content="PrestaShop" />
     <meta name="robots" content="index,follow" />
@@ -14,7 +14,6 @@
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
     <meta content="utf-8" http-equiv="encoding"/>
 
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/img/favicon.ico" />
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
 
     <link href="/css/global.css" rel="stylesheet" type="text/css" media="all" />
@@ -22,23 +21,14 @@
 
     <link href="/css/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
 
-    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/css/slide.css" type="text/css" media="screen" />
-
     <script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.easing.1.3.js"></script>
-    <%--<script type="text/javascript" src="/js/tools.js"></script>--%>
     <script type="text/javascript" src="/js/jquery/jquery.fancybox-1.3.4.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.idTabs.modified.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.scrollTo-1.4.2-min.js"></script>
     <script type="text/javascript" src="/js/jquery/jquery.serialScroll-1.2.2-min.js"></script>
-    <%--<script type="text/javascript" src="/js/tools2.js"></script>--%>
 
     <sx:head />
-
-    <script type="text/javascript" src="/js/ajax-request.js"></script>
-
-    <script src="/js/top-panel-input.js" type="text/javascript"></script>
 
     <!--shopping cart table-->
     <style type="text/css">
@@ -59,8 +49,6 @@
     <!--/shopping cart table-->
 
     <!--Tootip-->
-    <link href="/css/tooltipster/tooltipster.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/js/tooltipster/jquery.tooltipster.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('.tooltip').tooltipster({
@@ -69,24 +57,15 @@
                 trigger:'custom'
             });
 
+            $('.cart-tooltip').tooltipster({
+                animation: 'fade',
+                position:'bottom'
+            });
         });
     </script>
     <!--/Tootip-->
 
-    <!--ellipsis-->
-    <script type="text/javascript" src="/js/jquery.dotdotdot-1.5.6.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $(".ellipsis").dotdotdot();
-        });
-    </script>
-    <!--/ellipsis-->
-
-    <script src="/js/slide.js" type="text/javascript"></script>
     <!--for lightbox forms-->
-    <link rel="stylesheet" type="text/css" href="/js/lightbox/jquery.lightbox.css" />
-    <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/javascript/lightbox/themes/default/jquery.lightbox.ie6.css" /><![endif]-->
-    <script type="text/javascript" src="/js/lightbox/jquery.lightbox.js"></script>
     <script type="text/javascript">
         jQuery(document).ready(function(){
             jQuery('#shipping-add').lightbox();
@@ -103,7 +82,7 @@
 <!--Top Panel-->
 <s:include value="/top-panel.jsp"/>
 
-<div id="wrapper4" style="min-height:1400px;">
+<div id="wrapper4" >
 
 <!-- Header -->
 <jsp:include page="/header.jsp" flush="true"/>
@@ -140,10 +119,11 @@
         </tr>
 
         <s:set var="totalPoints" value="%{0}" />
+        <s:set var="totalBooks" value="%{0}" /> <!--Total available books-->
         <s:set var="totalDeliveryCharges" value="%{0}" />
 
         <s:iterator value="user.userCartsByUserId" status="iteratorStatus">
-        <s:if test="lendByLendId.lendStatus!=1">
+        <%--<s:if test="lendByLendId.lendStatus!=1">--%>
         <tr class="items">
             <th><s:property value="%{#iteratorStatus.index+1}"/>.</th>
             <td><a href="/book/GetBookInfo.action?bookId=<s:property value="lendByLendId.bookInfoByBookId.bookId"/>">
@@ -159,8 +139,7 @@
                     <s:iterator value="lendByLendId.bookInfoByBookId.bookAuthorsesByBookId" status="authorIteratorStatus">
                         <a href="/author/GetAuthorInfo.action?authorId=<s:property value="authorInfoByAuthorId.authorId"/>"
                            title="<s:property value="authorInfoByAuthorId.authorName"/>">
-                            <s:property value="authorInfoByAuthorId.authorName"/>
-                        </a>
+                            <s:property value="authorInfoByAuthorId.authorName"/></a>
                         <s:if test="#authorIteratorStatus.last!=true">,</s:if>
                     </s:iterator>
                 </s:if>
@@ -171,16 +150,28 @@
                 </a>
             </td>
             <td>
-                <img src="/img/icon/available.png" alt="Available"/>
+                <s:if test="lendByLendId.lendStatus!=1">
+                    <img src="/img/icon/available.png" class="cart-tooltip" alt="Available" title="Book is available" />
+
+                    <!--For total available books, total price & total delivery charges-->
+                    <s:set var="totalPoints" value="%{#attr.totalPoints + lendByLendId.sharingPrice}" />
+                    <s:set var="totalBooks" value="%{#attr.totalBooks + 1}" />
+                    <s:if test="%{#totalBooks>1}">
+                        <s:set var="totalDeliveryCharges" value="%{#attr.totalDeliveryCharges + 20}" />
+                    </s:if>
+                    <s:else>
+                        <s:set var="totalDeliveryCharges" value="%{#attr.totalDeliveryCharges + 40}" />
+                    </s:else>
+
+                </s:if>
+                <s:else>
+                    <img src="/img/icon/not_available.png" class="cart-tooltip" alt="Not Available" title="The book you bought is sold.<br/>But, you can check if another user<br/>has shared the same book." />
+                </s:else>
             </td>
             <td><s:property value="lendByLendId.sharingPrice"/> Points</td>
-            <td><a href="/cart/DeleteItem.action?lendId=<s:property value="lendByLendId.lendId"/>"><img src="/js/rating/img/cancel-on.png" alt="Remove"/></a></td>
+            <td><a href="/cart/DeleteItem.action?lendId=<s:property value="lendByLendId.lendId"/>"><img src="/js/rating/img/cancel-on.png" alt="Remove" title="Remove Book from Cart" /></a></td>
         </tr>
-
-            <!--For total price & total delivery charges-->
-            <s:set var="totalPoints" value="%{#attr.totalPoints + lendByLendId.sharingPrice}" />
-            <s:set var="totalDeliveryCharges" value="%{#attr.totalDeliveryCharges + 50}" />
-            </s:if>
+            <%--</s:if>--%>
         </s:iterator>
     </table>
     <hr id="separator"/>
@@ -188,8 +179,8 @@
     <div id="cart-summary">
         <table>
             <tr>
-                <th>Total Books :&nbsp;</th>
-                <td><s:property value="user.userCartsByUserId.size()"/></td>
+                <th>Total Available Books :&nbsp;</th>
+                <td><s:property value="%{'' + #attr.totalBooks}" /></td>
             </tr>
             <tr>
                 <th>Total Bill :&nbsp;</th>
@@ -199,20 +190,26 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr class="cart-tooltip" title="If you order more than 1 book,<br/>then delivery charges of 1 book will<br/>be 40 Rs. and for others will be 20 Rs.<br/>If only 1 available book is in cart then<br/>delivery charges will be 40 Rs.">
                 <th>Total Delivery Charges :&nbsp;</th>
                 <td>
-                    <s:property value="%{'' + #attr.totalDeliveryCharges}" />Rs.
+                    <s:property value="%{'' + #attr.totalDeliveryCharges}" /> Rs.
                 </td>
             </tr>
         </table>
 
-        <s:if test="%{#totalPoints<=user.userBalance}">
+        <s:if test="%{#totalPoints<=user.userBalance && #totalBooks>0}">
             <%--<a href="#" class="button2" style="float: right;">Checkout >></a>--%>
             <form action="/cart/Checkout.action" method="post">
-                <a href="/lightbox-pages/shipping-address.jsp?lightbox[width]=362&lightbox[height]=300&address=<s:property value="user.userAddress"/>&contactNo=<s:property value="user.userContact"/>" class="button2"id="shipping-add">Checkout >></a>
+                <a href="/lightbox-pages/shipping-address.jsp?lightbox[width]=362&lightbox[height]=350&address=<s:property value="user.userAddress"/>&contactNo=<s:property value="user.userContact"/>&pincode=<s:property value="user.userPostalCode"/>"
+                   class="button2 cart-tooltip" id="shipping-add"
+                   title="Only the books which are currently<br/>available will be added in the final<br/>order. And, the books which are not<br/>available will be removed from the cart."
+                        >Checkout >></a>
             </form>
         </s:if>
+        <s:elseif test="%{#totalBooks==0}">
+            <br/><b>You don't have any books available in your cart.</b>
+        </s:elseif>
         <s:else>
             <br/><b>You don't have enough points<br/>to buy these books.</b>
         </s:else>
@@ -233,7 +230,7 @@
 <div class="clearblock"></div>
 </div>
 
-<div class="right-column">
+<%--<div class="right-column">
     <h2>Suggested Books</h2>
 
     <a href="#" class="suggestions">
@@ -260,72 +257,26 @@
         <img src="/img/p/17-49-home.jpg" /><br/>
         <p>Elementum nec risus</p>
     </a>
-</div>
+</div>--%>
 
-<div class="right-column-ad">
-    <a href="#"><img src="/images/ad-banner.jpg" /></a>
-</div>
+    <div class="right-column-ad" style="margin-top: 80px;">
+        <a href="#"><img src="/images/ad-banner.jpg" /></a>
+    </div>
 
-<div class="right-column-top10">
-    <h2>Popular Books</h2>
-    <ol type="1">
-        <a href="#"><li>Sed at libero lobortis donec mauris</li></a>
-        <a href="#"><li>Aliquam tempor venenatis</li></a>
-        <a href="#"><li>Adipiscing tristique</li></a>
-        <a href="#"><li>Proin lacus purus</li></a>
-        <a href="#"><li>Elementum nec risus</li></a>
-        <a href="#"><li>Sed at libero lobortis donec mauris</li></a>
-        <a href="#"><li>Aliquam tempor venenatis</li></a>
-        <a href="#"><li>Adipiscing tristique</li></a>
-        <a href="#"><li>Proin lacus purus</li></a>
-        <a href="#"><li>Elementum nec risus</li></a>
-    </ol>
-</div>
+    <div class="right-column-top10">
+        <h2>Popular Books</h2>
+        <ol type="1">
+            <s:iterator value="topTenBooks">
+                <a href="/book/GetBookInfo.action?bookId=<s:property value="bookId"/>" title="<s:property value="bookTitle"/>"><li><s:property value="bookTitle"/></li></a>
+            </s:iterator>
+        </ol>
+    </div>
 
 </div><!--/wrapper4-->
-<!-- Footer -->
-<div id="footer_wrapper">
-    <div id="footer">
-        <div id="tmfooterlinks">
-            <div>
-                <h4>Information</h4>
-                <ul>
-                    <li><a href="contact-form.htm">Contact</a></li>
-                    <li><a href="cms.htm">Delivery</a></li>
-                    <li><a href="cms_2.htm">Legal Notice</a></li>
-                    <li><a href="cms_3.htm">Terms and conditions</a></li>
-                    <li><a href="cms_4.htm">About us</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Our offers</h4>
-                <ul>
-                    <li><a href="new-products.htm">New products</a></li>
-                    <li><a href="best-sales.htm">Top sellers</a></li>
-                    <li><a href="search.jsp">Specials</a></li>
-                    <li><a href="manufacturer.htm">Manufacturers</a></li>
-                    <li><a href="supplier.htm">Suppliers</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Your Account</h4>
-                <ul>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/my-account.php">Your Account</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/identity.php">Personal information</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/addresses.php">Addresses</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/discount.php">Discount</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/history.php">Order history</a></li>
-                </ul>
-            </div>
-            <p>&copy; 2012 Powered by <a href="#">JUSDIAS Inc</a>. All rights reserved</p>
-        </div><!-- tmsocial -->
-        <div id="tmsocial">
-            <a class="banner1" href='http://livedemo00.template-help.com/twitter.com/twitter_default_2.html'><img src='/modules/tmsocial/slides/slide_00.png'alt="" title="" /></a>
-            <a class="banner2" href='http://facebook.com'><img src='/modules/tmsocial/slides/slide_01.png'alt="" title="" /></a>
-        </div>
-        <!-- /tmsocial -->
-    </div>
-</div>
+
+    <!-- Footer -->
+    <s:include value="footer.jsp" />
+
 </div>
 </div>
 </div>

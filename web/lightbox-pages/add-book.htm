@@ -1,27 +1,33 @@
 <html>
 <head>
 	<link href="/css/global.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript" src="/lightbox-pages/crop-image.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#cropUploadedImage").lightbox();
+        });
+    </script>
 
-	<title>FeedBack</title>
+	<title>Add Book</title>
 	<style>
-		#signup-form h1{font-size:1.4em;font-weight:bold;padding-bottom:15px;margin-left:-15px;}
+		#signup-form h1{font-size:1.5em;font-weight:bold;padding-bottom:15px;margin-left:-15px;text-align: center;}
 		div#signup-form{padding:30px;}
-		#signupform th{font-size:1.2em;margin-bottom:5px;width:auto;float:left;font-weight:bold;margin-top:3px;}
-		#signupform .add-txt{background:#EDEDED;border-radius: 4px 4px 4px 4px;padding: 3px 5px;margin:0px 4px 4px 4px;}
+		#add-book-form th{font-size:1.2em;margin-bottom:5px;width:118px;float:left;font-weight:bold;margin-top:3px;text-align: right;}
+		#add-book-form .add-txt{background:#EDEDED;border-radius: 4px 4px 4px 4px;padding: 3px 5px;margin:0px 4px 4px 4px;}
 	</style>
 </head>
 <body style="margin-left:25px;margin-top:25px;">
 	
 	<div id="signup-form">
 		<h1 >Add Book</h1>
-		<form id="signupform" action="#" method="post" autocomplete="off">
+		<form id="add-book-form" action="/book/AddBook.action" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<th>
 						Book Title: 
 					</th>
 					<td>
-						<input type="text" name="" value="" class="add-txt"/><br/>
+						<input type="text" required="true" name="bookTitle" maxlength="60" id="add-book-title" class="add-txt"/><br/>
 					</td>
 				</tr>
 				<tr>
@@ -29,23 +35,21 @@
 						Book Cover :<br/>
 					</th>
 					<td>
-						<input type="file" name="" value="" class="add-txt"/><br/>
+						<input type="file" id="add-book-cover" name="bookImg" class="add-txt" onchange="cropUploadedImage('add-book-cover');"/><br/>
+                        <input type="hidden" name="imageX" id="imageX" />
+                        <input type="hidden" name="imageY" id="imageY" />
+                        <input type="hidden" name="imageW" id="imageW" />
+                        <input type="hidden" name="imageH" id="imageH" />
+                        <a href="/lightbox-pages/crop-image.jsp?lightbox[width]=800&lightbox[height]=600" style="display: none;" id="cropUploadedImage">Crop Uploaded Image</a>
+                        <img id="uploadedImage" style="display: none;" />
 					</td>
 				</tr>
 				<tr>
 					<th>
-						Author :
+						Publishing Year :
 					</th>
 					<td>
-						<input type="text" name="" value="" class="add-txt"/><br/>
-					</td>
-				</tr>
-				<tr>
-					<th>
-						Genre :
-					</th>
-					<td>
-						<input type="text" name="" value="" class="add-txt"/><br/>
+						<input type="text" name="publishingYear" maxlength="4" id="add-book-year" onkeypress="validateContactNumber(event);" class="add-txt"/><br/>
 					</td>
 				</tr>
 				<tr>					
@@ -53,21 +57,30 @@
 						ISBN :
 					</th>
 					<td>
-						<input type="text" name="" value="" class="add-txt"/><br/>
+						<input type="text" required="true" maxlength="13" name="isbn" onkeypress="validateContactNumber(event);" id="add-book-isbn" class="add-txt"/><br/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						Book MRP :
+					</th>
+					<td>
+						<input type="text" required="true" name="bookMrp" onkeypress="validateContactNumber(event);" id="add-book-mrp" maxlength="4" class="add-txt"/><br/>
 					</td>
 				</tr>
 				<tr>					
-					<th >
+					<th style="text-align: left;">
 						Description :
 					</th>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textarea rows="7" cols="50" class="area_feed price-txt" ></textarea><br/>
+						<textarea rows="7" cols="50" name="bookDescription" id="add-book-description" class="area_feed price-txt" ></textarea><br/>
 					</td>
 				</tr>
 			</table>
-			<a class="button2" href="#"id="share">ADD</a>
+            <br/>
+			<a class="button2" href="javascript:{}" onclick="addBookToSystem();" id="add-book-btn">Add Book</a>
 		</form>
 		
 	</div>

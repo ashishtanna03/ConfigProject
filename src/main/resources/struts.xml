@@ -6,10 +6,22 @@
 <struts>
     <bean type="com.opensymphony.xwork2.ObjectFactory" class="org.apache.struts2.spring.StrutsSpringObjectFactory"/>
 
+    <package name="default" extends="json-default" namespace="/">
+        <action name="HomePageShelves" class="homePageAction">
+            <result name="success">/homepage-shelves.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+
+        <action name="SendMessage" class="sendMessageAction" method="sendMessage">
+            <result type="json" />
+        </action>
+    </package>
+
     <package name="login" extends="json-default" namespace="/">
+
         <action name="LogIn" class="logIn" method="logIn">
-            <result type="json">
-            </result>
+            <result type="json" name="success"/>
+            <result name="error">/custom-message-page.jsp</result>
         </action>
 
         <action name="BadLogIn" class="logIn" method="badLogIn">
@@ -27,14 +39,36 @@
         <action name="LoggedIn" class="logIn" method="loggedIn">
             <result type="json" />
         </action>
+
+        <action name="ResetPasswordMail" class="register" method="resetPasswordMail">
+            <result name="success">/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="ResetPasswordPage" class="register" method="verifyResetPasswordLink">
+            <result name="success">/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="ResetPassword" class="userProfile" method="resetPassword">
+            <result name="success">/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+
     </package>
 
     <package name="register" namespace="/register" extends="json-default">
         <action name="Register" class="register" method="register">
-            <result type="json"/>
+            <result name="success">
+                /custom-message-page.jsp
+            </result>
+            <result name="error">/error.jsp</result>
         </action>
         <action name="ActivateAccount" class="register" method="activateAccount">
-            <result type="json"/>
+            <result name="success">/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="ResendActivationMail" class="register" method="resendActivationMail">
+            <result name="success">/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
         </action>
     </package>
 
@@ -43,22 +77,89 @@
             <result name="LoggedIn">/user-profile.jsp</result>
             <result name="NotLoggedIn">/profile.jsp</result>
         </action>
-        <action name="EditUserProfile" class="userProfile" method="viewEditProfile">
+        <action name="EditUserProfile" class="viewEditProfile" method="viewEditProfile">
             <result name="success">/edit-profile.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="ViewAllFriends" class="userProfile" method="viewAllFriendsAndFollows">
+            <result name="success">/view-all-friends.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="ViewAllFollows" class="userProfile" method="viewAllFriendsAndFollows">
+            <result name="success">/view-all-follows.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+
+        <action name="OrderHistory" class="userProfile" method="viewOrderHistory">
+            <result name="success">/order.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="CancelOrder" class="userProfile" method="cancelOrder">
+            <result name="success" type="redirectAction">
+                <param name="actionName">OrderHistory</param>
+            </result>
+            <result name="error">/error.jsp</result>
         </action>
 
         <action name="FriendRequest" class="userProfile" method="addAsFriend">
             <result type="json"/>
         </action>
+        <action name="CancelRequest" class="userProfile" method="cancelFriendRequest">
+            <result type="json" />
+        </action>
         <action name="UnfriendRequest" class="userProfile" method="unfriend">
             <result type="json"/>
         </action>
         <action name="AcceptRequest" class="userProfile" method="acceptRequest">
-            <result name="success">/profile.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">UserProfile</param>
+                <param name="userId">${userId}</param>
+            </result>
+            <result name="error">/error.jsp</result>
         </action>
 
         <action name="ChangePassword" class="userProfile" method="changePassword">
             <result type="json" />
+        </action>
+        <action name="ChangeContactNo" class="userProfile" method="changeContactNo">
+            <result name="success" type="redirectAction">
+                <param name="actionName">EditUserProfile</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="exists">
+                /custom-message-page.jsp
+            </result>
+            <result name="error">
+                /error.jsp
+            </result>
+        </action>
+        
+        <action name="SetUserReputation" class="userProfile" method="setUserReputation">
+            <result type="json" />
+        </action>
+
+        <action name="UploadProfilePicture" class="uploadImageAction" method="uploadProfilePicture">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">41943040</param><!--5 MB-->
+                <param name="allowedTypes">
+                    image/jpg,image/jpeg,image/pjpeg
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack" />
+            <result name="success" type="redirectAction">
+                <param name="actionName">UserProfile</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="input">/error.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+
+        <action name="RemoveRequestedBook" class="userProfile" method="removeRequestedBook">
+            <result name="success" type="redirectAction">
+                <param name="actionName">UserProfile</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="error">/error.jsp</result>
         </action>
     </package>
     
@@ -80,6 +181,18 @@
         <action name="RequestBook" class="bookInfoAction" method="requestBook">
             <result type="json"/>
         </action>
+
+        <action name="AddBook" class="addBookAction" method="addBook">
+            <interceptor-ref name="fileUpload">
+                <param name="allowedTypes">
+                    image/jpg,image/jpeg,image/pjpeg
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack" />
+            <result name="success" >/custom-message-page.jsp</result>
+            <result name="error">/error.jsp</result>
+            <result name="input">/error.jsp</result>
+        </action>
     </package>
     <package name="bookReview" extends="struts-default" namespace="/book/review">
         <action name="SaveBookReview" class="bookInfoAction" method="saveBookReview">
@@ -95,6 +208,10 @@
     <package name="author" extends="json-default" namespace="/author">
         <action name="GetAuthorInfo" class="authorInfoAction">
             <result name="success">/author.jsp</result>
+        </action>
+        <action name="ViewAllFollowers" class="authorInfoAction" method="viewAllFollowers">
+            <result name="success">/view-all-followers.jsp</result>
+            <result name="error">/error.jsp</result>
         </action>
 
         <action name="Follow" class="authorInfoAction" method="follow">
@@ -132,6 +249,9 @@
         <action name="ShareBook" class="shareBookAction" method="shareBook">
             <result type="json"/>
         </action>
+        <action name="UnshareBook" class="shareBookAction" method="unshareBook">
+            <result type="json"/>
+        </action>
     </package>
 
     <package name="cart" extends="json-default" namespace="/cart">
@@ -146,13 +266,122 @@
             <result name="error">/checkout-failure.jsp</result>
         </action>
         <action name="DeleteItem" class="cartAction" method="deleteItem">
-            <result name="success">/cart.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">ViewCart</param>
+            </result>
         </action>
     </package>
 
     <package name="shelf" extends="json-default" namespace="/shelf">
         <action name="AddToWishList" class="wishListAction" method="addToWishList">
             <result type="json" />
+        </action>
+        <action name="RemoveBook" class="wishListAction" method="removeBook">
+            <result name="success" type="redirectAction">
+                <param name="actionName">UserProfile.action</param>
+                <param name="namespace">/user</param>
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+    </package>
+
+    <package name="admin" extends="json-default" namespace="/admin">
+        <action name="AddNewBook" class="adminPanelAction" method="addNewBook">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">41943040</param><!--5 MB-->
+                <param name="allowedTypes">
+                    image/jpg,image/jpeg,image/pjpeg
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack" />
+            <result name="success" type="redirectAction">
+                <param name="actionName">AddNewBookPage</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="AddNewBookPage" class="adminPanelAction" method="getAllLists">
+            <result name="success">/admin/add-new-book.jsp</result>
+        </action>
+        <action name="AddNewAuthorPage" class="adminPanelAction" method="getGenresList">
+            <result name="success">/admin/add-new-author.jsp</result>
+        </action>
+        <action name="AddNewAuthor" class="adminPanelAction" method="addNewAuthor">
+            <interceptor-ref name="fileUpload">
+                <param name="maximumSize">41943040</param><!--5 MB-->
+                <param name="allowedTypes">
+                    image/jpg,image/jpeg,image/pjpeg
+                </param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack" />
+            <result name="success" type="redirectAction">
+                <param name="actionName">AddNewAuthorPage</param>
+                <param name="namespace">/admin</param>
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="AddNewPublisher" class="adminPanelAction" method="addNewPublisher">
+            <result name="success" type="redirect">
+                /admin/add-new-publisher.jsp
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="AddNewGenre" class="adminPanelAction" method="addNewGenre">
+            <result name="success" type="redirect">
+                /admin/add-new-genre.jsp
+            </result>
+            <result name="error">/error.jsp</result>
+        </action>
+    </package>
+
+    <package name="AdminPanelOrders" extends="json-default" namespace="/admin/orders">
+        <action name="ToBePickedUp" class="adminPanelOrdersAction" method="toBePickedUpList">
+            <result name="success">
+                /admin/to-be-picked-up.jsp
+            </result>
+        </action>
+        <action name="PrintPickUpList" class="adminPanelOrdersAction" method="printPickUpList">
+            <result name="success">
+                /admin/print-pickups-list.jsp
+            </result>
+        </action>
+
+        <action name="InPickUpProcess" class="adminPanelOrdersAction" method="inPickUpProcessList">
+            <result name="success">
+                /admin/in-pick-up-process.jsp
+            </result>
+        </action>
+        <action name="MarkAsPickedUp" class="adminPanelOrdersAction" method="markSelectedAsPickedUp">
+            <result type="json" />
+        </action>
+        <action name="MarkAsNotAvailable" class="adminPanelOrdersAction" method="markSelectedAsNotAvailable">
+            <result type="json" />
+        </action>
+
+        <action name="PickedUpBooks" class="adminPanelOrdersAction" method="pickedUpList">
+            <result name="success">
+                /admin/picked-up-books.jsp
+            </result>
+        </action>
+        <action name="PrintDeliveryList" class="adminPanelOrdersAction" method="printDeliveryList">
+            <result name="success">
+                /admin/print-deliveries-list.jsp
+            </result>
+        </action>
+
+        <action name="InDeliveryProcess" class="adminPanelOrdersAction" method="inDeliveryProcessList">
+            <result name="success">
+                /admin/in-delivery-process.jsp
+            </result>
+        </action>
+        <action name="MarkAsDelivered" class="adminPanelOrdersAction" method="markSelectedAsDelivered">
+            <result type="json" />
+        </action>
+    </package>
+
+    <package name="footer" extends="struts-default" namespace="/footer">
+        <action name="RecentlySharedBooks" class="footerAction" method="getRecentlySharedBooks">
+            <result name="success">/recently-shared.jsp</result>
         </action>
     </package>
 

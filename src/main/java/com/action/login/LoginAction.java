@@ -5,6 +5,7 @@ import com.pojo.custom.AuthorDetails;
 import com.pojo.custom.NotificationDetails;
 import com.pojo.custom.UserDetails;
 import com.pojo.hibernate.*;
+import com.service.AuthorService;
 import com.service.BookService;
 import com.service.UserService;
 import org.apache.struts2.dispatcher.SessionMap;
@@ -32,10 +33,13 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
     private UserService userService;
     private BookService bookService;
+    private AuthorService authorService;
     private SessionMap sessionMap;
 
     private UserDetails user;
     private String result;
+    private String resultHeader; // for account activation error msg
+    private String resultMessage;  //   "
 
     public UserDetails getUser() {
         return user;
@@ -49,12 +53,24 @@ public class LoginAction extends ActionSupport implements SessionAware {
         this.bookService = bookService;
     }
 
+    public void setAuthorService(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+
     public void setSession(Map<String, Object> stringObjectMap) {
         this.sessionMap = (SessionMap) stringObjectMap;
     }
 
     public String getResult() {
         return result;
+    }
+
+    public String getResultMessage() {
+        return resultMessage;
+    }
+
+    public String getResultHeader() {
+        return resultHeader;
     }
 
     //First Log In Request
@@ -66,7 +82,22 @@ public class LoginAction extends ActionSupport implements SessionAware {
         userInfo = userService.getUserById(emailId);
 
         if(userInfo!=null){
-            this.setUserDetails(userInfo);
+            //checking if email is verified or not
+            if (!userInfo.getEmailVerified()) {
+                result = "inactive";
+                resultHeader = "Account not Active";
+                resultMessage = "You haven't activated your account yet." +
+                        "<br/>To active your account, click on the link provided in the mail sent by us (at the time of Registration)." +
+                        "<br/>If you can't see the mail in your Inbox, check in Spam/Junk folder. If it is in Spam/Junk folder move it in your Inbox, to get future e-mails in your Inbox directly." +
+                        "<br/>You must activate yor account to complete registration." +
+                        "<br/>If you haven't received the mail yet, <a id=\"resend-mail-btn\" href=\"/lightbox-pages/resend-activation-mail.jsp?lightbox[width]=200&lightbox[height]=100\">Click Here</a> to get it." +
+                        "<script type=\"text/javascript\">" +
+                        "$(document).ready(function(){ " +
+                        "$('#resend-mail-btn').lightbox();" +
+                        "});</script>";
+                return SUCCESS;
+            } else
+                this.setUserDetails(userInfo);
         }
 
         result = null;
@@ -123,19 +154,18 @@ public class LoginAction extends ActionSupport implements SessionAware {
             notificationDetails.setDate(sdf.format(notification.getDate()));
             notificationDetails.setNotificationType(notification.getNotificationType());
 
-            if(notification.getNotificationType()!=6){
+            if(notification.getNotificationType()<6){
                 notificationDetails.setUserName(notification.getUserInfoBySenderId().getFirstName()+" "+notification.getUserInfoBySenderId().getLastName());
                 notificationDetails.setUserId(notification.getUserInfoBySenderId().getUserId());
             }
 
-            if (notification.getNotificationType()>=2) {
+            if (notification.getNotificationType()>=2 && notification.getNotificationType()<7) {
 
                 notificationDetails.setObjectId(notification.getObjectId());
                 BookInfo book = bookService.getBookById(notification.getObjectId());
                 if (notification.getNotificationType()==6){
                     notificationDetails.setObjectImg(book.getBookImgUrl());
-                }
-                else{
+                } else{
                     notificationDetails.setObjectImg(notification.getUserInfoBySenderId().getUserImg());
                 }
 
@@ -148,6 +178,11 @@ public class LoginAction extends ActionSupport implements SessionAware {
                     authors.add(authorDetails);
                 }
                 notificationDetails.setAuthors(authors);
+            } else if(notification.getNotificationType()==7) {
+                notificationDetails.setObjectId(notification.getObjectId());
+                AuthorInfo authorInfo = authorService.getAuthorById(notification.getObjectId());
+                notificationDetails.setObjectImg(authorInfo.getAuthorImg());
+                notificationDetails.setBookTitle(authorInfo.getAuthorName());
             }
             notificationList.add(notificationDetails);
             Collections.sort(notificationList, new Comparator<NotificationDetails>() {

@@ -4,7 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.pojo.hibernate.PublisherInfo" table="publisher_info" catalog="book">
-        <id name="publisherId" column="publisher_id"/>
+        <id name="publisherId" column="publisher_id">
+            <generator class="identity" />
+        </id>
         <property name="publisherName" column="publisher_name"/>
         <set name="bookInfosByPublisherId" inverse="true">
             <key>

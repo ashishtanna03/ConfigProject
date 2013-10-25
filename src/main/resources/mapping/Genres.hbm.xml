@@ -4,7 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.pojo.hibernate.Genres" table="genres" catalog="book">
-        <id name="genreId" column="genre_id"/>
+        <id name="genreId" column="genre_id">
+            <generator class="identity" />
+        </id>
         <property name="genreName" column="genre_name"/>
         <set name="authorGenresesByGenreId" inverse="true">
             <key>

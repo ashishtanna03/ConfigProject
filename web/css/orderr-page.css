@@ -32,7 +32,7 @@ body
 {
 	
 	cursor: pointer!important;
-	padding:26px 13px 11px 12px!important;
+	padding:16px 13px 11px 12px!important;
 	border:1px solid black !important;
 	font-family:'PT Sans',sans-serif!important;
 	font-size:13px!important;
@@ -44,7 +44,7 @@ body
 
 .tabs .tab-current
 {
-	padding: 37px 13px 12px 12px!important;
+	padding: 19px 13px 12px 12px!important;
 	border-bottom:0px!important;
 	background:#ffffff!important;
 	
@@ -84,9 +84,19 @@ ul.tabs
 div.tabsContent  table#order-tb  th{font-weight:bold;font-size:1.2em;text-align:center;background:grey;color:white;border:3px solid white;vertical-align:middle;height:20px;}
 
  
-div.tabsContent  table#order-tb  td{vertical-align:middle;text-align:center;font-size:1.1em;font-weight:bold;height:140px;border-bottom:2px solid black;}
-div.tabsContent  table#order-tb  td#con-data{width:240px;font-weight:bold;font-size:1.2em;text-align:left;vertical-align:middle;}
+div.tabsContent  table#order-tb  td{vertical-align:middle;text-align:center;font-size:1.1em;font-weight:bold;padding:15px 0;border-bottom:2px solid black;}
+div.tabsContent  table#order-tb  td#con-data{font-weight:bold;font-size:1.2em;text-align:left;vertical-align:middle;}
 
 
 div.tabsContent  table#order-tb td a.user-infi {font-size:1.1em;color:#CF6B50;text-decoration:none;font-weight:bold;}
 div.tabsContent  table#order-tb td a.user-infi:hover {text-decoration:underline;}
+div.tabsContent  table#order-tb td p {width: 198px;}
+
+.column1 {width: 47px;}
+.column2 {width: 180px;}
+.column3 {width: 155px;}
+.column4 {width: 200px;}
+.column5 {width: 50px;}
+.column6 {width: 67px;}
+.column7 {width: 80px;}
+.column8 {width: 55px;}

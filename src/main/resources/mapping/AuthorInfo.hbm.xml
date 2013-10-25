@@ -4,7 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.pojo.hibernate.AuthorInfo" table="author_info" catalog="book">
-        <id name="authorId" column="author_id"/>
+        <id name="authorId" column="author_id">
+            <generator class="identity" />
+        </id>
         <property name="authorName" column="author_name"/>
         <property name="authorPenName" column="author_pen_name"/>
         <property name="authorGender" column="author_gender"/>

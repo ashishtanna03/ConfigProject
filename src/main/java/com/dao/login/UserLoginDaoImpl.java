@@ -12,16 +12,15 @@ public class UserLoginDaoImpl extends GenericDao<LoginInfo> implements UserLogin
     public LoginInfo loadUserByName(String emailId) {
         try {
             if (emailId != null && !emailId.equals("")) {
-                System.out.println("Executing");
                 List<LoginInfo> user = getByFieldName(LoginInfo.class, "emailId", emailId);
-                System.out.println("After query" + user);
-                loginInfo = user.get(0);
-                System.out.println("loginimpl : " + loginInfo.getRole());
-            }
+                if(user!=null && user.size()!=0)
+                    loginInfo = user.get(0);
+                return loginInfo;
+            } else
+                return null;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            return loginInfo;
+            return null;
         }
     }
 

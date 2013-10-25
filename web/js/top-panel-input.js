@@ -36,17 +36,30 @@ function clickonemail(){
     if(document.getElementById("email").value=="E-Mail Address"){
         document.getElementById("email").value="";
     }
+    var emailId = $("input[name=emailId]:first");
+    emailId.tooltipster('update','Note : You have to verify your<br/>E-Mail ID to complete<br/>registration. So, enter E-Mail<br/>ID of the account you<br/>can access.');
+    emailId.tooltipster('show');
 }
+
 function clickonregpwd(){
     if(document.getElementById("regpwd").value=="Password"){
         document.getElementById("regpwd").value="";
     }
 }
-function clickoncaptcha(){
+/*function clickoncaptcha(){
     if(document.getElementById("answer").value=="Enter Captcha Here"){
         document.getElementById("answer").value="";
     }
+}*/
+function clickoncontact(){
+    if(document.getElementById("contactNo").value=="Contact No."){
+        document.getElementById("contactNo").value="";
+    }
+    var contactNo = $("input[name=contactNo]:first");
+    contactNo.tooltipster('update','Note : You have to verify your<br/>Mobile No. to complete<br/>registration. So, enter Mobile<br/>No. from which you can<br/>give us a Miss call to verify.<br/>(Verification is mandatory and its<br/>Free. Call will be disconnected<br/>automatically.)');
+    contactNo.tooltipster('show');
 }
+
 function bluronfname(){
     if(document.getElementById("fname").value==""){
         document.getElementById("fname").value="First Name";
@@ -61,6 +74,7 @@ function bluronemail(){
     if(document.getElementById("email").value==""){
         document.getElementById("email").value="E-Mail Address";
     }
+    $("input[name=emailId]:first").tooltipster('hide');
 }
 function bluronregpwd(){
     if(document.getElementById("regpwd").value==""){
@@ -68,11 +82,31 @@ function bluronregpwd(){
     }
 }
 
-function bluroncaptcha(){
+/*function bluroncaptcha(){
     if(document.getElementById("answer").value==""){
         document.getElementById("answer").value="Enter Captcha Here";
     }
-}    /*
+}*/
+
+function bluroncontact(){
+    if(document.getElementById("contactNo").value==""){
+        document.getElementById("contactNo").value="Contact No.";
+    }
+    $("input[name=contactNo]:first").tooltipster('hide');
+}
+
+function validateContactNumber(evt) {
+    var theEvent = evt || window.event;
+    var key = theEvent.keyCode || theEvent.which;
+    key = String.fromCharCode( key );
+    var regex = /[0-9]|\./;
+    if( !regex.test(key) && theEvent.keyCode!=8) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+    }
+}
+
+    /*
 $(function() {
     $('searchForm').each(function() {
         $('input').keypress(function(e) {
@@ -87,13 +121,15 @@ $(function() {
      $("#j_password").keypress(function(event) {
          if (event.which == 13) {
              event.preventDefault();
+             $("#close").css("display", "block");
+             $("#open").css("display", "none");
              sendLogInInfo();
          }
      });
 
 
  });
-$(function(){
+/*$(function(){
     $("#j_username").keypress(function(event) {
         if (event.which == 13) {
             event.preventDefault();
@@ -102,7 +138,7 @@ $(function(){
     });
 
 
-});
+});      */
 $(function(){
     $("#inner_password").keypress(function(event) {
         if (event.which == 13) {
@@ -112,7 +148,7 @@ $(function(){
     });
 
 
-});
+});   /*
 $(function(){
     $("#inner_username").keypress(function(event) {
         if (event.which == 13) {
@@ -122,13 +158,14 @@ $(function(){
     });
 
 
-});
+});             */
+
 $(function() {
 
         $("answer").keypress(function(e) {
             if(e.which == 10 || e.which == 13) {
                 e.preventDefault();
-                sendRegisterInfo();
+                verifyAndSendRegisterInfo();
             }
         });
     });

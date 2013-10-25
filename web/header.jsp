@@ -2,8 +2,8 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <div id="header">
-    <a id="header_logo" href="/index.jsp" title="BOOKS STORE">
-        <img class="logo" src="/img/logo.png" alt="BOOKS STORE" />
+    <a id="header_logo" style="top:11px!important;left:3px!important;" href="/index.jsp" title="Readers Hive">
+        <img class="logo" style="width:340px!important;" src="/img/logo.png" alt="Readers Hive" title="Readers Hive" />
     </a>
     <div id="header_right">
         <br/>
@@ -21,11 +21,14 @@
         <div class="clearblock"></div>
         <div id="search_block_top">
             <form method="POST" action="/search/LoadSearchResults.action" id="searchbox" name="searchForm" accept-charset="UTF-8" >
-                <sx:autocompleter cssClass="search_query" id="search_query_top" name="searchQuery" list="suggestions" href="/list/GenerateList.action"
-                                  loadOnTextChange="true" searchType="substring" showDownArrow="false" autoComplete="false" loadMinimumCount="1" resultsLimit="5" />
+                <div>
+                    <sx:autocompleter cssClass="search_query" id="search_query_top" name="searchQuery" list="suggestions" href="/list/GenerateList.action"
+                              loadOnTextChange="true" searchType="substring" showDownArrow="false" autoComplete="false" loadMinimumCount="1" resultsLimit="5" />
+                </div>
                 <input type="hidden" name="pageNo" value="0" />
                 <input type="hidden" name="maxResults" value="7" />
                 <input type="hidden" name="newRequest" value="true" />
+                <input type="hidden" name="sortBy" value="0" />
                 <input type="hidden" name="filterGenre" value="" />
                 <input type="hidden" name="filterLanguage" value="" />
                 <input type="hidden" name="filterPriceRange" value="5" />
@@ -43,14 +46,8 @@
                             }
                         }
                 );
-            $('.jspDrag').hide();
-            $('.jspScrollable').mouseenter(function () {
-                $(this).find('.jspDrag').stop(true, true).fadeIn('slow');
-            });
 
-            $('.jspScrollable').mouseleave(function () {
-                $(this).find('.jspDrag').stop(true, true).fadeOut('slow');
-            });
+            $('#crop-profile-pic').lightbox();
 
             });
         </script>

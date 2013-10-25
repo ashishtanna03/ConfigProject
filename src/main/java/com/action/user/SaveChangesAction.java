@@ -1,12 +1,16 @@
 package com.action.user;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pojo.hibernate.Genres;
 import com.pojo.hibernate.UserInfo;
+import com.service.AuthorService;
 import com.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -26,12 +30,13 @@ public class SaveChangesAction extends ActionSupport {
     private Integer userPostalCode;
     private String userOccupation;
     private String userQualification;
-    private String userFavGenres;
+    private List<Integer> userFavGenres;
     private String userWebsite;
     private String userAddress;
     private String userContact;
 
     private UserService userService;
+    private AuthorService authorService;
 
     private String result;
 
@@ -71,7 +76,7 @@ public class SaveChangesAction extends ActionSupport {
         this.userQualification = userQualification;
     }
 
-    public void setUserFavGenres(String userFavGenres) {
+    public void setUserFavGenres(List<Integer> userFavGenres) {
         this.userFavGenres = userFavGenres;
     }
 
@@ -91,6 +96,10 @@ public class SaveChangesAction extends ActionSupport {
         this.userService = userService;
     }
 
+    public void setAuthorService(AuthorService authorService) {
+        this.authorService = authorService;
+    }
+
     public String getResult() {
         return result;
     }
@@ -105,12 +114,17 @@ public class SaveChangesAction extends ActionSupport {
         userInfo.setUserPostalCode(userPostalCode);
         userInfo.setUserOccupation(userOccupation);
         userInfo.setUserQualification(userQualification);
-//        userInfo.setUserFavGenresesByUserId(userFavGenres);
         userInfo.setUserWebsite(userWebsite);
         userInfo.setUserContact(userContact);
         userInfo.setUserAddress(userAddress);
 
-        if(userService.update(userInfo)){
+        List<Genres> userGenres = new ArrayList<Genres>(0);
+
+        for(Integer genreId : userFavGenres) {
+            userGenres.add(authorService.getGenreById(genreId));
+        }
+
+        if(userService.update(userInfo, userGenres)){
             result=SUCCESS;
         }
         else{

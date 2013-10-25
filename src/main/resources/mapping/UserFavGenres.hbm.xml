@@ -4,15 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.pojo.hibernate.UserFavGenres" table="user_fav_genres" catalog="book">
-        <composite-id mapped="true" class="com.pojo.hibernate.UserFavGenresPK">
-            <key-property name="userId" column="user_id"/>
-            <key-property name="genreId" column="genre_id"/>
+        <composite-id>
+            <key-many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo" column="user_id"/>
+            <key-many-to-one name="genresByGenreId" class="com.pojo.hibernate.Genres" column="genre_id"/>
         </composite-id>
-        <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
-            <column name="user_id" not-null="true"/>
-        </many-to-one>
-        <many-to-one name="genresByGenreId" class="com.pojo.hibernate.Genres">
-            <column name="genre_id" not-null="true"/>
-        </many-to-one>
     </class>
 </hibernate-mapping>

@@ -247,16 +247,6 @@ public class UserInfo implements Serializable{
         this.bookRatingsByUserId = bookRatingsByUserId;
     }
 
-    private Collection<BookRequest> bookRequestsByUserId;
-
-    public Collection<BookRequest> getBookRequestsByUserId() {
-        return bookRequestsByUserId;
-    }
-
-    public void setBookRequestsByUserId(Collection<BookRequest> bookRequestsByUserId) {
-        this.bookRequestsByUserId = bookRequestsByUserId;
-    }
-
     private Collection<BookReview> bookReviewsByUserId;
 
     public Collection<BookReview> getBookReviewsByUserId() {
@@ -385,5 +375,15 @@ public class UserInfo implements Serializable{
 
     public void setRequestedBooksesByUserId(Collection<RequestedBooks> requestedBooksesByUserId) {
         this.requestedBooksesByUserId = requestedBooksesByUserId;
+    }
+
+    private Collection<OrderInfo> orderInfosByUserId;
+
+    public Collection<OrderInfo> getOrderInfosByUserId() {
+        return orderInfosByUserId;
+    }
+
+    public void setOrderInfosByUserId(Collection<OrderInfo> orderInfosByUserId) {
+        this.orderInfosByUserId = orderInfosByUserId;
     }
 }

@@ -56,6 +56,33 @@
 
     <!--/Simple Captcha-->
 
+    <!--Error Pages-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/page-not-found.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/general-error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/general-error.jsp</location>
+    </error-page>
+    <!--<error-page>
+        &lt;!&ndash; Uncaught exception &ndash;&gt;
+        <error-code>500</error-code>
+        <location>/general-error.jsp</location>
+    </error-page>-->
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/general-error.jsp</location>
+    </error-page>
+    <!--/Error Pages-->
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>

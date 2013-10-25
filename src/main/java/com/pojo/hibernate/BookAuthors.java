@@ -10,27 +10,8 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 public class BookAuthors implements Serializable {
-    private Integer bookId;
 
-    public Integer getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    private Integer authorId;
-
-    public Integer getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
-    }
-
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -48,7 +29,7 @@ public class BookAuthors implements Serializable {
         int result = bookId != null ? bookId.hashCode() : 0;
         result = 31 * result + (authorId != null ? authorId.hashCode() : 0);
         return result;
-    }
+    }*/
 
     private BookInfo bookInfoByBookId;
 

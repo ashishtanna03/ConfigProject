@@ -22,5 +22,10 @@
         <many-to-one name="userInfoByUserId" class="com.pojo.hibernate.UserInfo">
             <column name="user_id" not-null="true"/>
         </many-to-one>
+
+        <many-to-one name="orderInfoByOrderId" class="com.pojo.hibernate.OrderInfo">
+            <column name="order_id" not-null="true"/>
+        </many-to-one>
+
     </class>
 </hibernate-mapping>

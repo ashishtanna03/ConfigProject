@@ -4,48 +4,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <sx:head />
-    <title>Edit Profile- ReadersHive</title>
+    <title>Edit Profile - ReadersHive</title>
     <meta name="description" content="Use our form to contact us"/>
     <meta name="keywords" content="contact, form, e-mail"/>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
     <meta name="generator" content="PrestaShop"/>
     <meta name="robots" content="index,follow"/>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="/img/favicon.ico"/>
+
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico"/>
-    <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css' />
     <link href="/css/edit-prof.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="/css/global.css" rel="stylesheet" type="text/css" media="all"/>
-    <script type="text/javascript" src="/js/jquery/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="/js/jquery/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="/js/tools.js"></script>
+
+
     <!-- Javascript files -->
     <script type="text/javascript" src="/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="/js/edit-prof.js"></script>
-    <script type="text/javascript" src="/js/ajax-request.js"></script>
-
+    <script type="text/javascript" src="/js/jquery/jquery.easing.1.3.js"></script>
     <sx:head />
+    <script type="text/javascript" src="/js/edit-prof.js"></script>
 
-    <script src="/js/top-panel-input.js" type="text/javascript"></script>
-
-    <!--Top panel-->
-    <script src="/js/slide.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/css/slide.css" type="text/css" media="screen" />
-
-    <!--Tootip-->
-    <link href="/css/tooltipster/tooltipster.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="/js/tooltipster/jquery.tooltipster.min.js"></script>
+    <!--Chosen Plugin for multi select-->
+    <link href="/js/chosen/chosen.min.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/js/chosen/chosen.jquery.min.js"></script>
     <script type="text/javascript">
+        var contactNo;
         $(document).ready(function() {
-            $('.tooltip').tooltipster({
-                animation: 'fade',
-                timer:2000,
-                trigger:'custom'
-            });
+            $(".user-fav-genres").chosen({max_selected_options: 3});
+            contactNo = $("#contact-no");
+            contactNo.tooltipster({content:'',trigger:'custom',position:'right'});
         });
     </script>
-    <!--/Tootip-->
 
 </head>
 <body id="contact-form">
@@ -69,15 +57,8 @@
 <div id="columns">
 <!-- Left -->
 <div id="left_column" class="column">
-<script type="text/javascript">
-    var CUSTOMIZE_TEXTFIELD = 1;
-    var customizationIdMessage = 'Customization #';
-    var removingLinkText = 'remove this product from my cart';
-</script>
-<!-- MODULE Block cart -->
 
-
-<!--edit-prof js-->
+<%--<!--edit-prof js-->
 
 <script type="text/javascript">
 
@@ -113,17 +94,11 @@
 
     });
 </script>
-<!--/edit prof curent & shelve -->
+<!--/edit prof current & shelve -->--%>
 <!-- Center -->
 <div id="center_column" class="center_column">
 
-<!-- Breadcrumb -->
-<div class="breadcrumb">
-    <div class="breadcrumb_inner">
-        <a href="/prestashop_37364.html" title="return to Home">Home</a><span class="navigation-pipe">&gt;</span><span
-            class="navigation_page">Contact</span></div>
-</div>
-<!-- /Breadcrumb --><h1>My Account</h1>
+<h1>My Account</h1>
 <a href="/user/UserProfile.action" id="view-pro" class="button_small">See My Profile</a>
 
 <div class="mainContainer">
@@ -140,29 +115,29 @@
             Settings
         </a>
     </li>
-    <li class="tab3">
+    <%--<li class="tab3">
         <a class="tab3 tab">
             Currently Reading & Shelves
         </a>
-    </li>
+    </li>--%>
 
 
 </ul>
 <!-- tab 1 -->
 <div class="tab1 tabsContent">
     <div>
-        <form action="edit-profile.jsp" method="post" class="std" enctype="multipart/form-data">
+        <form class="std">
             <fieldset>
                 <h3>Personal Settings</h3>
 
                 <p class="text">
-                    <label><b>First Name :</b></label>
-                    <input type="text" id="fname" name="f-name" value="<s:property value="user.firstName"/>"/>
+                    <label for="first-name"><b>First Name :</b></label>
+                    <input type="text" id="first-name" name="f-name" value="<s:property value="user.firstName"/>"/>
                 </p>
 
                 <p class="text">
-                    <label><b>Last Name :</b></label>
-                    <input type="text" id="lname" name="l-name" value="<s:property value="user.lastName"/>"/>
+                    <label for="last-name"><b>Last Name :</b></label>
+                    <input type="text" id="last-name" name="l-name" value="<s:property value="user.lastName"/>"/>
                 </p>
 
                 <p id="settings-gender" class="radio">
@@ -186,7 +161,7 @@
                 </p>
 
                 <p class="text">
-                    <label><b>City :</b></label>
+                    <label for="city-name"><b>City :</b></label>
                     <%--<input type="text" id="city-name" name="city_name" value="<s:property value="user.userCity"/>"/>--%>
                     <select name="city-name" id="city-name">
 
@@ -202,40 +177,54 @@
                 </p>
 
                 <p class="text">
-                    <label><b>Postal Code :</b></label>
-                    <input type="text" id="postal-code" name="p-code" value="<s:property value="user.userPostalCode"/>"/>
+                    <label for="postal-code"><b>Postal Code :</b></label>
+                    <input type="text" id="postal-code" name="p-code" maxlength="6" value="<s:property value="user.userPostalCode"/>"/>
                 </p>
 
                 <p class="text">
-                    <label><b>Occupation :</b></label>
-                    <input type="text" id="occuname" name="o-name" value="<s:property value="user.userOccupation"/>"/>
+                    <label for="occuname"><b>Occupation :</b></label>
+                    <%--<input type="text" id="occuname" name="o-name" value="<s:property value="user.userOccupation"/>"/>--%>
+                    <select name="o-name" id="occuname">
+                        <option value=""></option>
+                        <option value="Student">Student</option>
+                        <option value="Own a Business">Own a Business</option>
+                        <option value="Working Full Time(Job)">Working Full Time(Job)</option>
+                        <option value="Other">Other</option>
+                        <script type="text/javascript">
+                            $("#occuname option[value='<s:property value="user.userOccupation"/>']").attr("selected", true);
+                        </script>
+                    </select>
                 </p>
 
                 <p class="text">
-                    <label><b>Favourite Genres:</b></label>
-                    <input type="text" id="favgen" name="f-genre"
-                           value='<s:iterator value="user.userFavGenresesByUserId" status="iteratorStatus"><s:property value="genresByGenreId.genreName"/><s:if test="#iteratorStatus.last!=true">,</s:if></s:iterator>'
+                    <label><b>Favourite Genres (Max. 3):</b></label>
+                    <s:select list="genresList" listKey="genreId" listValue="genreName" data-placeholder="Choose a Favourite Genre..."
+                              id="userFavGenres" name="userFavGenres" cssClass="user-fav-genres" value="%{user.userFavGenresesByUserId.{genresByGenreId.genreId}}" multiple="true" size="3"
+                              cssStyle="width: 300px;"
                             />
+                    <%--<input type="text" id="favgen" name="f-genre"
+                           value='<s:iterator value="user.userFavGenresesByUserId" status="iteratorStatus"><s:property value="genresByGenreId.genreName"/><s:if test="#iteratorStatus.last!=true">,</s:if></s:iterator>'
+                            />--%>
                 </p>
 
                 <p class="text">
-                    <label><b>Website/Blog:</b></label>
+                    <label for="web-blo"><b>Website/Blog:</b></label>
                     <input type="text" id="web-blo" name="w-b" value="<s:property value="user.userWebsite"/>"/>
                 </p>
 
-                <p class="text">
-                    <label><b>Contact No :</b></label>
+                <%--<p class="text">
+                    <label for="contact-no"><b>Contact No :</b></label>
                     <input type="text" id="contact-no" name="contact-no"value="<s:property value="user.userContact"/>"/>
-                </p>
+                </p>--%>
 
                 <p class="textarea">
-                    <label><b>Address :</b></label>
+                    <label for="user-add"><b>Address :</b></label>
                     <textarea id="user-add" name="abt_me" rows="5" cols="50"><s:property value="user.userAddress"/></textarea>
                 </p>
 
                 <p class="submit">
-                    <a name="savechange" href="javascript:{}" id="save-changes" class="button_small tooltip" onclick="saveProfileChanges();" title="">Save Changes</a>
-                    <input type="submit" name="cancel" id="cancel-changes" value="Cancel" class="button_small"/>
+                    <a name="savechange" href="javascript:{}" id="save-changes" class="button_small" onclick="saveProfileChanges();" title="">Save Changes</a>
+                    <%--<input type="submit" name="cancel" id="cancel-changes" value="Cancel" class="button_small"/>--%>
                 </p>
 
         </form>
@@ -245,23 +234,27 @@
 <!-- tab 2 -->
 <div class="tab2 tabsContent">
     <div>
-        <form action="edit-profile1.htm" method="post" class="std" enctype="multipart/form-data">
+        <form class="std">
             <fieldset>
                 <h3>Change Password</h3>
 
                 <p class="password">
-                    <label><b>Old Password :</b></label>
+                    <label for="old_pwd"><b>Old Password :</b></label>
                     <input type="password" id="old_pwd" name="old-pwd" value=""/>
                 </p>
 
                 <p class="password">
-                    <label><b>New Password :</b></label>
+                    <label for="new_pwd"><b>New Password :</b></label>
                     <input type="password" id="new_pwd" name="new-pwd" value=""/>
                 </p>
 
                 <p class="password">
-                    <label><b>Confirm Password :</b></label>
+                    <label for="conf_pwd"><b>Confirm Password :</b></label>
                     <input type="password" id="conf_pwd" name="conf-pwd" value=""/>
+                </p>
+
+                <p class="submit">
+                    <a href="javascript:{}" class="button_small tooltip" onclick="changePassword();">Change Password</a>
                 </p>
 
                 <%--<h3>Privacy Settings</h3>
@@ -287,17 +280,80 @@
 
                 </p>--%>
 
-                <p class="submit">
-                    <a name="savechange" href="javascript:{}" id="save-changes2" class="button_small tooltip" onclick="changePassword();">Save Changes</a>
-                    <input type="submit" id="cancel-changes2" name="cancel" value="Cancel" class="button_small"/>
+                <script type="text/javascript">
+                    function contactOnFocus() {
+                        contactNo.tooltipster('update','Note : You have to verify your<br/>Mobile No. (Not Landline) to complete<br/>registration. So, enter Mobile<br/>No. from which you can<br/>give us a Miss call to verify.<br/>(Verification is mandatory and its<br/>Free. Call will be disconnected<br/>automatically.)');
+                        contactNo.tooltipster('show');
+                    }
+                    function contactOnBlur() {
+                        contactNo.tooltipster('hide');
+                    }
+                    function changeContactNo() {
+
+                        contactNo.tooltipster('hide');
+                        if(contactNo.val()==null || $.trim(contactNo.val())=="" || contactNo.val()=="Contact No.") {
+                            contactNo.tooltipster('update','Contact No. can\'t<br/>be empty.'); contactNo.tooltipster('show'); return;
+                        } else if(contactNo.val().length!=10) {
+                            contactNo.tooltipster('update','Contact No. must be<br/> valid & of 10 digits.'); contactNo.tooltipster('show'); return;
+                        }
+
+                        var missCallReq;
+                        var missCallRes;
+                        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                            missCallReq = new XMLHttpRequest();
+                        }
+                        else {// code for IE6, IE5
+                            missCallReq = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+
+                        missCallReq.onreadystatechange = function () {
+                            if (missCallReq.readyState == 4 && missCallReq.status == 200) {
+
+                                missCallRes=eval(missCallReq.response);
+
+                                if(missCallRes.APIStatus=="Success") {
+                                    var contactVerify = $("#contact-verification");
+                                    var contactVerifyUrl = "/lightbox-pages/contact-verification.jsp?lightbox[width]=330&lightbox[height]=290"+
+                                            "&sessionId="+missCallRes.SessionId+
+                                            "&verificationNode="+missCallRes.VerificationNode+
+                                            "&action=/user/ChangeContactNo.action"+
+                                            "&contactNo="+contactNo.val();
+                                    contactVerify.attr("href", contactVerifyUrl);
+                                    contactVerify[0].click();
+                                } else {
+                                    var submitButton = $("#change-contact");
+                                    submitButton.tooltipster({content:'',timer:2000,trigger:'custom',position:'bottom'});
+                                    submitButton.tooltipster('update','An Error occurred.<br/>Try again later.'); submitButton.tooltipster('show');
+                                }
+
+                            }
+                        };
+
+                        var missCallUrl = "http://jusdias.com/readershive/dial2verify_misscall_request.php?contactNo="+contactNo.val();
+
+                        missCallReq.open('GET', missCallUrl, true);
+                        missCallReq.send();
+                    }
+                </script>
+
+                <h3>Change Contact No.</h3>
+
+                <p class="text">
+                    <label for="contact-no"><b>Contact No :</b></label>
+                    <input type="text" id="contact-no" name="contact-no" maxlength="10" onkeypress="validateContactNumber(event);" onfocus="contactOnFocus();" onblur="contactOnBlur();" value="<s:property value="user.userContact"/>"/>
                 </p>
+
+                <p class="submit">
+                    <a href="javascript:{}" id="change-contact" class="button_small tooltip" onclick="changeContactNo();" >Change Contact No.</a>
+                </p>
+
             </fieldset>
         </form>
 
     </div>
 </div>
 <!-- end of t2 -->
-<!-- tab 3 -->
+<%--<!-- tab 3 -->
 <div class="tab3 tabsContent">
     <div>
         <form action="edit-profile2.htm" method="post" class="std" enctype="multipart/form-data">
@@ -337,7 +393,7 @@
         </form>
     </div>
 </div>
-<!-- end of t3 -->
+<!-- end of t3 -->--%>
 
 
 </div>
@@ -349,57 +405,11 @@
 <div class="clearblock"></div>
 </div>
 </div>
-<!-- Footer -->
-<div id="footer_wrapper">
-    <div id="footer">
-        <div id="tmfooterlinks">
-            <div>
-                <h4>Information</h4>
-                <ul>
-                    <li><a href="/contact-form.htm">Contact</a></li>
-                    <li><a href="/cms.htm">Delivery</a></li>
-                    <li><a href="/cms_2.htm">Legal Notice</a></li>
-                    <li><a href="/cms_3.htm">Terms and conditions</a></li>
-                    <li><a href="/cms_4.htm">About us</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Our offers</h4>
-                <ul>
-                    <li><a href="/new-products.htm">New products</a></li>
-                    <li><a href="/best-sales.htm">Top sellers</a></li>
-                    <li><a href="/search.jsp">Specials</a></li>
-                    <li><a href="/manufacturer.htm">Manufacturers</a></li>
-                    <li><a href="/supplier.htm">Suppliers</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Your Account</h4>
-                <ul>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/my-account.php">Your Account</a>
-                    </li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/identity.php">Personal
-                        information</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/addresses.php">Addresses</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/discount.php">Discount</a></li>
-                    <li><a href="http://livedemo00.template-help.com/prestashop_37364/history.php">Order history</a>
-                    </li>
-                </ul>
-            </div>
-            <p>&copy; 2012 Powered by <a href="../www.prestashop.com/www_prestashop_default_2.html">PrestaShop</a>&trade;.
-                All rights reserved</p>
-        </div>
-        <!-- tmsocial -->
-        <div id="tmsocial">
-
-            <a class="banner1" href='http://livedemo00.template-help.com/twitter.com/twitter_default_2.html'><img
-                    src='/modules/tmsocial/slides/slide_00.png' alt="" title=""/></a>
-            <a class="banner2" href='http://facebook.com'><img src='/modules/tmsocial/slides/slide_01.png' alt=""
-                                                               title=""/></a>
-        </div>
-        <!-- /tmsocial -->
-    </div>
 </div>
+
+    <!-- Footer -->
+    <s:include value="footer.jsp" />
+
 </div>
 </div>
 </div>

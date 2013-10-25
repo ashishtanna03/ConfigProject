@@ -26,19 +26,22 @@
                 <value>mapping/BookGenres.hbm.xml</value>
                 <value>mapping/BookInfo.hbm.xml</value>
                 <value>mapping/BookRating.hbm.xml</value>
-                <value>mapping/BookRequest.hbm.xml</value>
                 <value>mapping/BookReview.hbm.xml</value>
                 <value>mapping/BookReviewLike.hbm.xml</value>
+                <value>mapping/BooksInDemand.hbm.xml</value>
                 <value>mapping/BorrowBook.hbm.xml</value>
                 <value>mapping/FriendshipMapping.hbm.xml</value>
                 <value>mapping/Genres.hbm.xml</value>
                 <value>mapping/Lend.hbm.xml</value>
                 <value>mapping/LoginInfo.hbm.xml</value>
                 <value>mapping/Notification.hbm.xml</value>
+                <value>mapping/OrderInfo.hbm.xml</value>
                 <value>mapping/PublisherInfo.hbm.xml</value>
                 <value>mapping/RequestedBooks.hbm.xml</value>
                 <value>mapping/Shelf.hbm.xml</value>
                 <value>mapping/ShelfBooks.hbm.xml</value>
+                <value>mapping/TopTenAuthors.hbm.xml</value>
+                <value>mapping/TopTenBooks.hbm.xml</value>
                 <value>mapping/UserCart.hbm.xml</value>
                 <value>mapping/UserFavGenres.hbm.xml</value>
                 <value>mapping/UserInfo.hbm.xml</value>
@@ -66,6 +69,12 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <!--HomePageShelves-->
+    <bean id="homePageAction" class="com.action.HomePageAction" scope="prototype">
+        <property name="bookService" ref="bookService" />
+        <property name="userService" ref="userService" />
+    </bean>
+
     <!---Login-->
 
     <bean id="userLoginDao" class="com.dao.login.UserLoginDaoImpl">
@@ -78,6 +87,7 @@
     <bean id="logIn" class="com.action.login.LoginAction" scope="prototype">
         <property name="userService" ref="userService"/>
         <property name="bookService" ref="bookService"/>
+        <property name="authorService" ref="authorService"/>
     </bean>
 
     <!--/Login-->
@@ -108,10 +118,23 @@
 
     <!--.User-->
 
+    <!--Upload Image-->
+    <bean id="uploadImageAction" class="com.action.UploadImageAction" scope="prototype">
+        <property name="userService" ref="userService" />
+    </bean>
+    <!--/Upload Image-->
+
     <!-- editprof -->
+
+
+    <bean id="viewEditProfile" class="com.action.user.UserProfile" scope="prototype">
+        <property name="userService" ref="userService"/>
+        <property name="authorService" ref="authorService"/>
+    </bean>
 
      <bean id="saveChanges" class="com.action.user.SaveChangesAction" scope="prototype">
          <property name="userService" ref="userService"/>
+         <property name="authorService" ref="authorService"/>
      </bean>
 
     <!--/ editprof -->
@@ -120,12 +143,16 @@
     <bean id="bookDao" class="com.dao.BookDaoImpl">
     </bean>
     <bean id="bookService" class="com.service.BookService">
+        <property name="userService" ref="userService" />
         <property name="bookDao" ref="bookDao"/>
     </bean>
     <bean id="bookInfoAction" class="com.action.book.BookInfoAction" scope="prototype">
         <property name="bookService" ref="bookService"/>
         <property name="bookReviewService" ref="bookReviewService"/>
         <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="addBookAction" class="com.action.book.AddBookAction" scope="prototype">
+        <property name="bookService" ref="bookService" />
     </bean>
 
     <bean id="bookReviewDao" class="com.dao.BookReviewDaoImpl">
@@ -172,6 +199,7 @@
         <property name="userService" ref="userService" />
     </bean>
     <!--/Search-->
+
     <!--share-->
 
     <bean id="shareBookAction" class="com.action.share.ShareBookAction" scope="prototype">
@@ -189,10 +217,21 @@
     </bean>
     <!--/share-->
 
+    <!--Borrow-->
+
+    <bean id="borrowService" class="com.service.BorrowService">
+        <property name="borrowDao" ref="borrowDao" />
+    </bean>
+
+    <bean id="borrowDao" class="com.dao.BorrowDaoImpl">
+    </bean>
+    <!--/Borrow-->
+
     <!--Cart-->
     <bean id="cartAction" class="com.action.cart.ShoppingCartAction" scope="prototype">
         <property name="userService" ref="userService"/>
         <property name="lendService" ref="lendService"/>
+        <property name="bookService" ref="bookService" />
     </bean>
     <!--/Cart-->
 
@@ -202,12 +241,66 @@
     </bean>
     <!--/Shelf-->
 
+    <!--Send Message - Contact Us-->
+    <bean id="sendMessageAction" class="com.action.SendMessageAction" scope="prototype">
+        <property name="emailService" ref="emailService" />
+    </bean>
+    <!--/Send Message - Contact Us-->
+
     <!--Extras-->
     <bean id="emailService" class="com.EmailService">
+        <property name="configurer" ref="freemarkerConfig" />
     </bean>
 
     <bean id="encryptWithMd5" class="com.EncryptWithMd5">
     </bean>
     <!--/Extras-->
+
+    <!--Admin Panel Action-->
+    <bean id="adminPanelAction" class="com.action.admin.AdminPanelAction" scope="prototype">
+        <property name="bookService" ref="bookService" />
+        <property name="userService" ref="userService" />
+        <property name="lendService" ref="lendService" />
+        <property name="authorService" ref="authorService" />
+        <property name="bookReviewService" ref="bookReviewService" />
+        <property name="authorReviewService" ref="authorReviewService" />
+        <property name="jpegReader" ref="jpegReader" />
+    </bean>
+    <!--/Admin Panel Action-->
+
+    <!--Admin Panel Orders Action-->
+    <bean id="adminPanelOrdersAction" class="com.action.admin.AdminPanelOrdersAction" scope="prototype">
+        <property name="borrowService" ref="borrowService" />
+        <property name="emailService" ref="emailService" />
+    </bean>
+    <!--/Admin Panel Orders Action-->
+
+    <!--Footer Action-->
+    <bean id="footerAction" class="com.action.FooterAction" scope="prototype">
+        <property name="bookService" ref="bookService" />
+    </bean>
+    <!--/Footer Action-->
+
+    <!--FreeMarker Beans-->
+    <!-- freemarker config -->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+    </bean>
+
+    <!--
+      View resolvers can also be configured with ResourceBundles or XML files. If you need
+      different view resolving based on Locale, you have to use the resource bundle resolver.
+    -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
+    <!--/FreeMarker Beans-->
+
+    <!--JPEG Reader-->
+    <bean id="jpegReader" class="com.JpegReader">
+    </bean>
+    <!--/JPEG Reader-->
 
 </beans>

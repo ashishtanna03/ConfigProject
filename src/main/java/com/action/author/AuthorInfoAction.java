@@ -1,6 +1,7 @@
 package com.action.author;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.pojo.custom.AuthorDetails;
 import com.pojo.custom.FollowerInfo;
 import com.pojo.hibernate.AuthorInfo;
 import com.pojo.hibernate.AuthorReview;
@@ -45,6 +46,7 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
     private AuthorInfo author;
     private List<AuthorReview> authorReviews;
     private List<BookInfo> authorBooks;
+    private List<AuthorDetails> topTenAuthors;
     private Boolean following;
     private Boolean userCommented = false; //to check if user has commented or not, if yes then remove the option to add another comment.
     private String result;
@@ -81,6 +83,10 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
         return authorReviews;
     }
 
+    public List<AuthorDetails> getTopTenAuthors() {
+        return topTenAuthors;
+    }
+
     public List<BookInfo> getAuthorBooks() {
         return authorBooks;
     }
@@ -113,6 +119,8 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
 
             authorReviews = authorReviewService.getAuthorReviews(authorId);
 
+            topTenAuthors = authorService.getTopTenAuthors();
+
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
@@ -134,6 +142,14 @@ public class AuthorInfoAction extends ActionSupport implements SessionAware{
             e.printStackTrace();
         }
         return SUCCESS;
+    }
+
+    public String viewAllFollowers() {
+        if(authorId!=null) {
+            author = authorService.getAuthorById(authorId);
+            return SUCCESS;
+        } else
+            return ERROR;
     }
 
     public String saveComment() {

@@ -49,4 +49,17 @@ public class WishListAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String removeBook() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()){
+            if(userService.removeBookFromWishList(authentication.getName(), bookId)){
+                return SUCCESS;
+            } else {
+                return ERROR;
+            }
+        } else {
+            return ERROR;
+        }
+    }
+
 }

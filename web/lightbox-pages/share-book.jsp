@@ -8,7 +8,7 @@
             var key = theEvent.keyCode || theEvent.which;
             key = String.fromCharCode( key );
             var regex = /[0-9]|\./;
-            if( !regex.test(key) ) {
+            if( !regex.test(key) && theEvent.keyCode!=8) {
                 theEvent.returnValue = false;
                 if(theEvent.preventDefault) theEvent.preventDefault();
             }
@@ -26,7 +26,7 @@
 <body style="margin-left:25px;margin-top:25px;">
 
 	<div id="signup-form">
-	<h1>Share Book</h1>
+	<h1 style="text-align: center;">Share Book</h1>
 		<form id="shareForm" name="shareForm" action="/share/ShareBook.action" method="post" autocomplete="off">
 			<h3>
 			Rate the Condition of your BOOK : 
@@ -55,7 +55,11 @@
             <textarea rows="4" cols="35" name="userAddress" class="area_feed price-txt" ><%=request.getParameter("address")%></textarea>
             <br/>
             <br/>
-            <h3>Your Contact No. : </h3><b>+91&nbsp;-&nbsp;</b><input type="text" name="userContact" onkeypress="validateNumber(event);" value="<%=request.getParameter("contact")%>" />
+            <h3>Pincode : </h3>
+            <input type="text" name="userPostalCode" maxlength="6" onkeypress="validateNumber(event);" value="<%=request.getParameter("pincode")%>" />
+            <br/>
+            <br/>
+            <h3>Your Contact No. : </h3><b>+91&nbsp;-&nbsp;<%=request.getParameter("contact")%></b>
             <br/>
             <br/>
             <input type="hidden" name="bookMrp" value="<%=request.getParameter("mrp")%>"/>

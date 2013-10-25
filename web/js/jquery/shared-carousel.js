@@ -12,7 +12,7 @@
 
         jQuery('#carousel1').css("width", divSize+"px").css("height", carousel_height+"px").css("overflow","hidden").css("visibility", "visible").css("position", "relative");
 
-        jQuery('.related_btnnext').click(function() {
+        jQuery('#related_btnnext1').click(function() {
 			/*if(current + step < 0 || current + step > maximum - visible) {return; }
 			else {*/
 			if(current<steps && current>=0) {
@@ -23,7 +23,7 @@
 			//return false;
 		});
 
-        jQuery('.related_btnprev').click(function() {
+        jQuery('#related_btnprev1').click(function() {
 			/*if(current - step < 0 || current - step > maximum - visible) {return; }
 			else {*/
 			if(current>0) {

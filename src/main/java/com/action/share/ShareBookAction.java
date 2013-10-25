@@ -10,7 +10,6 @@ import com.service.UserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import sun.nio.cs.US_ASCII;
 
 import java.util.Date;
 
@@ -24,10 +23,11 @@ import java.util.Date;
 public class ShareBookAction extends ActionSupport {
 
     private Integer bookId;
+    private Integer lendId;
     private Integer conditionRating;
     private String conditionDescription;
     private Integer sharingPrice;
-    private String userContact;
+    private Integer userPostalCode;
     private String userAddress;
 
     private LendService lendService;
@@ -38,6 +38,10 @@ public class ShareBookAction extends ActionSupport {
 
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
+    }
+
+    public void setLendId(Integer lendId) {
+        this.lendId = lendId;
     }
 
     public void setConditionRating(Integer conditionRating) {
@@ -52,8 +56,8 @@ public class ShareBookAction extends ActionSupport {
         this.sharingPrice = sharingPrice;
     }
 
-    public void setUserContact(String userContact) {
-        this.userContact = userContact;
+    public void setUserPostalCode(Integer userPostalCode) {
+        this.userPostalCode = userPostalCode;
     }
 
     public void setUserAddress(String userAddress) {
@@ -100,11 +104,15 @@ public class ShareBookAction extends ActionSupport {
 
             if(!result.equals("shared") && !result.equals("inCart")) {
 
-                if(userAddress!=null && !userAddress.equals(""))
+                if(userAddress!=null && !userAddress.equals("") && userPostalCode!=null && userPostalCode.toString().length()==6) {
                     user.setUserAddress(userAddress);
+                    user.setUserPostalCode(userPostalCode);
+                } else {
+                    result="error";
+                    return SUCCESS;
+                }
 
-                if(userContact!=null && !userContact.equals(""))
-                    user.setUserContact(userContact);
+                userService.update(user);
 
                 Lend lend = new Lend();
                 lend.setConditionRating(conditionRating);
@@ -122,6 +130,31 @@ public class ShareBookAction extends ActionSupport {
                 }
             }
 
+        } else {
+            result = "error";
+        }
+
+        return SUCCESS;
+    }
+
+    public String unshareBook() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated()) {
+            UserInfo user = userService.getUserById(authentication.getName());
+            result="notShared";
+            for (Lend userShared : user.getLendsByUserId()) {
+                //Check if user has shared or not .
+                if (userShared.getLendId().equals(lendId) && userShared.getLendStatus()==0 ) {
+                    if(lendService.unshareBook(lendId))
+                        result="success";
+                    else
+                        result="error";
+                    break;
+                }
+            }
+        } else {
+            result="error";
         }
 
         return SUCCESS;

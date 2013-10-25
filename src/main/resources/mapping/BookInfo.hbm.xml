@@ -4,7 +4,9 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.pojo.hibernate.BookInfo" table="book_info" catalog="book">
-        <id name="bookId" column="book_id"/>
+        <id name="bookId" column="book_id">
+            <generator class="identity" />
+        </id>
         <property name="isbn10" column="isbn_10"/>
         <property name="isbn13" column="isbn_13"/>
         <property name="bookTitle" column="book_title"/>
@@ -37,12 +39,6 @@
                 <column name="book_id" not-null="true"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRating"/>
-        </set>
-        <set name="bookRequestsByBookId" inverse="true">
-            <key>
-                <column name="book_id" not-null="true"/>
-            </key>
-            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRequest"/>
         </set>
         <set name="bookReviewsByBookId" inverse="true">
             <key>

@@ -13,6 +13,7 @@
         <property name="lendStatus" column="lend_status"/>
         <property name="conditionRating" column="condition_rating"/>
         <property name="conditionDescription" column="condition_description"/>
+        <property name="reputation" column="reputation"/>
         <many-to-one name="bookInfoByBookId" class="com.pojo.hibernate.BookInfo">
             <column name="book_id" not-null="true"/>
         </many-to-one>

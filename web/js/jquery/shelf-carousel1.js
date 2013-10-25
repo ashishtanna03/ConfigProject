@@ -4,7 +4,7 @@
 		var visible = 4; 
 		var speed = 400; 
 		var liSize = 125;
-		var carousel_height = 166;
+		var carousel_height = 210;
  
  		var ulSize = liSize * maximum;   
 		var divSize = 482;  

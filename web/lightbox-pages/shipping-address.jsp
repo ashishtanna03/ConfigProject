@@ -21,7 +21,12 @@
         <h3>
             Contact No :<br/>
         </h3>
-        <input type="text" name="contactNo" value="<%=request.getParameter("contactNo")%>"/>
+        <b>+91&nbsp;-&nbsp;<%=request.getParameter("contactNo")%></b>
+        <br/><br/>
+        <h3>
+            Pincode :<br/>
+        </h3>
+        <input type="text" name="pincode" value="<%=request.getParameter("pincode")%>"/>
         <br/><br/>
         <h3>
             Address :

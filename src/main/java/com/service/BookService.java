@@ -2,10 +2,11 @@ package com.service;
 
 import com.dao.BookDaoImpl;
 import com.pojo.custom.BookDetails;
-import com.pojo.hibernate.BookInfo;
-import com.pojo.hibernate.UserInfo;
+import com.pojo.hibernate.*;
 import org.hibernate.criterion.DetachedCriteria;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +17,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class BookService {
+
+    private UserService userService;
+
     private BookDaoImpl bookDao;
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     public void setBookDao(BookDaoImpl bookDao) {
         this.bookDao = bookDao;
@@ -44,8 +52,8 @@ public class BookService {
     }
     /*-----/Suggestions----*/
 
-    public List<BookInfo> getSearchResults(DetachedCriteria detachedCriteria) {
-        return bookDao.getSearchResults(detachedCriteria);
+    public List<BookInfo> getSearchResults(String query) {
+        return bookDao.getSearchResults(query);
     }
 
     /*public Integer getNoOfPossibleResults(DetachedCriteria detachedCriteria) {
@@ -69,6 +77,62 @@ public class BookService {
     }
 
     public Boolean requestBook(Integer bookId, UserInfo user) {
-        return bookDao.requestBook(getBookById(bookId), user);
+
+        List<UserInfo> friends = new ArrayList<UserInfo>(0);
+        for (FriendshipMapping friendshipMapping : user.getFriendshipMappingsByUserId()) {
+            friends.add(friendshipMapping.getUserInfoByUser2());
+        }
+        for (FriendshipMapping friendshipMapping : user.getFriendshipMappingsByUserId_0()) {
+            friends.add(friendshipMapping.getUserInfoByUser1());
+        }
+
+        return bookDao.requestBook(getBookById(bookId), user, friends);
+    }
+
+    /*----------Methods For Home Page-----------*/
+    public List<BookInfo> getRecentlySharedBooks() {
+        return bookDao.getRecentlySharedBooks();
+    }
+
+    public List<BookInfo> getBooksInDemand() {
+        return bookDao.getBooksInDemand();
+    }
+
+    public List<BookInfo> getRecentlyBoughtBooks() {
+        return bookDao.getRecentlyBoughtBooks();
+    }
+
+    public List<BookInfo> getMostSharedBooks() {
+        return bookDao.getMostSharedBooks();
+    }
+
+    public List<String> getGenresList() {
+        return bookDao.getGenresList();
+    }
+    /*----------/Methods For Home Page-----------*/
+
+    public List<BookDetails> getTopTenBooks() {
+        return bookDao.getTopTenBooks();
+    }
+
+    // method used before adding a book
+    public Boolean checkIfBookExists(String isbn) {
+        return bookDao.checkIfBookExists(isbn);
+    }
+
+    public Boolean addBook(BookInfo bookInfo) {
+        return bookDao.addBook(bookInfo);
+    }
+
+    public Boolean addNewBook(BookInfo bookInfo, List<AuthorInfo> bookAuthors, List<Genres> bookGenres, Integer publisherId) {
+        return bookDao.addNewBook(bookInfo, bookAuthors, bookGenres, publisherId);
+    }
+
+    public Boolean saveBookImage(BookInfo book) {
+        return bookDao.saveBookImage(book);
+    }
+
+    public PublisherInfo getPublisherInfoById(Integer publisherId) {
+        return bookDao.getPublisherInfoById(publisherId);
     }
 }

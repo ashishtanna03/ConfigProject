@@ -1,7 +1,10 @@
 package com.service;
 
 import com.dao.AuthorDaoImpl;
+import com.pojo.custom.AuthorDetails;
 import com.pojo.hibernate.AuthorInfo;
+import com.pojo.hibernate.Genres;
+import com.pojo.hibernate.PublisherInfo;
 import com.pojo.hibernate.UserInfo;
 
 import java.util.List;
@@ -45,4 +48,42 @@ public class AuthorService {
     public Boolean unfollowAuthor(Integer authorId, Integer userId) {
         return authorDao.unfollowAuthor(getAuthorById(authorId),userService.getUserById(userId));
     }
+
+    public List<AuthorDetails> getTopTenAuthors() {
+        return authorDao.getTopTenAuthors();
+    }
+
+    /*--------Admin Panel Mathods---------*/
+    public List<AuthorDetails> getAuthorList() {
+        return authorDao.getAuthorList();
+    }
+
+    public List<PublisherInfo> getPublisherList() {
+        return authorDao.getPublisherList();
+    }
+
+    public List<Genres> getGenreList() {
+        return authorDao.getGenreList();
+    }
+
+    public Genres getGenreById(Integer genreId) {
+        return authorDao.getGenreById(genreId);
+    }
+
+    public Boolean addNewAuthor(AuthorInfo authorInfo, List<Genres> authorGenres) {
+        return authorDao.addNewAuthor(authorInfo, authorGenres);
+    }
+
+    public Boolean addNewPublisher(PublisherInfo publisher) {
+        return authorDao.addNewPublisher(publisher);
+    }
+
+    public Boolean addNewGenre(Genres genre) {
+        return authorDao.addNewGenre(genre);
+    }
+
+    public Boolean saveAuthorImage(AuthorInfo author) {
+        return authorDao.saveAuthorImage(author);
+    }
+    /*-------/Admin Panel Methods---------*/
 }

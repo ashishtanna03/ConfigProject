@@ -72,6 +72,16 @@ public class Lend implements Serializable {
         this.conditionDescription = conditionDescription;
     }
 
+    private Integer reputation;
+
+    public Integer getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Integer reputation) {
+        this.reputation = reputation;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,6 +92,8 @@ public class Lend implements Serializable {
         if (conditionDescription != null ? !conditionDescription.equals(lend.conditionDescription) : lend.conditionDescription != null)
             return false;
         if (conditionRating != null ? !conditionRating.equals(lend.conditionRating) : lend.conditionRating != null)
+            return false;
+        if (reputation != null ? !reputation.equals(lend.reputation) : lend.reputation != null)
             return false;
         if (lendId != null ? !lendId.equals(lend.lendId) : lend.lendId != null) return false;
         if (lendStatus != null ? !lendStatus.equals(lend.lendStatus) : lend.lendStatus != null) return false;

@@ -19,7 +19,7 @@ public class UserLoginService implements UserDetailsService {
     public UserDetails loadUserByUsername(String emailId) {
         if (emailId != null && !emailId.equals("")) {
             LoginInfo user = userLoginDao.loadUserByName(emailId);
-            System.out.println("UserLoginService , " + user);
+//            System.out.println("UserLoginService , " + user);
             if (user == null) {
                 return null;
             }
@@ -27,7 +27,7 @@ public class UserLoginService implements UserDetailsService {
             GrantedAuthority grantedAuth = new UserGrantedAuthority("" + user.getRole());
             CustomUser cu = new CustomUser(user.getEmailId(), user.getPassword(),
                     new GrantedAuthority[]{grantedAuth});
-            System.out.println(cu);
+//            System.out.println(cu);
             return cu;
         } else {
             return null;

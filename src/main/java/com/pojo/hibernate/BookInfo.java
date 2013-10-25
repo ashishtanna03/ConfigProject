@@ -228,16 +228,6 @@ public class BookInfo implements Serializable {
         this.bookRatingsByBookId = bookRatingsByBookId;
     }
 
-    private Collection<BookRequest> bookRequestsByBookId;
-
-    public Collection<BookRequest> getBookRequestsByBookId() {
-        return bookRequestsByBookId;
-    }
-
-    public void setBookRequestsByBookId(Collection<BookRequest> bookRequestsByBookId) {
-        this.bookRequestsByBookId = bookRequestsByBookId;
-    }
-
     private Collection<BookReview> bookReviewsByBookId;
 
     public Collection<BookReview> getBookReviewsByBookId() {

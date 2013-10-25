@@ -19,7 +19,7 @@ body
 	font-size:12px!important;
 	width:960px!important;
 	margin:0 auto!important;
-	letter-spacing:-1px\9!important;
+	letter-spacing:-1px!important;
 }
 
 .tabs li
@@ -32,7 +32,7 @@ body
 {
 	
 	cursor: pointer!important;
-	padding:26px 13px 11px 12px!important;
+	padding:11px 13px 11px 12px!important;
 	border:1px solid black !important;
 	font-family:'PT Sans',sans-serif!important;
 	font-size:13px!important;
@@ -44,7 +44,7 @@ body
 
 .tabs .tab-current
 {
-	padding: 37px 13px 12px 12px!important;
+	padding: 14px 13px 12px 12px!important;
 	border-bottom:0px!important;
 	background:#ffffff!important;
 	

@@ -1,5 +1,4 @@
 	$(function() {
-		var step=5; 
 		var current = 0; 
 		var maximum = $('#carousel1 ul li').size(); 
 		var visible = 4; 
@@ -17,7 +16,7 @@
 		$('#btnnext1').click(function() { 
 			/*if(current + step < 0 || current + step > maximum - visible) {return; }
 			else {*/
-			if(current<step && current>=0) {
+			if(current<stepsCarousel1 && current>=0) {
 				current += 1;
 				$('#carousel1 ul').animate({'left': -(664*current)/*(liSize * current)*/}, speed, null);
 				

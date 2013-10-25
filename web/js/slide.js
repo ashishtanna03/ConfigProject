@@ -10,6 +10,9 @@ $(document).ready(function () {
         document.getElementById("register").style.display="none";
         document.getElementById("j_username").style.display="none";
         document.getElementById("j_password").style.display="none";
+
+        //change captcha image
+//        document.getElementById('captcha-image').setAttribute("src", "/simpleCaptcha.png?time"+ new Date().getTime());
     });
 
     $("#logout").click(function(){
@@ -22,10 +25,15 @@ $(document).ready(function () {
         document.getElementById("j_password").style.display="block";
         document.getElementById('before-login').style.display="block";
         document.getElementById('after-login').style.display="none";
+
+        document.getElementsByClassName("top-scrollbar-container")[0].innerHTML = '<ul id="notification-container"></ul>';
+        document.getElementsByClassName("top-scrollbar-container")[1].innerHTML = '<ul id="friends-activity-container"></ul>';
     });
 
     // Expand Panel after login
     $("#outer-login").click(function () {
+        $("#close").css("display", "block");
+        $("#open").css("display", "none");
     });
 
     // Expand Panel after login

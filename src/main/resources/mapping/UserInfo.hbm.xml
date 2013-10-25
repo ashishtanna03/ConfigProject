@@ -42,12 +42,6 @@
             </key>
             <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRating"/>
         </set>
-        <set name="bookRequestsByUserId" inverse="true">
-            <key>
-                <column name="user_id" not-null="true"/>
-            </key>
-            <one-to-many not-found="ignore" class="com.pojo.hibernate.BookRequest"/>
-        </set>
         <set name="bookReviewsByUserId" inverse="true">
             <key>
                 <column name="user_id" not-null="true"/>
@@ -78,7 +72,7 @@
             </key>
             <one-to-many not-found="ignore" class="com.pojo.hibernate.FriendshipMapping"/>
         </set>
-        <set name="lendsByUserId" inverse="true">
+        <set name="lendsByUserId" inverse="true" order-by="lendId asc">
             <key>
                 <column name="user_id" not-null="true"/>
             </key>
@@ -119,6 +113,12 @@
                 <column name="user_id" not-null="true"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.hibernate.RequestedBooks"/>
+        </set>
+        <set name="orderInfosByUserId" inverse="true" order-by="orderId desc">
+            <key>
+                <column name="buyer_id"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.hibernate.OrderInfo"/>
         </set>
     </class>
 </hibernate-mapping>
